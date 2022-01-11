@@ -1,6 +1,6 @@
 from setuptools import find_packages, setup
 
-with open("README.rst", "r") as readme_file:
+with open("./docs/source/index.rst", "r") as readme_file:
     readme = readme_file.read()
 
 requirements = ["ipython>=6", "nbformat>=4", "nbconvert>=5", "requests>=2"]
