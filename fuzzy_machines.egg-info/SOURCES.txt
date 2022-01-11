@@ -1,0 +1,9 @@
+README.md
+setup.py
+fuzzy-machines/__init__.py
+fuzzy-machines/functions.py
+fuzzy_machines.egg-info/PKG-INFO
+fuzzy_machines.egg-info/SOURCES.txt
+fuzzy_machines.egg-info/dependency_links.txt
+fuzzy_machines.egg-info/requires.txt
+fuzzy_machines.egg-info/top_level.txt
