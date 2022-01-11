@@ -1,8 +1,8 @@
 LICENCE
-README.md
+README.rst
 setup.py
-fuzzy-machines/__init__.py
-fuzzy-machines/functions.py
+fuzzy_machines/__init__.py
+fuzzy_machines/functions.py
 fuzzy_machines.egg-info/PKG-INFO
 fuzzy_machines.egg-info/SOURCES.txt
 fuzzy_machines.egg-info/dependency_links.txt

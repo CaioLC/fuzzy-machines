@@ -1,1 +1,1 @@
-fuzzy-machines
+fuzzy_machines
