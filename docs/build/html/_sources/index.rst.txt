@@ -3,10 +3,13 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-Welcome to Fuzzy Machines's documentation!
+Fuzzy Machines's documentation
 ==========================================
+**Fuzzy Machines** is a Python library for general fuzzy logic mathematics. It is inspired by Matlab Fuzzy Logic tutorials.
 
 .. toctree::
+   HISTORY.rst
+   CONTRIBUTING.rst
    :maxdepth: 2
    :caption: Contents:
 
