@@ -1,3 +1,4 @@
+LICENCE
 README.md
 setup.py
 fuzzy-machines/__init__.py
