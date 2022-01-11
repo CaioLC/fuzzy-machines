@@ -7,13 +7,16 @@ Fuzzy Machines's documentation
 ==========================================
 **Fuzzy Machines** is a Python library for general fuzzy logic mathematics. It is inspired by Matlab Fuzzy Logic tutorials.
 
+.. note::
+
+   This project is under active development.
+
 .. toctree::
+   api.rst
    HISTORY.rst
    CONTRIBUTING.rst
    :maxdepth: 2
    :caption: Contents:
-
-
 
 Indices and tables
 ==================

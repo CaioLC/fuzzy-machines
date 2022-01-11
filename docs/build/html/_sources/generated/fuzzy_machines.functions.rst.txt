@@ -1,0 +1,30 @@
+﻿fuzzy\_machines.functions
+=========================
+
+.. automodule:: fuzzy_machines.functions
+
+   
+   
+   
+
+   
+   
+   .. rubric:: Functions
+
+   .. autosummary::
+   
+      a_second_function
+      convert
+   
+   
+
+   
+   
+   
+
+   
+   
+   
+
+
+
