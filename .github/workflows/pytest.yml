@@ -1,0 +1,7 @@
+name: Testing workflow
+on: [push]
+jobs:
+  pytest:
+    runs-on: ubuntu-latest
+    steps:
+      - run: pytest --cov=fuzzy_machines

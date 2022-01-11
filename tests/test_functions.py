@@ -1,5 +1,4 @@
-"""Tests for `notebookc` package."""
-import pytest
+"""Tests for `fuzzy_machines.functions` package."""
 from fuzzy_machines import functions
 
 
@@ -10,11 +9,11 @@ def test_convert(capsys):
         'list': ['a', 'b', 'd'],
         'dict': {'a': 1, 'b': 2}
     }
-    for wt in wrong_types.values():
+    for w_type in wrong_types.values():
         try:
-            functions.convert(wt)
+            functions.convert(w_type)
         except TypeError:
-            print(f'successfully blocked type {wt}')
+            print(f'successfully blocked type {w_type}')
 
     functions.convert('Jill')
     captured = capsys.readouterr()
