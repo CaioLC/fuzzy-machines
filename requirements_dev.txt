@@ -1,3 +1,4 @@
+astroid==2.9.3
 atomicwrites==1.4.0
 attrs==21.4.0
 backcall==0.2.0
@@ -7,17 +8,21 @@ certifi==2021.10.8
 charset-normalizer==2.0.10
 click==8.0.3
 colorama==0.4.4
+coverage==6.2
+coveralls==3.3.1
 decorator==5.1.1
 defusedxml==0.7.1
+docopt==0.6.2
 docutils==0.18.1
 entrypoints==0.3
--e git+ssh://git@github.com/CTred/fuzzy-machines.git@3667faa9c787bb452c039fb51f81777e410690fb#egg=fuzzy_machines
+-e git+ssh://git@github.com/CTred/fuzzy-machines.git@ecaef4888b0a0e5a5faf3d9e84a101bccb2016cd#egg=fuzzy_machines
 idna==3.3
 importlib-metadata==4.10.0
 importlib-resources==5.4.0
 iniconfig==1.1.1
 ipython==7.31.0
 ipython-genutils==0.2.0
+isort==5.10.1
 jedi==0.18.1
 Jinja2==3.0.3
 jsonschema==4.3.3
@@ -25,8 +30,10 @@ jupyter-client==7.1.0
 jupyter-core==4.9.1
 jupyterlab-pygments==0.1.2
 keyring==23.5.0
+lazy-object-proxy==1.7.1
 MarkupSafe==2.0.1
 matplotlib-inline==0.1.3
+mccabe==0.6.1
 mistune==0.8.4
 mypy-extensions==0.4.3
 nbclient==0.5.9
@@ -44,9 +51,11 @@ pluggy==1.0.0
 prompt-toolkit==3.0.24
 py==1.11.0
 Pygments==2.11.2
+pylint==2.12.2
 pyparsing==3.0.6
 pyrsistent==0.18.0
 pytest==6.2.5
+pytest-cov==3.0.0
 python-dateutil==2.8.2
 pywin32==303
 pywin32-ctypes==0.2.0
@@ -68,4 +77,5 @@ urllib3==1.26.8
 wcwidth==0.2.5
 webencodings==0.5.1
 wincertstore==0.2
+wrapt==1.13.3
 zipp==3.7.0
