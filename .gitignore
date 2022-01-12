@@ -1,2 +1,4 @@
 *.pyc
+*.bat
+/htmlcov
 help_cmd.txt

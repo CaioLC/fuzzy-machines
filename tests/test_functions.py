@@ -14,3 +14,7 @@ def test_convert(capsys):
     functions.convert("Jill")
     captured = capsys.readouterr()
     assert "Jill" in captured.out
+
+
+def test_a_second_function():
+    assert functions.a_second_function(5)

@@ -15,6 +15,7 @@ def convert(my_name: str) -> None:
         )
     print(f"I'll convert a notebook for you some day, {my_name}.")
 
+
 def a_second_function(a_number: int) -> int:
     """template for a second function
 
