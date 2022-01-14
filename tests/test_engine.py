@@ -36,53 +36,53 @@ def test_repr():
 def test_add_rule():
     wrong_types = {"int": 3, "list": ["a", "b", "d"], "str": "Caio"}
     eng = Engine(False)
-    eng.add_rule("f_quality", food_quality)
-    eng.add_rule("f_service", food_service)
+    eng.add_kernel("f_quality", food_quality)
+    eng.add_kernel("f_service", food_service)
 
     # wrong names
     try:
-        eng.add_rule(123, food_service)
+        eng.add_kernel(123, food_service)
     except TypeError:
         pass
 
     # wrong values
     for val in wrong_types.values():
         try:
-            eng.add_rule("will_fail", val)
+            eng.add_kernel("will_fail", val)
         except TypeError:
             pass
 
     # eng.rules with corrupted format
-    eng.ruleset = [1, 2, 3]
+    eng.input_kernel_set = [1, 2, 3]
     try:
-        eng.add_rule("f_service", food_service)
+        eng.add_kernel("f_service", food_service)
     except TypeError:
         pass
 
 
 def test_delete_rule():
     eng = Engine(False)
-    eng.add_rule("func", food_service)
-    eng.delete_rule("func")
+    eng.add_kernel("func", food_service)
+    eng.delete_kernel("func")
     try:
-        eng.delete_rule("does_not_exist")
+        eng.delete_kernel("does_not_exist")
     except KeyError:
         pass
 
 
 def test_fuzzify():
     eng = Engine()
-    eng.add_rule("f_quality", food_quality)
-    eng.add_rule("f_service", food_service)
+    eng.add_kernel("f_quality", food_quality)
+    eng.add_kernel("f_service", food_service)
     ruleset_data = dict({"f_quality": "bad", "f_service": "good"})
     eng.fuzzify(ruleset_data)
 
     # mismatch between ruleset and rule_data
     try:
-        eng.delete_rule("f_quality")
+        eng.delete_kernel("f_quality")
         eng.fuzzify(ruleset_data)
     except ValueError:
-        eng.add_rule("f_quality", food_quality)
+        eng.add_kernel("f_quality", food_quality)
 
     # ruleset data is not dictionary
     wrong_types = {
@@ -100,8 +100,8 @@ def test_fuzzify():
 
 def test_defuzzify():
     eng = Engine()
-    eng.add_rule("f_quality", food_quality)
-    eng.add_rule("f_service", food_service)
+    eng.add_kernel("f_quality", food_quality)
+    eng.add_kernel("f_service", food_service)
     ruleset_data = dict({"f_quality": "bad", "f_service": "good"})
     eng.fuzzify(ruleset_data)
     assert eng.defuzzyfy() == 1

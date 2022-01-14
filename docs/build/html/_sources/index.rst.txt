@@ -5,7 +5,7 @@
 
 Fuzzy Machines's documentation
 ==========================================
-**Fuzzy Machines** is a Python library for general fuzzy logic mathematics. It is inspired by Matlab Fuzzy Logic tutorials.
+**Fuzzy Machines** is a Python library for general Fuzzy Inference Systems. It is inspired by Matlab's Fuzzy Inference Systems tutorials.
 
 .. note::
 

@@ -1,5 +1,5 @@
 """Tests for `fuzzy_machines.functions` package."""
-from fuzzy_machines import functions
+from fuzzy_machines import memb_funcs
 
 
 def test_convert(capsys):
@@ -7,14 +7,14 @@ def test_convert(capsys):
     wrong_types = {"int": 3, "list": ["a", "b", "d"], "dict": {"a": 1, "b": 2}}
     for w_type in wrong_types.values():
         try:
-            functions.convert(w_type)
+            memb_funcs.constant(w_type)
         except TypeError:
             print(f"successfully blocked type {w_type}")
 
-    functions.convert("Jill")
+    memb_funcs.constant("Jill")
     captured = capsys.readouterr()
     assert "Jill" in captured.out
 
 
 def test_a_second_function():
-    assert functions.a_second_function(5)
+    assert memb_funcs.linear(5)
