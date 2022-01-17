@@ -1,9 +1,9 @@
 """ Membership function types, ranging from constant, linear or other more complex shape mapping """
 from typing import Any, Tuple
 
+
 class FunctionBase:
-    def describe():
-        pass
+    pass
 
 
 class Constant(FunctionBase):
@@ -13,6 +13,7 @@ class Constant(FunctionBase):
     def __call__(self, data: Any) -> float:
         return self.value
 
+
 class Linear(FunctionBase):
     def __init__(self, slope: float, b: float) -> None:
         self.slope = slope
@@ -21,34 +22,50 @@ class Linear(FunctionBase):
     def __call__(self, data) -> float:
         return self.slope * data + self.b
 
-def smf():
-    """ S-shaped membership function """
-    raise NotImplementedError
 
-def pimf():
-    """ Pi-shaped membership function """
-    raise NotImplementedError
+class Smf(FunctionBase):
+    """S-shaped membership function"""
 
-def zmf():
-    """ Z-shaped membership function """
-    raise NotImplementedError
+    pass
 
-def trimf():
-    """ Triangular membership function """
-    raise NotImplementedError
 
-def trapmf():
-    """ Trapezoidal membership function """
-    raise NotImplementedError
+class Pimf(FunctionBase):
+    """Pi-shaped membership function"""
 
-def gaussmf():
-    """ Gaussian membership function """
-    raise NotImplementedError
+    pass
 
-def gauss2mf():
-    """ Gaussian combination membership function """
-    raise NotImplementedError
 
-def gbellmf():
-    """ Generalized bell-shaped membership function """
-    raise NotImplementedError
+class Zmf(FunctionBase):
+    """Z-shaped membership function"""
+
+    pass
+
+
+class Trimf(FunctionBase):
+    """Triangular membership function"""
+
+    pass
+
+
+class Trapmf(FunctionBase):
+    """Trapezoidal membership function"""
+
+    pass
+
+
+class Gaussmf(FunctionBase):
+    """Gaussian membership function"""
+
+    pass
+
+
+class Gauss2mf(FunctionBase):
+    """Gaussian combination membership function"""
+
+    pass
+
+
+class Gbellmf:
+    """Generalized bell-shaped membership function"""
+
+    pass

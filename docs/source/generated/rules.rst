@@ -1,7 +1,7 @@
-﻿engine
-======
+﻿rules
+=====
 
-.. automodule:: engine
+.. automodule:: rules
 
    
    
@@ -17,8 +17,11 @@
 
    .. autosummary::
    
-      Engine
-      Kernel
+      AND
+      NOT
+      OR
+      RuleBase
+      Rules
    
    
 

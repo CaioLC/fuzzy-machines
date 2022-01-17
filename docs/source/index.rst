@@ -12,6 +12,7 @@ Fuzzy Machines's documentation
    This project is under active development.
 
 .. toctree::
+   quickstart.rst
    api.rst
    HISTORY.rst
    CONTRIBUTING.rst

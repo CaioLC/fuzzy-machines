@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Contributing &#8212; Fuzzy Machines 0.0.1-alpha documentation</title>
+    <title>Quick Start &#8212; Fuzzy Machines 0.0.1-alpha documentation</title>
     
   <link href="_static/css/theme.css" rel="stylesheet">
   <link href="_static/css/index.ff1ffe594081f20da1ef19478df9384b.css" rel="stylesheet">
@@ -34,7 +34,6 @@
     <script src="_static/sphinx-book-theme.d59cb220de22ca1c485ebbdc042f0030.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="prev" title="History" href="HISTORY.html" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="None">
     
@@ -71,7 +70,7 @@
   Contents:
  </span>
 </p>
-<ul class="current nav bd-sidenav">
+<ul class="nav bd-sidenav">
  <li class="toctree-l1 has-children">
   <a class="reference internal" href="api.html">
    Fuzzy Machines API
@@ -109,8 +108,8 @@
    History
   </a>
  </li>
- <li class="toctree-l1 current active">
-  <a class="current reference internal" href="#">
+ <li class="toctree-l1">
+  <a class="reference internal" href="CONTRIBUTING.html">
    Contributing
   </a>
  </li>
@@ -155,7 +154,7 @@
         <!-- ipynb file if we had a myst markdown file -->
         
         <!-- Download raw file -->
-        <a class="dropdown-buttons" href="_sources/CONTRIBUTING.rst.txt"><button type="button"
+        <a class="dropdown-buttons" href="_sources/quickstart.rst.txt"><button type="button"
                 class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
                 data-placement="left">.rst</button></a>
         <!-- Download PDF via print -->
@@ -242,7 +241,7 @@
         <div class="col-12 col-md-9 pl-md-3 pr-md-0">
             <!-- Table of contents that is only displayed when printing the page -->
             <div id="jb-print-docs-body" class="onlyprint">
-                <h1>Contributing</h1>
+                <h1>Quick Start</h1>
                 <!-- Table of contents -->
                 <div id="print-main-content">
                     <div id="jb-print-toc">
@@ -308,9 +307,16 @@
             
               <div>
                 
-  <div class="section" id="contributing">
-<h1>Contributing<a class="headerlink" href="#contributing" title="Permalink to this headline">¶</a></h1>
-<p>Contributions are welcome and greatly appreciated!</p>
+  <div class="section" id="quick-start">
+<h1>Quick Start<a class="headerlink" href="#quick-start" title="Permalink to this headline">¶</a></h1>
+<p>1st step: build the kernels.</p>
+<p>Kernels are the basic rule-logic that you want to embed to your machine. It defines all possible state of a given data and map it to an output that is a fuzzy conclusion based on that data.
+Example: a banker needs to decide whether to loan money to a particular client. One way is to look at the client’s credit score and map it to a particular credit risk:
+# insert function here #</p>
+<p>2nd step: add the membership functions to the Kernel.</p>
+<p>Membership functions are the instrinsic mapping rules of a kernel. In our example, what constitutes a good, average or bad credit score?
+# #</p>
+<p>3rd step: add kernels to the machine.</p>
 <p>You can contribute in many ways:</p>
 <p>Please ensure you follow our Code of Conduct.</p>
 <div class="section" id="types-of-contributions">
@@ -432,14 +438,7 @@ $ git push --tags
               
             
                 <!-- Previous / next buttons -->
-<div class='prev-next-area'> 
-    <a class='left-prev' id="prev-link" href="HISTORY.html" title="previous page">
-        <i class="fas fa-angle-left"></i>
-        <div class="prev-next-info">
-            <p class="prev-next-subtitle">previous</p>
-            <p class="prev-next-title">History</p>
-        </div>
-    </a>
+<div class='prev-next-area'>
 </div>
             
         </div>

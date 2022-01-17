@@ -12,14 +12,32 @@ Classifier: License :: OSI Approved :: GNU General Public License v3 (GPLv3)
 Description-Content-Type: text/markdown
 License-File: LICENCE
 
-Lumache
-=======
+.. Fuzzy Machines documentation master file, created by
+   sphinx-quickstart on Tue Jan 11 15:02:25 2022.
+   You can adapt this file completely to your liking, but it should at least
+   contain the root `toctree` directive.
 
-**Fuzzy Machines** (/lu'make/) is a Python library for general fuzzy logic mathematics. It is inspired by Matlab Fuzzy Logic tutorials.
+Fuzzy Machines's documentation
+==========================================
+**Fuzzy Machines** is a Python library for general fuzzy logic mathematics. It is inspired by Matlab Fuzzy Logic tutorials.
 
+.. note::
 
-.. ### BUILDING FROM SOURCE
-.. 1. Clone this repo
-.. 2. run `pip install -r requirements_dev.txt`
-.. 3. run `python setup.py sdist bdist_wheel`
+   This project is under active development.
+
+.. toctree::
+   quickstart.rst
+   api.rst
+   HISTORY.rst
+   CONTRIBUTING.rst
+   :maxdepth: 2
+   :caption: Contents:
+
+Indices and tables
+==================
+
+* :ref:`genindex`
+* :ref:`modindex`
+* :ref:`search`
+
 

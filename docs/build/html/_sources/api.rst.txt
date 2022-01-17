@@ -5,5 +5,11 @@ Fuzzy Machines API
     :toctree: generated
 
     engine
+
+    kernel
     
-    functions
+    memb_funcs
+
+    operands
+
+    rules
