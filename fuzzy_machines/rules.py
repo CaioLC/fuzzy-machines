@@ -1,20 +1,18 @@
 """ AND, NOT and OR operators for fuzzy logic inference systems """
+# pylint: disable=invalid-name, R0903
+
 from typing import Union, Dict
+from fuzzy_machines.kernel import Kernel
 
 from fuzzy_machines.operands import OperandEnum
 
 
 class Rules:
-    pass
+    """Rules MetaClass"""
 
 
 class RuleBase(Rules):
-    """Base class for all declarative rules.
-    - If SERVICE is GOOD then -> tip is AVERAGE:  (output_kernel: avg_kernel_func(good))
-    - If SERVICE (input_kernel) is POOR (input_memb) OR (operator) FOOD (input_kernel) is RANCID (input_memb) then -> tip is LOW (output_kernel: low_kernel_func(OR(poor, rancid)))
-    this function defines a dict of {'low': low_kernel_func, 'average': avg_kernel_func, 'high': high_kernel_func }
-    returns the "firing strenght" or "weight" of each inference_kernel
-    """
+    """Base class for all declarative rules"""
 
     def __init__(self, operand_set: OperandEnum, a, b=None) -> None:
         if operand_set is not None and not isinstance(operand_set, OperandEnum):
@@ -26,16 +24,19 @@ class RuleBase(Rules):
     def __call__(self, input_kernel_membership) -> float:
         pass
 
-    def _resolve(self, x: Union[Rules, Dict[str, str]], input_kernel_set) -> float:
-        if isinstance(x, RuleBase):
-            return x(input_kernel_set)
 
-        assert len(x) == 1
-        variable, membership = x.popitem()
-        return input_kernel_set[variable][membership]
+def _resolve(x: Union[Rules, Dict[str, str]], input_kernel_set: Dict[str, Kernel]) -> float:
+    if isinstance(x, RuleBase):
+        return x(input_kernel_set)
+
+    assert len(x) == 1
+    variable, membership_val = x.popitem()
+    return input_kernel_set[variable].input_membership[membership_val]
 
 
 class AND(RuleBase):
+    """AND Operator. Performs the AND function as defined by the OperandEnum of choice"""
+
     def __init__(
         self,
         a: Union[RuleBase, Dict[str, str]],
@@ -45,14 +46,16 @@ class AND(RuleBase):
         super().__init__(operand_set, a, b)
 
     def __call__(self, input_kernel_membership) -> float:
-        a = self._resolve(self.a, input_kernel_membership)
-        b = self._resolve(self.b, input_kernel_membership)
+        a = _resolve(self.a, input_kernel_membership)
+        b = _resolve(self.b, input_kernel_membership)
         func = self.operand_set.value[0]
         print("AND:", a, b, "->", func(a, b))
         return func(a, b)
 
 
 class OR(RuleBase):
+    """OR Operator. Performs the OR function as defined by the OperandEnum of choice"""
+
     def __init__(
         self,
         a: Union[RuleBase, Dict[str, str]],
@@ -62,21 +65,23 @@ class OR(RuleBase):
         super().__init__(operand_set, a, b)
 
     def __call__(self, input_kernel_membership) -> float:
-        a = self._resolve(self.a, input_kernel_membership)
-        b = self._resolve(self.b, input_kernel_membership)
+        a = _resolve(self.a, input_kernel_membership)
+        b = _resolve(self.b, input_kernel_membership)
         func = self.operand_set.value[1]
         print("OR:", a, b, "->", func(a, b))
         return func(a, b)
 
 
 class NOT(RuleBase):
+    """NOT Operator. Performs the NOT function as defined by the OperandEnum of choice"""
+
     def __init__(
         self, a: Union[RuleBase, Dict[str, str]], operand_set: OperandEnum = None
     ) -> float:
         super().__init__(operand_set, a)
 
     def __call__(self, input_kernel_set) -> float:
-        a = self._resolve(self.a, input_kernel_set)
+        a = _resolve(self.a, input_kernel_set)
         func = self.operand_set.value[2]
         print("NOT:", a, "->", func(a))
         return func(a)

@@ -1,4 +1,5 @@
-"""Tests for `fuzzy_machines.functions` package."""
+"""Tests for memb_func.py"""
+# pylint: disable=missing-function-docstring, invalid-name
 from fuzzy_machines.memb_funcs import Constant
 
 

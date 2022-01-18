@@ -1,7 +1,8 @@
+""" tests for rules.py """
+# pylint: disable=missing-function-docstring, invalid-name
 import pytest
 from fuzzy_machines.operands import OperandEnum
-from fuzzy_machines.engine import Engine
-from fuzzy_machines.memb_funcs import Constant, Linear
+from fuzzy_machines.memb_funcs import Linear
 from fuzzy_machines.kernel import Kernel, KernelFuncMember
 from fuzzy_machines.rules import AND, OR, NOT, RuleBase
 
@@ -27,9 +28,9 @@ price = (
 price(7)
 
 input_kernel_set = {
-    "food": food.input_membership,
-    "service": service.input_membership,
-    "price": price.input_membership,
+    "food": food,
+    "service": service,
+    "price": price,
 }
 
 
@@ -37,7 +38,7 @@ def test_rule_init():
     op = RuleBase(OperandEnum.DEFAULT, {"food": "good"})
     op("mock_me")
     with pytest.raises(TypeError):
-        RuleBase(OperandEnum)
+        RuleBase(OperandEnum)  # pylint: disable=no-value-for-parameter
 
     with pytest.raises(TypeError):
         RuleBase("will fail", {"food": "good"})

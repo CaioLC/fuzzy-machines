@@ -1,5 +1,5 @@
-from numbers import Number
-from types import FunctionType
+""" tests for kernel.py """
+# pylint: disable=missing-function-docstring, invalid-name
 import pytest
 from fuzzy_machines.kernel import Kernel, KernelFuncMember, _clamp
 from fuzzy_machines.memb_funcs import FunctionBase, Constant, Linear
@@ -51,9 +51,9 @@ def test_kernel_func_member_iterate():
 
 def test_kernel_init():
     with pytest.raises(TypeError):
-        Kernel()
+        Kernel()  # pylint: disable=no-value-for-parameter
     with pytest.raises(TypeError):
-        Kernel(0)
+        Kernel(0)  # pylint: disable=no-value-for-parameter
     with pytest.raises(ValueError):
         Kernel("str", "1")
     with pytest.raises(ValueError):
@@ -83,7 +83,7 @@ def test_kernel_add_func():
     with pytest.raises(TypeError):
         food.add_memb_func(KernelFuncMember(Linear(0.1, 2)), "good")  # should fail
     with pytest.raises(KeyError):
-        food.input_functions["error"]  # should fail
+        food.input_functions["error"]  # pylint: disable=pointless-statement
 
     assert isinstance(food.input_functions["good"], KernelFuncMember)
     assert isinstance(food.input_functions["bad"], KernelFuncMember)

@@ -1,12 +1,15 @@
 """ Membership function types, ranging from constant, linear or other more complex shape mapping """
-from typing import Any, Tuple
+# pylint: disable=fixme, invalid-name, R0903
+from typing import Any
 
 
 class FunctionBase:
-    pass
+    """Function Meta"""
 
 
 class Constant(FunctionBase):
+    """Constant function. Returns the initialization value"""
+
     def __init__(self, value: float) -> None:
         self.value = value
 
@@ -15,6 +18,8 @@ class Constant(FunctionBase):
 
 
 class Linear(FunctionBase):
+    """Linear function"""
+
     def __init__(self, slope: float, b: float) -> None:
         self.slope = slope
         self.b = b
@@ -26,46 +31,30 @@ class Linear(FunctionBase):
 class Smf(FunctionBase):
     """S-shaped membership function"""
 
-    pass
-
 
 class Pimf(FunctionBase):
     """Pi-shaped membership function"""
-
-    pass
 
 
 class Zmf(FunctionBase):
     """Z-shaped membership function"""
 
-    pass
-
 
 class Trimf(FunctionBase):
     """Triangular membership function"""
-
-    pass
 
 
 class Trapmf(FunctionBase):
     """Trapezoidal membership function"""
 
-    pass
-
 
 class Gaussmf(FunctionBase):
     """Gaussian membership function"""
-
-    pass
 
 
 class Gauss2mf(FunctionBase):
     """Gaussian combination membership function"""
 
-    pass
-
 
 class Gbellmf:
     """Generalized bell-shaped membership function"""
-
-    pass

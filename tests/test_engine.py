@@ -1,8 +1,9 @@
-""" The machine to run the fuzzy logic """
-import pytest
+""" tests for engine.py """
+# pylint: disable=missing-function-docstring, invalid-name
 from typing import cast
-from fuzzy_machines import engine
-from fuzzy_machines.engine import Engine, Engine
+import pytest
+
+from fuzzy_machines.engine import Engine
 from fuzzy_machines.kernel import Kernel, KernelFuncMember
 from fuzzy_machines.memb_funcs import Constant, Linear
 from fuzzy_machines.operands import OperandEnum
@@ -73,10 +74,12 @@ def test_del_kernel():
 
 
 def test_inference_kernel():
-    eng = Engine().add_inference_kernel("tips", tips)
+    eng = Engine().add_inference_kernel(tips)
     assert isinstance(eng.inference_kernel, Kernel)
     eng.del_inference_kernel()
-    assert eng.inference_kernel == None
+    assert eng.inference_kernel is None
+    with pytest.raises(TypeError):
+        eng.add_inference_kernel('will_fail')
 
 
 ### ENGINE SUBCLASSES TESTS ###
@@ -184,7 +187,7 @@ def test_fuzzify():
         Engine()
         .add_kernel("food", food_quality)
         .add_kernel("service", food_service)
-        .add_inference_kernel("tips", tips)
+        .add_inference_kernel(tips)
         .add_rule("low", {"food": "rancid"})
         .add_rule(
             "average",
@@ -196,18 +199,16 @@ def test_fuzzify():
         .add_rule("high", AND({"food": "good"}, {"service": "good"}))
     )
 
-    ruleset_data = dict({"food": 3, "service": 9})
-    res = eng.fuzzyfy(ruleset_data)
-    assert res == eng.fuzzy_res
-    assert res.keys() == set(["low", "average", "high"])
-    print(res)
-    for val in res.values():
+    measurement_data = dict({"food": 3, "service": 9})
+    eng.fuzzyfy(measurement_data)
+    assert eng.fuzzy_res.keys() == set(["low", "average", "high"])
+    for val in eng.fuzzy_res.values():
         assert isinstance(val, float)
 
     # wrong ruleset_data:
-    ruleset_data = dict({"food_wrong_name": 3, "service_wrong_name": 9})
+    measurement_data = dict({"food_wrong_name": 3, "service_wrong_name": 9})
     with pytest.raises(KeyError):
-        res = eng.fuzzyfy(ruleset_data)
+        eng.fuzzyfy(measurement_data)
 
 
 def test_defuzzify():

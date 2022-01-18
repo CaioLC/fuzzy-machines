@@ -1,4 +1,5 @@
 """ Fuzzy Logic Operators """
+# pylint: disable=invalid-name, missing-function-docstring
 from enum import Enum
 
 
@@ -15,4 +16,6 @@ def not_default(a):
 
 
 class OperandEnum(Enum):
+    """Defines the behaviour of AND, OR and NOT rules method"""
+
     DEFAULT = [and_default, or_default, not_default]
