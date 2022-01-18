@@ -13,9 +13,9 @@ def _clamp(value, lower, upper):
 
 class KernelFuncMember:
     """
-    KernelFuncMember is a wrapper to FunctionBase, providing two additional methods:
-        - __call__: clamps the results of any function between 0 and 1 (inclusive ends)
-        - iterate(): a for_loop traversing the KernelFuncMember for a range of values.
+    KernelFuncMember is a wrapper to FunctionBase, providing two additional methods: \
+        - __call__: clamps the results of any function between 0 and 1 (inclusive ends) \
+        - iterate(): a for_loop traversing the KernelFuncMember for a range of values. \
     Required for generating surfaces at the Engine.
     """
 

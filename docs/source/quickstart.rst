@@ -4,135 +4,168 @@
 Quick Start
 ===========
 
-1st step: build the kernels.
+**Fuzzy Machines** is a Python library for building general fuzzy logic inference systems.
 
-Kernels are the basic rule-logic that you want to embed to your machine. It defines all possible state of a given data and map it to an output that is a fuzzy conclusion based on that data.
-Example: a banker needs to decide whether to loan money to a particular client. One way is to look at the client's credit score and map it to a particular credit risk: 
-# insert function here #
+This chapters is intended as a quick and simple example that should give you the big picture on how to use the library, but it is 
+not intended as a full explanation on how inference systems work, or why use them. For further reference on the subject as a whole, there is a great youtube series at https://www.youtube.com/watch?v=__0nZuG4sTw. As 
+a matter of fact, in this tutorial we will be building a fuzzy machine inspired by the "Restaurant Tip" example of the series, so you can see what a python implementation using this library would look like.
 
-2nd step: add the membership functions to the Kernel.
+First Step: defining the problem
+--------------------------------
 
-Membership functions are the instrinsic mapping rules of a kernel. In our example, what constitutes a good, average or bad credit score? 
-# #
+Designing fuzzy logic inference systems can get pretty complicated pretty rapidly. So before we get our hands dirty, it is always best to have a clear understanding of what is our data and what we want to achieve.
 
-3rd step: add kernels to the machine.
+Our system is a simple one: we want to define a fair tip percentage we give at a restaurant, given the food quality and service quality. Our data for food and service quality ranges from 0-10 and we want to give tips between 10% and 30%.
 
-You can contribute in many ways:
+Second Step: building the Input Kernels
+---------------------------------------
 
-Please ensure you follow our Code of Conduct.
+The Kernel is one of the building blocks of the Engine we will create following this tutorial. Each Kernel is responsible for mapping raw data about a particular variable of interest to various inner functions. 
+In our case, we need one Kernel to describe food quality and a second one to describe food service.
 
-Types of Contributions
-----------------------
+Each Kernel is comprised of inner membership functions of type KernelFuncMember. If a Kernel describe a particular variable of interest, each KernelFuncMember describe a particular state of such variable.
+For instance: (i) the 'food' variable could be 'excelent' or 'rancid'; and (ii) the 'service' variable could be 'great' or 'poor'.
 
-Report Bugs
-~~~~~~~~~~~
+For each state ('good', 'rancid', 'great' and 'poor') we will instatiate the KernelFuncMember that maps the raw data (remember, 0-10 for both variables, but it will vary from case to case) to a particular function.
+For consistency at the API level, instead of passing a generic function directly, we will instantiate the KernelFuncMembers with membership functions (any class that inherits from FunctionBase).
 
-Report bugs at https://github.com/notebooktoall/notebooktoall/issues.
+Putting it all together we have:
 
-If you are reporting a bug, please include:
+.. code-block:: python3
 
-* Your operating system name and version, if applicable.
-* Any details about your local setup that might be helpful in troubleshooting.
-* Detailed steps to reproduce the bug.
+    from fuzzy_machines.kernel import Kernel, KernelFuncMember,
+    from fuzzy_machines.memb_funcs import Constant, Linear
 
-Fix Bugs
-~~~~~~~~
+    food = Kernel(0, 10) # instatiate the "Food Quality Kernel" and register that raw data ranges from 0 to 10 (inclusive)
+    food.add_memb_func("good", KernelFuncMember(Linear(0.1, 0))) # register a KernelFuncMember for what is a 'good' food quality
+    food.add_memb_func("rancid", KernelFuncMember(Linear(-0.1, 1))) # register a KernelFuncMember for what is a 'rancid' food quality
 
-Look through the GitHub issues for bugs. Anything tagged with "bug" and "help
-wanted" is open to whoever wants to implement it.
+    # now we do the same for the service quality kernel:
+    service = Kernel(0, 10)
+    service.add_memb_func("great", KernelFuncMember(Linear(0.1, 0)))
+    service.add_memb_func("poor", KernelFuncMember(Linear(-0.1, 1)))
 
-Implement Features
-~~~~~~~~~~~~~~~~~~
+.. warning::
+    By definition, membership functions maps how much the raw data "fits" each the state definition. The same way probability ranges only between 0-1 (0-100%),
+    the Kernel clamps all function results to be between 0 and 1. If the user register a KernelFuncMember that returns values greater than 1 or less than 0, all
+    such results will be transformed to 1 and 0 respectively. A quick way to check if the KernelFuncMember are properly set is calling the kernel.describe method and ploting
+    the results with your preferred plotting library.
 
-Look through the GitHub issues for features. Anything tagged with "enhancement"
-and "help wanted" is open to whoever wants to implement it.
+Third Step: Inference System
+----------------------------
+The inference system is also a Kernel, which is formed by KernelFuncMembers and FunctionBases, so the building process is the same as above. The inference system maps the fuzzy states of the output we're interest.
+In our case, we can give the restaurant a 'low', 'average' or 'high' tip, depending on food and service quality. Thus:
 
-Write Documentation
-~~~~~~~~~~~~~~~~~~~
+.. code-block:: python3
 
-notebooktoall could always use more documentation, whether as part of the
-official notebooktoall docs, in docstrings, or even on the web in blog posts.
-Submit Feedback
-~~~~~~~~~~~~~~~
-
-The best way to send feedback is to file an issue at https://github.com/notebooktoall/notebooktoall/issues.
-
-If you are proposing a feature:
-
-* Explain in detail how it would work.
-* Keep the scope as narrow as possible, to make it easier to implement.
-* Remember that this is a volunteer-driven project, and that contributions
-  are welcome :)
-
-Get Started!
-------------
-
-Ready to contribute? Here's how to set up `notebooktoall` for local development.
-
-1. Fork the `notebooktoall` repo on GitHub.
-2. Clone your fork locally::
-
-    $ git clone git@github.com:your_name_here/notebooktoall.git
-
-3. Install your local copy into a virtualenv. Assuming you have virtualenvwrapper installed, this is how you set up your fork for local development::
-
-    $ mkvirtualenv notebooktoall
-    $ cd notebooktoall/
-    $ python setup.py develop
-
-4. Create a branch for local development::
-
-    $ git checkout -b name-of-your-bugfix-or-feature
-
-   Now you can make your changes locally.
-
-5. When you're done making changes, check that your changes pass flake8 and the
-   tests, including testing other Python versions with tox::
-
-    $ flake8 notebooktoall tests
-    $ python setup.py test or py.test
-    $ tox
-
-   To get flake8 and tox, just pip install them into your virtualenv.
-
-6. Commit your changes and push your branch to GitHub::
-
-    $ git add .
-    $ git commit -m "Your detailed description of your changes."
-    $ git push origin name-of-your-bugfix-or-feature
-
-7. Submit a pull request through the GitHub website.
-
-Pull Request Guidelines
------------------------
-
-Before you submit a pull request, check that it meets these guidelines:
-
-1. The pull request should include tests.
-2. If the pull request adds functionality, the docs should be updated. Put
-   your new functionality into a function with a docstring, and add the
-   feature to the list in README.rst.
-3. The pull request should work for Python 3.6 and for PyPy. Check
-   https://travis-ci.org/notebooktoall/notebooktoall/pull_requests
-   and make sure that the tests pass for all supported Python versions.
-
-Tips
-----
-
-To run a subset of tests::
-
-$ py.test tests.test_notebooktoall
+    tips = Kernel(10, 30) # tips will range between 10% and 30%
+    tips.add_memb_func("low", KernelFuncMember(Constant(10))) # if low we give 10% tip to the restaurant
+    tips.add_memb_func("average", KernelFuncMember(Constant(20)))
+    tips.add_memb_func("high", KernelFuncMember(Constant(30)))
 
 
-Deploying
----------
+Fourth Step: Rules
+------------------
+This is pretty self explanatory. We want to add declarations on how to map food and service quality to the amount of tip we pay the restaurant. This is done by adding rules to the engine, which can be simple dictionaries or a Rule object.
+In our example, the tip will be low if food quality is rancid. Average if food quality is good but service is poor. And high if food is good and service is great:
 
-A reminder for the maintainers on how to deploy.
-Make sure all your changes are committed (including an entry in HISTORY.rst).
-Then run::
+.. code-block:: python3
 
-$ bumpversion patch # possible: major / minor / patch
-$ git push
-$ git push --tags
+    from fuzzy_machines.rules import AND, OR, NOT
 
-Travis will then deploy to PyPI if tests pass.
+    low = {"low": {"food": 'rancid'}}
+    average = {"average": AND({"food": "good"}, {"service": "poor"})}
+    high = {"high": AND({"food": "good"}, {"service": "great"})}
+
+
+Fifth Step: Putting it all together
+-----------------------------------
+Now it is time to fire up the engine. We create a new Engine object and register the input kernels, inference system and rules: 
+
+.. code-block:: python3
+
+    from fuzzy_machines.engine import Engine
+
+    eng = (
+    Engine()
+        .add_kernel("food", food)
+        .add_kernel("service", service)
+        .add_inference_kernel(tips)
+        .add_rule(low)
+        .add_rule(average)
+        .add_rule(high)
+    )
+
+Running the machine
+-------------------
+With all in place, all you now need to do is fire up the engine. Call eng.fuzzyfy() with the raw data for food and service quality, and you should get the corresponding fuzzy result for the tips amount.
+
+.. code-block:: python3
+
+    raw_data_example = {'food': 9}, {'service': 3}
+    fuzzy_results = eng.fuzzyfy(raw_data_example)
+    print(fuzzy_results)
+
+.. note::
+   A big part of an inferencing system is converting the fuzzy result to a single numeric result, in a process commonly called 'defuzzyfication'.
+   This has not been implemented yet and is up to the user to come up with an aggregator function. Defuzzyfication is an important process so it should
+   be added as an Engine method in the next version of the code.
+
+TL;DR
+---------------------------------
+Here's what we we need to do for any fuzzy machine:
+
+1. Define the problem: what is the raw data input, the variables, states and inference system and rules.
+2. Build the Kernels for each input variable
+3. Build the Kernel for the inference system
+4. Declare the rules, mapping the kernel input to the inference system
+5. Register everything at the Engine level (register Kernels, Inf. System and rules)
+6. Fire up the engine with the raw data you have at hands
+7. Defuzzyfy the results (not implemented yet).
+
+Here's the full sample code: 
+
+.. code-block:: python3
+
+    from fuzzy_machines.engine import Engine
+    from fuzzy_machines.kernel import Kernel, KernelFuncMember,
+    from fuzzy_machines.memb_funcs import Constant, Linear
+    from fuzzy_machines.rules import AND, OR, NOT
+
+    # Input Kernels:
+    # a. Food Kernel
+    food = Kernel(0, 10) # instatiate the "Food Quality Kernel" and register that raw data ranges from 0 to 10 (inclusive)
+    food.add_memb_func("good", KernelFuncMember(Linear(0.1, 0))) # register a KernelFuncMember for what is a 'good' food quality
+    food.add_memb_func("rancid", KernelFuncMember(Linear(-0.1, 1))) # register a KernelFuncMember for what is a 'rancid' food quality
+
+    # b. Service Kernel
+    service = Kernel(0, 10)
+    service.add_memb_func("great", KernelFuncMember(Linear(0.1, 0)))
+    service.add_memb_func("poor", KernelFuncMember(Linear(-0.1, 1)))
+
+    # Inference System:
+    tips = Kernel(10, 30) # tips will range between 10% and 30%
+    tips.add_memb_func("low", KernelFuncMember(Constant(10))) # if low we give 10% tip to the restaurant
+    tips.add_memb_func("average", KernelFuncMember(Constant(20)))
+    tips.add_memb_func("high", KernelFuncMember(Constant(30)))
+
+    # Rules:
+    low = {"low": {"food": 'rancid'}}
+    average = {"average": AND({"food": "good"}, {"service": "poor"})}
+    high = {"high": AND({"food": "good"}, {"service": "great"})}
+
+    # Putting it all together
+    eng = (
+    Engine()
+        .add_kernel("food", food)
+        .add_kernel("service", service)
+        .add_inference_kernel(tips)
+        .add_rule(low)
+        .add_rule(average)
+        .add_rule(high)
+    )
+
+    # Fire the engine
+    raw_data_example = dict({"food": 3, "service": 9})
+    fuzzy_results = eng.fuzzyfy(raw_data_example)
+    print(fuzzy_results)
