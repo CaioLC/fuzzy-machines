@@ -7,6 +7,16 @@ class FunctionBase:
     """Function Meta"""
 
 
+class Singleton(FunctionBase):
+    """Boolean function. Return 1 when x == value and 0 otherwise"""
+    def __init__(self, value: float) -> None:
+        self.value = value
+
+    def __call__(self, data: Any) -> float:
+        if self.value == data: return 1 
+        else: return 0
+
+
 class Constant(FunctionBase):
     """Constant function. Returns the initialization value"""
 

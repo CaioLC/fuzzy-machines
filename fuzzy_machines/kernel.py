@@ -117,9 +117,22 @@ class Kernel:
         except KeyError as error:
             raise KeyError(f"{var_name} not found in rules dict") from error
 
-    def describe(self, sample_size):
+    def describe(self, sample_size) -> Dict[str, List[float]]:
         """Plots 1-d function outputs for every memb function"""
         res = {}
         for name, kernel_func in self.input_functions.items():
             res[name] = kernel_func.iterate(self.min_v, self.max_v, sample_size)
         return res
+
+    def check_normalized(self) -> bool:
+        """
+        Checks for 100 values whether the Kernel Membership Functions sums up to 1 for all x values. \
+        Though not required, this property is often employed because it makes interpretation easier.
+        """
+        res = self.describe(100)
+        nested_list = [list(res.values())]
+        sum_list = []
+        for i in range(len(nested_list[0])):
+            sum_list.append(round(sum(val[i] for val in nested_list), 2))
+            if set(sum_list) == set(1.0): return True
+            else: False

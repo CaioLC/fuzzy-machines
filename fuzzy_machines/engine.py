@@ -1,6 +1,7 @@
 """ The machine to run the fuzzy logic """
 # pylint: disable=invalid-name, fixme
 from typing import Any, Dict
+from warnings import warn
 
 from black import Union
 
@@ -69,6 +70,8 @@ class Engine:
             Engine: self
         """
         _typecheck(name, kernel)
+        if not kernel.check_normalized():
+            warn(f"Kernel for {name} is not normalized")
         if not self.input_kernel_set:
             self.input_kernel_set = dict({name: kernel})
         elif isinstance(self.input_kernel_set, dict):
@@ -205,7 +208,13 @@ class Engine:
             NotImplementedError: [description]
         """
         # TODO: defuzzyfy not yet implemented
-        # 1 - draw line at percentage area of each membership figure
+        # 1 - cutting the output MSFs at the degree of rule fulfillment, i.e.:
+        for mapped_rule, fulfillment in self.actuation_signal.keys():
+            output_MSF = self.inference_kernel[mapped_rule] # gets the kernel membership function of the output inference system
+            act_rule = min(fulfillment, output_MSF)
+
+μact
+i (u, y) = min[μi(u),μi(y)] ,
         # 2 - build poligon area of all 'filled' areas
         # 3 - return X coordinate of the centroid
         # see https://www.mathworks.com/help/fuzzy/defuzzification-methods.html
