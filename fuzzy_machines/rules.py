@@ -2,9 +2,10 @@
 # pylint: disable=invalid-name, R0903
 
 from typing import Union, Dict
+from enum import Enum
 from fuzzy_machines.kernel import Kernel
 
-from fuzzy_machines.operands import OperandEnum
+from fuzzy_machines.operators import OperatorEnum
 
 
 class Rules:
@@ -14,9 +15,9 @@ class Rules:
 class RuleBase(Rules):
     """Base class for all declarative rules"""
 
-    def __init__(self, operand_set: OperandEnum, a, b=None) -> None:
-        if operand_set is not None and not isinstance(operand_set, OperandEnum):
-            raise TypeError(f"Expected type OperandEnum for 'operand'. Got {type(operand_set)}")
+    def __init__(self, operand_set: OperatorEnum, a, b=None) -> None:
+        if operand_set is not None and not isinstance(operand_set, OperatorEnum):
+            raise TypeError(f"Expected type OperatorEnum for 'operand'. Got {type(operand_set)}")
         self.operand_set = operand_set
         self.a = a
         self.b = b
@@ -31,17 +32,17 @@ def _resolve(x: Union[Rules, Dict[str, str]], input_kernel_set: Dict[str, Kernel
 
     assert len(x) == 1
     variable, membership_val = x.popitem()
-    return input_kernel_set[variable].input_membership[membership_val]
+    return input_kernel_set[variable].membership_degree[membership_val]
 
 
 class AND(RuleBase):
-    """AND Operator. Performs the AND function as defined by the OperandEnum of choice"""
+    """AND Operator. Performs the AND function as defined by the OperatorEnum of choice"""
 
     def __init__(
         self,
         a: Union[RuleBase, Dict[str, str]],
         b: Union[RuleBase, Dict[str, str]],
-        operand_set: OperandEnum = None,
+        operand_set: OperatorEnum = None,
     ) -> float:
         super().__init__(operand_set, a, b)
 
@@ -54,13 +55,13 @@ class AND(RuleBase):
 
 
 class OR(RuleBase):
-    """OR Operator. Performs the OR function as defined by the OperandEnum of choice"""
+    """OR Operator. Performs the OR function as defined by the OperatorEnum of choice"""
 
     def __init__(
         self,
         a: Union[RuleBase, Dict[str, str]],
         b: Union[RuleBase, Dict[str, str]],
-        operand_set: OperandEnum = None,
+        operand_set: OperatorEnum = None,
     ) -> float:
         super().__init__(operand_set, a, b)
 
@@ -73,15 +74,29 @@ class OR(RuleBase):
 
 
 class NOT(RuleBase):
-    """NOT Operator. Performs the NOT function as defined by the OperandEnum of choice"""
+    """NOT Operator. Performs the NOT function as defined by the OperatorEnum of choice"""
 
     def __init__(
-        self, a: Union[RuleBase, Dict[str, str]], operand_set: OperandEnum = None
+        self, a: Union[RuleBase, Dict[str, str]], operand_set: OperatorEnum = None
     ) -> float:
         super().__init__(operand_set, a)
 
     def __call__(self, input_kernel_set) -> float:
         a = _resolve(self.a, input_kernel_set)
         func = self.operand_set.value[2]
+        print("NOT:", a, "->", func(a))
+        return func(a)
+
+class IS(RuleBase):
+    """IS Operator. Performs the IS function as defined by the OperatorEnum of choice"""
+
+    def __init__(
+        self, a: Union[RuleBase, Dict[str, str]], operand_set: OperatorEnum = None
+    ) -> float:
+        super().__init__(operand_set, a)
+
+    def __call__(self, input_kernel_set) -> float:
+        a = _resolve(self.a, input_kernel_set)
+        func = self.operand_set.value[3]
         print("NOT:", a, "->", func(a))
         return func(a)

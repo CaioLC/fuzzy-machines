@@ -49,7 +49,6 @@ class Kernel:
     """
     A wrapper that represents all manners a particular variable is mapped to KernelFuncMembers.
     """
-
     def __init__(self, min_v: float, max_v: float) -> None:
         if not isinstance(min_v, Number):
             raise ValueError(f"expected numeric for 'min_v'. Found {type(min_v)}")
@@ -60,17 +59,17 @@ class Kernel:
         self.min_v = min_v
         self.max_v = max_v
         self.input_functions: Dict[str, KernelFuncMember] = None
-        self.input_membership: Dict[str, float] = None
+        self.membership_degree: Dict[str, float] = None
 
     # NOTE: https://www.sciencedirect.com/topics/engineering/fuzzification
     def __call__(self, measurement: Any):
         # NOTE: all input_membership_functions must "consume" the same type of data.
-        self.input_membership = {}
+        self.membership_degree = {}
         for key, func in self.input_functions.items():
             res = func(measurement)
             print(res)
-            self.input_membership[key] = res
-        return self.input_membership
+            self.membership_degree[key] = res
+        return self.membership_degree
 
     def add_memb_func(self, var_name: str, func: KernelFuncMember):
         """Registers a KernelFuncMember as part of the Kernel

@@ -6,7 +6,7 @@ import pytest
 from fuzzy_machines.engine import Engine
 from fuzzy_machines.kernel import Kernel, KernelFuncMember
 from fuzzy_machines.memb_funcs import Constant, Linear
-from fuzzy_machines.operands import OperandEnum
+from fuzzy_machines.operators import OperatorEnum
 from fuzzy_machines.rules import AND, NOT, OR, RuleBase
 
 food_quality = (
@@ -93,7 +93,7 @@ def test_add_rule():
     assert len(eng.ruleset) == 2
     simple_rule = cast(RuleBase, eng.ruleset["high"])
     assert simple_rule.operand_set is not None
-    assert isinstance(simple_rule.operand_set, OperandEnum)
+    assert isinstance(simple_rule.operand_set, OperatorEnum)
 
     # nested rules
     nested_rule = OR(
@@ -110,23 +110,23 @@ def test_add_rule():
     assert len(eng.ruleset) == 3
     lv1_rule = cast(RuleBase, eng.ruleset["average"])
     assert lv1_rule.operand_set is not None
-    assert isinstance(lv1_rule.operand_set, OperandEnum)
+    assert isinstance(lv1_rule.operand_set, OperatorEnum)
     lv2_rule = cast(RuleBase, lv1_rule.a)
     assert lv2_rule.operand_set is not None
-    assert isinstance(lv2_rule.operand_set, OperandEnum)
+    assert isinstance(lv2_rule.operand_set, OperatorEnum)
     lv3_rule = cast(RuleBase, lv2_rule.b)
     assert lv3_rule.operand_set is not None
-    assert isinstance(lv3_rule.operand_set, OperandEnum)
+    assert isinstance(lv3_rule.operand_set, OperatorEnum)
 
     # same as above, but now engine declares OperandEnum explicitly.
-    eng = Engine(OperandEnum.DEFAULT).add_rule("low", {"food": "rancid"})
+    eng = Engine(OperatorEnum.DEFAULT).add_rule("low", {"food": "rancid"})
     assert isinstance(eng.ruleset["low"], dict)
     print(eng.operands)
     eng.add_rule("high", AND({"food": "good"}, {"service": "good"}))
     assert len(eng.ruleset) == 2
     simple_rule = cast(RuleBase, eng.ruleset["high"])
     assert simple_rule.operand_set is not None
-    assert isinstance(simple_rule.operand_set, OperandEnum)
+    assert isinstance(simple_rule.operand_set, OperatorEnum)
     nested_rule = OR(
         AND(
             {"food": "good"},
@@ -141,13 +141,13 @@ def test_add_rule():
     assert len(eng.ruleset) == 3
     lv1_rule = cast(RuleBase, eng.ruleset["average"])
     assert lv1_rule.operand_set is not None
-    assert isinstance(lv1_rule.operand_set, OperandEnum)
+    assert isinstance(lv1_rule.operand_set, OperatorEnum)
     lv2_rule = cast(RuleBase, lv1_rule.a)
     assert lv2_rule.operand_set is not None
-    assert isinstance(lv2_rule.operand_set, OperandEnum)
+    assert isinstance(lv2_rule.operand_set, OperatorEnum)
     lv3_rule = cast(RuleBase, lv2_rule.b)
     assert lv3_rule.operand_set is not None
-    assert isinstance(lv3_rule.operand_set, OperandEnum)
+    assert isinstance(lv3_rule.operand_set, OperatorEnum)
 
 
 def test_delete_rule():
@@ -200,7 +200,7 @@ def test_fuzzify():
     )
 
     measurement_data = dict({"food": 3, "service": 9})
-    eng.fuzzyfy(measurement_data)
+    eng.run(measurement_data)
     assert eng.fuzzy_res.keys() == set(["low", "average", "high"])
     for val in eng.fuzzy_res.values():
         assert isinstance(val, float)
@@ -208,7 +208,7 @@ def test_fuzzify():
     # wrong ruleset_data:
     measurement_data = dict({"food_wrong_name": 3, "service_wrong_name": 9})
     with pytest.raises(KeyError):
-        eng.fuzzyfy(measurement_data)
+        eng.run(measurement_data)
 
 
 def test_defuzzify():

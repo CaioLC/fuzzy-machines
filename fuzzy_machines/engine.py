@@ -5,7 +5,7 @@ from warnings import warn
 
 from black import Union
 
-from fuzzy_machines.operands import OperandEnum
+from fuzzy_machines.operators import DefuzzEnum, OperatorEnum, RuleAggregationEnum
 from fuzzy_machines.kernel import Kernel
 from fuzzy_machines.rules import RuleBase
 
@@ -25,7 +25,12 @@ class Engine:
     7: call engine.gen_surface() to build a iterable cache-like map to greatly reduce time compute 
     """
 
-    def __init__(self, operands: OperandEnum = OperandEnum.DEFAULT) -> None:
+    def __init__(
+            self,
+            operands: OperatorEnum = OperatorEnum.DEFAULT,
+            rule_agreggation: RuleAggregationEnum = RuleAggregationEnum.MAX,
+            defuzz_method: DefuzzEnum = DefuzzEnum.WEIGHTED_AREA
+        ) -> None:
         """Initializes a new engine object
 
         Args:
@@ -158,7 +163,64 @@ class Engine:
         except KeyError as error:
             raise KeyError(f"{name} not found in rules dict") from error
 
-    def fuzzyfy(self, measurements: Dict[str, Any]) -> Dict[str, float]:
+    def fuzzyfy(self, measurements: Dict[str, Any]) -> Dict[str, Dict[str, float]]:
+        """Fuzzyfy the crisp measurement data for all registered kernels. Result is returned \
+            to the user as a nested dictionary but also stored in each kernel object.
+
+        Args:
+            measurements for each registered registered input kernel \
+        (in the format {'kernel_name': data})
+
+        Raises:
+            KeyError: if there's a mismatch between input_kernel_set.keys() and measurements.keys()
+
+        Returns:
+            Dict[str, Dict[str, float]]: dict('kernel_name': dict('function_member': value))
+        """
+        if self.input_kernel_set.keys() != measurements.keys():
+            raise KeyError(
+                "Could not match the ruleset data to registered ruleset functions.\nruleset_data:"
+                f" {measurements.keys()}\nruleset: {self.input_kernel_set.keys()}"
+            )
+
+        res = {}
+        for kkey, kernel in self.input_kernel_set.items():
+            kres = kernel(measurements[kkey])
+            res[kkey] = kres
+        return res
+
+    def rule_aggregation(self, aggregation):
+        for rkey, rule in self.ruleset.items():
+            if isinstance(rule, dict):
+                assert len(rule) == 1
+                variable, membership = rule.popitem()
+                self.actuation_signal[rkey] = self.input_kernel_set[variable].membership_degree[
+                    membership
+                ]
+            elif isinstance(rule, RuleBase):
+                self.actuation_signal[rkey] = rule(self.input_kernel_set)
+
+
+    def defuzzyfy(self):
+        """Transform the fuzzy result to a numerical float value.
+
+        Raises:
+            NotImplementedError: [description]
+        """
+        # TODO: defuzzyfy not yet implemented
+        # 1 - cutting the output MSFs at the degree of rule fulfillment, i.e.:
+        for mapped_rule, fulfillment in self.actuation_signal.keys():
+            output_MSF = self.inference_kernel[mapped_rule] # gets the kernel membership function of the output inference system
+            act_rule = min(fulfillment, output_MSF)
+
+        # μact
+        # i (u, y) = min[μi(u),μi(y)] ,
+        # 2 - build poligon area of all 'filled' areas
+        # 3 - return X coordinate of the centroid
+        # see https://www.mathworks.com/help/fuzzy/defuzzification-methods.html
+        raise NotImplementedError
+
+    def run(self, measurements: Dict[str, Any]) -> Dict[str, float]:
         """
         Main fuzzyfication method. Passing a dictionary of measurements for each registered \
         input kernel (in the format {'kernel_name': data}), this methods runs all kernel membership \
@@ -179,46 +241,10 @@ class Engine:
         Returns:
             Dict[str, float]: {'fuzzy_func': 'fuzzy_result'}
         """
-        if self.input_kernel_set.keys() != measurements.keys():
-            raise KeyError(
-                "Could not match the ruleset data to registered ruleset functions.\nruleset_data:"
-                f" {measurements.keys()}\nruleset: {self.input_kernel_set.keys()}"
-            )
-
-        # run kernel and store membership values for all KernelFuncMember
-        for kkey, kernel in self.input_kernel_set.items():
-            kernel(measurements[kkey])
-
-        for rkey, rule in self.ruleset.items():
-            if isinstance(rule, dict):
-                assert len(rule) == 1
-                variable, membership = rule.popitem()
-                self.actuation_signal[rkey] = self.input_kernel_set[variable].input_membership[
-                    membership
-                ]
-            elif isinstance(rule, RuleBase):
-                self.actuation_signal[rkey] = rule(self.input_kernel_set)
+        self.fuzzyfy(measurements)
+        self.rule_aggregation()
         self.fuzzy_res = self.inference_kernel(self.actuation_signal)
         return self.fuzzy_res
-
-    def defuzzyfy(self):
-        """Transform the fuzzy result to a numerical float value.
-
-        Raises:
-            NotImplementedError: [description]
-        """
-        # TODO: defuzzyfy not yet implemented
-        # 1 - cutting the output MSFs at the degree of rule fulfillment, i.e.:
-        for mapped_rule, fulfillment in self.actuation_signal.keys():
-            output_MSF = self.inference_kernel[mapped_rule] # gets the kernel membership function of the output inference system
-            act_rule = min(fulfillment, output_MSF)
-
-μact
-i (u, y) = min[μi(u),μi(y)] ,
-        # 2 - build poligon area of all 'filled' areas
-        # 3 - return X coordinate of the centroid
-        # see https://www.mathworks.com/help/fuzzy/defuzzification-methods.html
-        raise NotImplementedError
 
     # TODO: generate surface points.
     # def gen_surface(self):

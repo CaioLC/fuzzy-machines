@@ -122,10 +122,10 @@ def test_kernel_call():
     food = Kernel(0, 10)
     food.add_memb_func("good", KernelFuncMember(Linear(0.1, 0)))
     food.add_memb_func("bad", KernelFuncMember(Linear(-0.1, 1)))
-    print(food.input_membership)
+    print(food.membership_degree)
     food(8)
-    assert round(food.input_membership["good"], 1) == 0.8
-    assert round(food.input_membership["bad"], 1) == 0.2
+    assert round(food.membership_degree["good"], 1) == 0.8
+    assert round(food.membership_degree["bad"], 1) == 0.2
 
 
 def test_kernel_describe():

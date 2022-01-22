@@ -1,7 +1,7 @@
 """ tests for rules.py """
 # pylint: disable=missing-function-docstring, invalid-name
 import pytest
-from fuzzy_machines.operands import OperandEnum
+from fuzzy_machines.operators import OperatorEnum
 from fuzzy_machines.memb_funcs import Linear
 from fuzzy_machines.kernel import Kernel, KernelFuncMember
 from fuzzy_machines.rules import AND, OR, NOT, RuleBase
@@ -35,53 +35,53 @@ input_kernel_set = {
 
 
 def test_rule_init():
-    op = RuleBase(OperandEnum.DEFAULT, {"food": "good"})
+    op = RuleBase(OperatorEnum.DEFAULT, {"food": "good"})
     op("mock_me")
     with pytest.raises(TypeError):
-        RuleBase(OperandEnum)  # pylint: disable=no-value-for-parameter
+        RuleBase(OperatorEnum)  # pylint: disable=no-value-for-parameter
 
     with pytest.raises(TypeError):
         RuleBase("will fail", {"food": "good"})
 
 
 def test_and():
-    op = AND({"food": "good"}, {"service": "good"}, OperandEnum.DEFAULT)
+    op = AND({"food": "good"}, {"service": "good"}, OperatorEnum.DEFAULT)
     assert round(op(input_kernel_set), 1) == 0.3
 
 
 def test_or():
-    op = OR({"food": "good"}, {"service": "good"}, OperandEnum.DEFAULT)
+    op = OR({"food": "good"}, {"service": "good"}, OperatorEnum.DEFAULT)
     assert round(op(input_kernel_set), 1) == 0.8
 
 
 def test_not():
-    op = NOT({"food": "good"}, OperandEnum.DEFAULT)
+    op = NOT({"food": "good"}, OperatorEnum.DEFAULT)
     assert round(op(input_kernel_set), 1) == 0.2
 
 
 def test_nested():
     op = OR(
-        AND({"food": "good"}, {"price": "cheap"}, OperandEnum.DEFAULT),
-        AND({"food": "rancid"}, {"service": "good"}, OperandEnum.DEFAULT),
-        OperandEnum.DEFAULT,
+        AND({"food": "good"}, {"price": "cheap"}, OperatorEnum.DEFAULT),
+        AND({"food": "rancid"}, {"service": "good"}, OperatorEnum.DEFAULT),
+        OperatorEnum.DEFAULT,
     )
     assert round(op(input_kernel_set), 1) == 0.3
 
     op = OR(
         AND(
             {"food": "good"},
-            AND({"service": "good"}, {"price": "expensive"}, OperandEnum.DEFAULT),
-            OperandEnum.DEFAULT,
+            AND({"service": "good"}, {"price": "expensive"}, OperatorEnum.DEFAULT),
+            OperatorEnum.DEFAULT,
         ),
         AND(
             {"food": "rancid"},
             AND(
                 {"service": "good"},
-                NOT({"price": "expensive"}, OperandEnum.DEFAULT),
-                OperandEnum.DEFAULT,
+                NOT({"price": "expensive"}, OperatorEnum.DEFAULT),
+                OperatorEnum.DEFAULT,
             ),
-            OperandEnum.DEFAULT,
+            OperatorEnum.DEFAULT,
         ),
-        OperandEnum.DEFAULT,
+        OperatorEnum.DEFAULT,
     )
     assert round(op(input_kernel_set), 1) == 0.3
