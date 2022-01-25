@@ -32,7 +32,10 @@ def _resolve(x: Union[Rules, Dict[str, str]], input_kernel_set: Dict[str, Kernel
 
     assert len(x) == 1
     variable, membership_val = x.popitem()
-    return input_kernel_set[variable].membership_degree[membership_val]
+    if variable in input_kernel_set.keys():
+        return input_kernel_set[variable].membership_degree[membership_val]
+    else:
+        raise KeyError(f"Cannot find kernel named '{variable}' in the kernel set")
 
 
 class AND(RuleBase):
@@ -98,5 +101,5 @@ class IS(RuleBase):
     def __call__(self, input_kernel_set) -> float:
         a = _resolve(self.a, input_kernel_set)
         func = self.operand_set.value[3]
-        print("NOT:", a, "->", func(a))
+        print("IS:", a, "->", func(a))
         return func(a)

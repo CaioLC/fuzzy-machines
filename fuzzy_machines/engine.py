@@ -1,9 +1,10 @@
 """ The machine to run the fuzzy logic """
 # pylint: disable=invalid-name, fixme
-from typing import Any, Dict
+from typing import Any, Dict, List, Tuple
 from warnings import warn
 
 from black import Union
+import numpy as np
 
 from fuzzy_machines.operators import DefuzzEnum, OperatorEnum, RuleAggregationEnum
 from fuzzy_machines.kernel import Kernel
@@ -39,15 +40,17 @@ class Engine:
         """
         # initialization
         self.operands = operands
+        self.rule_agreggation = rule_agreggation
+        self.defuzz_method = defuzz_method
 
         # builder
         self.input_kernel_set: Dict[str, Kernel] = {}
         self.inference_kernel: Kernel = None
-        self.ruleset: Dict[str, Union[RuleBase, Dict[str, str]]] = {}
+        self.ruleset: Dict[str, List[RuleBase]] = {}
 
         # results
-        self.actuation_signal: Dict[str, Dict[str, float]] = {}
-        self.fuzzy_res: Dict[str, float] = {}
+        self.actuation_signal: Dict[str, float] = {}
+        self.membership_degree: Dict[str, float] = {}
         self.defuzzy_res: float = None
 
     def __repr__(self) -> str:
@@ -75,8 +78,8 @@ class Engine:
             Engine: self
         """
         _typecheck(name, kernel)
-        if not kernel.check_normalized():
-            warn(f"Kernel for {name} is not normalized")
+        # if not kernel.check_normalized():
+        #     warn(f"Kernel for {name} is not normalized")
         if not self.input_kernel_set:
             self.input_kernel_set = dict({name: kernel})
         elif isinstance(self.input_kernel_set, dict):
@@ -122,7 +125,7 @@ class Engine:
         """Deletes the registered inference kernel, if there is one"""
         self.inference_kernel = None
 
-    def add_rule(self, name: str, rule: Union[RuleBase, Dict[str, str]]):
+    def add_rule(self, name: str, rule: RuleBase):
         """Add a declarative rule, mapping each input kernel membership values to the inference
         system membership functions.
 
@@ -144,9 +147,14 @@ class Engine:
         Returns:
             Engine: self
         """
+        if not isinstance(rule, RuleBase):
+            raise TypeError(f"Expected type RuleBase for 'rule'. Got {type(rule)}")
         if isinstance(rule, RuleBase):
             self._inject_operands(rule)
-        self.ruleset[name] = rule
+        if name in self.ruleset.keys():
+            self.ruleset[name].append(rule)
+        else: 
+            self.ruleset[name] = [rule]
         return self
 
     def delete_rule(self, name: str):
@@ -163,7 +171,7 @@ class Engine:
         except KeyError as error:
             raise KeyError(f"{name} not found in rules dict") from error
 
-    def fuzzyfy(self, measurements: Dict[str, Any]) -> Dict[str, Dict[str, float]]:
+    def _fuzzyfy(self, measurements: Dict[str, Any]) -> Dict[str, Dict[str, float]]:
         """Fuzzyfy the crisp measurement data for all registered kernels. Result is returned \
             to the user as a nested dictionary but also stored in each kernel object.
 
@@ -185,66 +193,51 @@ class Engine:
 
         res = {}
         for kkey, kernel in self.input_kernel_set.items():
-            kres = kernel(measurements[kkey])
-            res[kkey] = kres
+            res[kkey] = kernel(measurements[kkey])
         return res
 
-    def rule_aggregation(self, aggregation):
-        for rkey, rule in self.ruleset.items():
-            if isinstance(rule, dict):
-                assert len(rule) == 1
-                variable, membership = rule.popitem()
-                self.actuation_signal[rkey] = self.input_kernel_set[variable].membership_degree[
-                    membership
-                ]
-            elif isinstance(rule, RuleBase):
-                self.actuation_signal[rkey] = rule(self.input_kernel_set)
+    def _aggregate(self) -> Dict[str, np.ndarray]: # aggregation (running all rules) and returning one value per rule
+        for rkey, rulelist in self.ruleset.items():
+            agg_actuation = self.rule_agreggation.value(rule(self.input_kernel_set) for rule in rulelist)
+            self.actuation_signal[rkey] = np.asfarray(agg_actuation)
+        return self.actuation_signal
+
+    def _accumulate(self, granularity) -> Tuple[np.ndarray, np.ndarray]:
+        # step 1: find non overlapping area and return minimum xy pairs
+        # step 2: iterate through all overlapping areas and return granular xy pairs
+        # step 3: join everything and calculate area
+        sample_size = round((self.inference_kernel.max_v - self.inference_kernel.min_v) / granularity)
+        x_range = np.linspace(self.inference_kernel.min_v, self.inference_kernel.max_v, sample_size)
+        y_range = np.zeros(sample_size)
+        for rule, func in self.inference_kernel.input_functions.items():
+            acc = self.actuation_signal[rule]
+            y_proponent = func(x_range, acc)
+            y_range = np.maximum(y_range, y_proponent)
+        
+        return x_range, y_range
 
 
-    def defuzzyfy(self):
-        """Transform the fuzzy result to a numerical float value.
+    def _defuzzyfy(self, x_range, y_range):
+        """Transform the fuzzy result to a numerical float value."""
+        y1_range = np.array([np.nan]) + y_range[:-1]
+        x1_range = np.array([np.nan]) + x_range[:-1]
+        moment_area = (x1_range - x_range) * np.mean(np.array(y1_range, y_range))
+        total_area = (self.inference_kernel.max_v - self.inference_kernel.min_v) * np.mean(y_range)
+        self.defuzzy_res = moment_area / total_area
+        return self.defuzzy_res
 
-        Raises:
-            NotImplementedError: [description]
-        """
-        # TODO: defuzzyfy not yet implemented
-        # 1 - cutting the output MSFs at the degree of rule fulfillment, i.e.:
-        for mapped_rule, fulfillment in self.actuation_signal.keys():
-            output_MSF = self.inference_kernel[mapped_rule] # gets the kernel membership function of the output inference system
-            act_rule = min(fulfillment, output_MSF)
 
-        # μact
-        # i (u, y) = min[μi(u),μi(y)] ,
-        # 2 - build poligon area of all 'filled' areas
-        # 3 - return X coordinate of the centroid
-        # see https://www.mathworks.com/help/fuzzy/defuzzification-methods.html
-        raise NotImplementedError
+    def run_fuzzy(self, measurements: Dict[str, Any]) -> Dict[str, np.ndarray]:
+        self._fuzzyfy(measurements)
+        return self._aggregate()
 
-    def run(self, measurements: Dict[str, Any]) -> Dict[str, float]:
-        """
-        Main fuzzyfication method. Passing a dictionary of measurements for each registered \
-        input kernel (in the format {'kernel_name': data}), this methods runs all kernel membership \
-        functions and store the corresponding values. \n
-
-        Next, it parses all rules and construct the "actuation signal", which is the actual values \
-        sent to the inference system. \n
-
-        Finally, the inference system is run based on the actuation signal. \n
-
-        Args:
-            measurements (Dict[str, Any]): measurements for each registered registered input kernel \
-        (in the format {'kernel_name': data})
-
-        Raises:
-            KeyError: if there's a mismatch between input_kernel_set.keys() and measurements.keys()
-
-        Returns:
-            Dict[str, float]: {'fuzzy_func': 'fuzzy_result'}
-        """
-        self.fuzzyfy(measurements)
-        self.rule_aggregation()
-        self.fuzzy_res = self.inference_kernel(self.actuation_signal)
-        return self.fuzzy_res
+    def run_defuzz(self, measurements: Dict[str, Any], granularity) -> Dict[str, np.ndarray]:
+        # TODO: add cache
+        self._fuzzyfy(measurements)
+        self._aggregate()
+        x_range, y_range = self._accumulate(granularity)
+        self._defuzzyfy(x_range, y_range)
+        return self.defuzzy_res
 
     # TODO: generate surface points.
     # def gen_surface(self):

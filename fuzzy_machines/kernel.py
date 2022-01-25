@@ -1,53 +1,14 @@
 """Inference System and Membership Function classes. Building blocks of a Fuzzy Machine"""
 
 from numbers import Number
-from typing import List, Dict, Any
+from typing import List, Dict, Any, Tuple
 import numpy as np
 
 from fuzzy_machines.memb_funcs import FunctionBase
 
-
-def _clamp(value, lower, upper):
-    return lower if value < lower else upper if value > upper else value
-
-
-class KernelFuncMember:
-    """
-    KernelFuncMember is a wrapper to FunctionBase, providing two additional methods: \
-        - __call__: clamps the results of any function between 0 and 1 (inclusive ends) \
-        - iterate(): a for_loop traversing the KernelFuncMember for a range of values. \
-    Required for generating surfaces at the Engine.
-    """
-
-    def __init__(self, func: FunctionBase) -> None:
-        if not isinstance(func, FunctionBase):
-            raise TypeError(f"Expected type FunctionBase for 'func'. Got {type(func)}")
-        self.func = func
-
-    def __call__(self, val) -> float:
-        return _clamp(self.func(val), 0.0, 1.0)
-
-    def iterate(self, min_v: float, max_v: float, sample_size: int) -> List[float]:
-        """Calls the KernelFuncMember with a list of values, which is a linear iteration
-        between min value and max value given a certain sample_size.
-
-        Args:
-            min_v (float): iteration start
-            max_v (float): iteration end (inclusive)
-            sample_size (int): number os datapoints
-
-        Returns:
-            List[float]: the results for calling the function for each datapoint
-        """
-        res = []
-        for val in np.linspace(min_v, max_v, sample_size):
-            res.append(self.__call__(val))
-        return res
-
-
 class Kernel:
     """
-    A wrapper that represents all manners a particular variable is mapped to KernelFuncMembers.
+    A wrapper that represents all manners a particular variable is mapped its MFs.
     """
     def __init__(self, min_v: float, max_v: float) -> None:
         if not isinstance(min_v, Number):
@@ -58,20 +19,18 @@ class Kernel:
             raise ValueError("'max_v' must be greater or equal than 'min_v'")
         self.min_v = min_v
         self.max_v = max_v
-        self.input_functions: Dict[str, KernelFuncMember] = None
+        self.input_functions: Dict[str, FunctionBase] = None
         self.membership_degree: Dict[str, float] = None
 
     # NOTE: https://www.sciencedirect.com/topics/engineering/fuzzification
     def __call__(self, measurement: Any):
-        # NOTE: all input_membership_functions must "consume" the same type of data.
         self.membership_degree = {}
         for key, func in self.input_functions.items():
             res = func(measurement)
-            print(res)
             self.membership_degree[key] = res
         return self.membership_degree
 
-    def add_memb_func(self, var_name: str, func: KernelFuncMember):
+    def add_memb_func(self, var_name: str, func: FunctionBase):
         """Registers a KernelFuncMember as part of the Kernel
 
         Args:
@@ -89,8 +48,8 @@ class Kernel:
         # NOTE: Do all membership functions must have some overlapping areas??
         if not isinstance(var_name, str):
             raise TypeError(f"Expected type str for 'variable'. Got {type(var_name)}")
-        if not isinstance(func, KernelFuncMember):
-            raise TypeError(f"Expected type KernelFuncMember for 'func'. Got {type(func)}")
+        if not isinstance(func, FunctionBase):
+            raise TypeError(f"Expected type FunctionBase for 'func'. Got {type(func)}")
         if not self.input_functions:
             self.input_functions = dict({var_name: func})
         elif isinstance(self.input_functions, dict):
@@ -116,22 +75,24 @@ class Kernel:
         except KeyError as error:
             raise KeyError(f"{var_name} not found in rules dict") from error
 
-    def describe(self, sample_size) -> Dict[str, List[float]]:
+    def describe(self) -> Dict[str, Tuple[np.ndarray, np.ndarray]]:
         """Plots 1-d function outputs for every memb function"""
         res = {}
         for name, kernel_func in self.input_functions.items():
-            res[name] = kernel_func.iterate(self.min_v, self.max_v, sample_size)
+            res[name] = kernel_func.describe()
         return res
+
+    def check_coverage(self) -> bool:
+        """Checks if registered MFS cover the entire universe data range"""
+        min_k_value = min(v.min_v for v in self.input_functions.values())
+        max_k_value = max(v.max_v for v in self.input_functions.values())
+        return self.min_v >= min_k_value and self.max_v <= max_k_value
 
     def check_normalized(self) -> bool:
         """
-        Checks for 100 values whether the Kernel Membership Functions sums up to 1 for all x values. \
+        Checks with granularity == .01 whether all Membership Functions sums 1 for all x values. \
         Though not required, this property is often employed because it makes interpretation easier.
         """
-        res = self.describe(100)
-        nested_list = [list(res.values())]
-        sum_list = []
-        for i in range(len(nested_list[0])):
-            sum_list.append(round(sum(val[i] for val in nested_list), 2))
-            if set(sum_list) == set(1.0): return True
-            else: False
+        res = self.iterate(.01)
+        sum_res = sum(v[1] for v in res.values())
+        return set(np.round(sum_res, 2)) == {1}

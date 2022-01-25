@@ -3,6 +3,9 @@
 from enum import Enum
 from typing import Iterable
 
+from fuzzy_machines.kernel import Kernel
+from fuzzy_machines.memb_funcs import FunctionBase
+
 
 def and_default(a, b):
     return min(a, b)
@@ -28,7 +31,6 @@ def or_bounded_sum(a, b):
 def not_default(a):
     return 1 - a
 
-# TODO: add IS operator
 def is_default(a):
     return a
 
@@ -55,6 +57,11 @@ def middle_of_maximum(aggregation, min_value, max_value):
     value = min_value + (index +1) * space
     return value
 
+def center_of_gravity(inference_function: FunctionBase, activation):
+    area_activated = inference_function.area(activation)
+    (activation * area_activated) / area_activated
+
+
 
 class OperatorEnum(Enum):
     """
@@ -73,10 +80,9 @@ class OperatorEnum(Enum):
 class RuleAggregationEnum(Enum):
     MAX = max
     SUM_CRISP = sum
-    SUM_FUZZY = sum_fuzzy
     
 class DefuzzEnum(Enum):
-    SUGENO = max
-    MAX_CRISP = sum
-    WEIGHTED_AREA = sum_fuzzy
+    SUGENO = NotImplemented # TODO:!
+    CENTER_GRAVITY = center_of_gravity
+    WEIGHTED_AREA = NotImplemented # TODO:!
     

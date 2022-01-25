@@ -1,31 +1,29 @@
 """ tests for rules.py """
 # pylint: disable=missing-function-docstring, invalid-name
+import numpy as np
 import pytest
 from fuzzy_machines.operators import OperatorEnum
 from fuzzy_machines.memb_funcs import Linear
-from fuzzy_machines.kernel import Kernel, KernelFuncMember
-from fuzzy_machines.rules import AND, OR, NOT, RuleBase
+from fuzzy_machines.kernel import Kernel
+from fuzzy_machines.rules import AND, OR, NOT, IS, RuleBase
 
 food = (
     Kernel(0, 10)
-    .add_memb_func("good", KernelFuncMember(Linear(0.1, 0)))
-    .add_memb_func("rancid", KernelFuncMember(Linear(-0.1, 1)))
+    .add_memb_func("good", Linear(0, 10))
+    .add_memb_func("rancid", Linear(10, 0))
 )
-food(8)
 
 service = (
     Kernel(0, 10)
-    .add_memb_func("good", KernelFuncMember(Linear(0.1, 0)))
-    .add_memb_func("bad", KernelFuncMember(Linear(-0.1, 1)))
+    .add_memb_func("good", Linear(0, 10))
+    .add_memb_func("bad", Linear(10, 0))
 )
-service(3)
 
 price = (
     Kernel(0, 10)
-    .add_memb_func("cheap", KernelFuncMember(Linear(-0.1, 1)))
-    .add_memb_func("expensive", KernelFuncMember(Linear(0.1, 0)))
+    .add_memb_func("cheap", Linear(10, 0))
+    .add_memb_func("expensive", Linear(0, 10))
 )
-price(7)
 
 input_kernel_set = {
     "food": food,
@@ -33,6 +31,9 @@ input_kernel_set = {
     "price": price,
 }
 
+food(8)
+service(3)
+price(7)
 
 def test_rule_init():
     op = RuleBase(OperatorEnum.DEFAULT, {"food": "good"})
@@ -43,21 +44,23 @@ def test_rule_init():
     with pytest.raises(TypeError):
         RuleBase("will fail", {"food": "good"})
 
-
 def test_and():
     op = AND({"food": "good"}, {"service": "good"}, OperatorEnum.DEFAULT)
-    assert round(op(input_kernel_set), 1) == 0.3
+    assert np.round(op(input_kernel_set), 1) == 0.3
 
 
 def test_or():
     op = OR({"food": "good"}, {"service": "good"}, OperatorEnum.DEFAULT)
-    assert round(op(input_kernel_set), 1) == 0.8
+    assert np.round(op(input_kernel_set), 1) == 0.8
 
 
 def test_not():
     op = NOT({"food": "good"}, OperatorEnum.DEFAULT)
-    assert round(op(input_kernel_set), 1) == 0.2
+    assert np.round(op(input_kernel_set), 1) == 0.2
 
+def test_is():
+    op = IS({"food": "rancid"}, OperatorEnum.DEFAULT)
+    assert np.round(op(input_kernel_set), 1) == 0.2
 
 def test_nested():
     op = OR(
@@ -65,7 +68,7 @@ def test_nested():
         AND({"food": "rancid"}, {"service": "good"}, OperatorEnum.DEFAULT),
         OperatorEnum.DEFAULT,
     )
-    assert round(op(input_kernel_set), 1) == 0.3
+    assert np.round(op(input_kernel_set), 1) == 0.3
 
     op = OR(
         AND(
@@ -84,4 +87,7 @@ def test_nested():
         ),
         OperatorEnum.DEFAULT,
     )
-    assert round(op(input_kernel_set), 1) == 0.3
+    assert np.round(op(input_kernel_set), 1) == 0.3
+
+def test_multiple_rules_same_output_rule():
+    pass
