@@ -120,11 +120,6 @@
        kernel.Kernel
       </a>
      </li>
-     <li class="toctree-l3">
-      <a class="reference internal" href="kernel.KernelFuncMember.html">
-       kernel.KernelFuncMember
-      </a>
-     </li>
     </ul>
    </li>
    <li class="toctree-l2 has-children">
@@ -173,6 +168,11 @@
       </a>
      </li>
      <li class="toctree-l3">
+      <a class="reference internal" href="memb_funcs.Singleton.html">
+       memb_funcs.Singleton
+      </a>
+     </li>
+     <li class="toctree-l3">
       <a class="reference internal" href="memb_funcs.Smf.html">
        memb_funcs.Smf
       </a>
@@ -195,8 +195,8 @@
     </ul>
    </li>
    <li class="toctree-l2 has-children">
-    <a class="reference internal" href="operands.html">
-     operands
+    <a class="reference internal" href="operators.html">
+     operators
     </a>
     <input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" type="checkbox"/>
     <label for="toctree-checkbox-5">
@@ -205,23 +205,58 @@
     </label>
     <ul>
      <li class="toctree-l3">
-      <a class="reference internal" href="operands.and_default.html">
-       operands.and_default
+      <a class="reference internal" href="operators.and_bounded_diff.html">
+       operators.and_bounded_diff
       </a>
      </li>
      <li class="toctree-l3">
-      <a class="reference internal" href="operands.not_default.html">
-       operands.not_default
+      <a class="reference internal" href="operators.and_default.html">
+       operators.and_default
       </a>
      </li>
      <li class="toctree-l3">
-      <a class="reference internal" href="operands.or_default.html">
-       operands.or_default
+      <a class="reference internal" href="operators.and_product.html">
+       operators.and_product
       </a>
      </li>
      <li class="toctree-l3">
-      <a class="reference internal" href="operands.OperandEnum.html">
-       operands.OperandEnum
+      <a class="reference internal" href="operators.is_default.html">
+       operators.is_default
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="operators.not_default.html">
+       operators.not_default
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="operators.or_algebraic_product.html">
+       operators.or_algebraic_product
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="operators.or_bounded_sum.html">
+       operators.or_bounded_sum
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="operators.or_default.html">
+       operators.or_default
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="operators.DefuzzEnum.html">
+       operators.DefuzzEnum
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="operators.OperatorEnum.html">
+       operators.OperatorEnum
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="operators.RuleAggregationEnum.html">
+       operators.RuleAggregationEnum
       </a>
      </li>
     </ul>
@@ -239,6 +274,11 @@
      <li class="toctree-l3">
       <a class="reference internal" href="rules.AND.html">
        rules.AND
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="rules.IS.html">
+       rules.IS
       </a>
      </li>
      <li class="toctree-l3">
@@ -363,12 +403,12 @@
 <h1>rules.RuleBase<a class="headerlink" href="#rules-rulebase" title="Permalink to this headline">¶</a></h1>
 <dl class="py class">
 <dt class="sig sig-object py" id="rules.RuleBase">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">rules.</span></span><span class="sig-name descname"><span class="pre">RuleBase</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">operand_set</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">fuzzy_machines.operands.OperandEnum</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">a</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">b</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/rules.html#RuleBase"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rules.RuleBase" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">rules.</span></span><span class="sig-name descname"><span class="pre">RuleBase</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">operand_set</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">fuzzy_machines.operators.OperatorEnum</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">a</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">b</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/rules.html#RuleBase"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rules.RuleBase" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="rules.Rules.html#rules.Rules" title="rules.Rules"><code class="xref py py-class docutils literal notranslate"><span class="pre">rules.Rules</span></code></a></p>
 <p>Base class for all declarative rules</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="rules.RuleBase.__init__">
-<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">operand_set</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">fuzzy_machines.operands.OperandEnum</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">a</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">b</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="../_modules/rules.html#RuleBase.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rules.RuleBase.__init__" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">operand_set</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">fuzzy_machines.operators.OperatorEnum</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">a</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">b</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="../_modules/rules.html#RuleBase.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rules.RuleBase.__init__" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <p class="rubric">Methods</p>

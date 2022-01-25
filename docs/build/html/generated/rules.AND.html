@@ -34,7 +34,7 @@
     <script src="../_static/sphinx-book-theme.d59cb220de22ca1c485ebbdc042f0030.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="rules.NOT" href="rules.NOT.html" />
+    <link rel="next" title="rules.IS" href="rules.IS.html" />
     <link rel="prev" title="rules" href="rules.html" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="None">
@@ -120,11 +120,6 @@
        kernel.Kernel
       </a>
      </li>
-     <li class="toctree-l3">
-      <a class="reference internal" href="kernel.KernelFuncMember.html">
-       kernel.KernelFuncMember
-      </a>
-     </li>
     </ul>
    </li>
    <li class="toctree-l2 has-children">
@@ -173,6 +168,11 @@
       </a>
      </li>
      <li class="toctree-l3">
+      <a class="reference internal" href="memb_funcs.Singleton.html">
+       memb_funcs.Singleton
+      </a>
+     </li>
+     <li class="toctree-l3">
       <a class="reference internal" href="memb_funcs.Smf.html">
        memb_funcs.Smf
       </a>
@@ -195,8 +195,8 @@
     </ul>
    </li>
    <li class="toctree-l2 has-children">
-    <a class="reference internal" href="operands.html">
-     operands
+    <a class="reference internal" href="operators.html">
+     operators
     </a>
     <input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" type="checkbox"/>
     <label for="toctree-checkbox-5">
@@ -205,23 +205,58 @@
     </label>
     <ul>
      <li class="toctree-l3">
-      <a class="reference internal" href="operands.and_default.html">
-       operands.and_default
+      <a class="reference internal" href="operators.and_bounded_diff.html">
+       operators.and_bounded_diff
       </a>
      </li>
      <li class="toctree-l3">
-      <a class="reference internal" href="operands.not_default.html">
-       operands.not_default
+      <a class="reference internal" href="operators.and_default.html">
+       operators.and_default
       </a>
      </li>
      <li class="toctree-l3">
-      <a class="reference internal" href="operands.or_default.html">
-       operands.or_default
+      <a class="reference internal" href="operators.and_product.html">
+       operators.and_product
       </a>
      </li>
      <li class="toctree-l3">
-      <a class="reference internal" href="operands.OperandEnum.html">
-       operands.OperandEnum
+      <a class="reference internal" href="operators.is_default.html">
+       operators.is_default
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="operators.not_default.html">
+       operators.not_default
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="operators.or_algebraic_product.html">
+       operators.or_algebraic_product
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="operators.or_bounded_sum.html">
+       operators.or_bounded_sum
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="operators.or_default.html">
+       operators.or_default
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="operators.DefuzzEnum.html">
+       operators.DefuzzEnum
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="operators.OperatorEnum.html">
+       operators.OperatorEnum
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="operators.RuleAggregationEnum.html">
+       operators.RuleAggregationEnum
       </a>
      </li>
     </ul>
@@ -239,6 +274,11 @@
      <li class="toctree-l3 current active">
       <a class="current reference internal" href="#">
        rules.AND
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="rules.IS.html">
+       rules.IS
       </a>
      </li>
      <li class="toctree-l3">
@@ -363,12 +403,12 @@
 <h1>rules.AND<a class="headerlink" href="#rules-and" title="Permalink to this headline">¶</a></h1>
 <dl class="py class">
 <dt class="sig sig-object py" id="rules.AND">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">rules.</span></span><span class="sig-name descname"><span class="pre">AND</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">a</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="rules.RuleBase.html#rules.RuleBase" title="rules.RuleBase"><span class="pre">rules.RuleBase</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">b</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="rules.RuleBase.html#rules.RuleBase" title="rules.RuleBase"><span class="pre">rules.RuleBase</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">operand_set</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">fuzzy_machines.operands.OperandEnum</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/rules.html#AND"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rules.AND" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">rules.</span></span><span class="sig-name descname"><span class="pre">AND</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">a</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="rules.RuleBase.html#rules.RuleBase" title="rules.RuleBase"><span class="pre">rules.RuleBase</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">b</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="rules.RuleBase.html#rules.RuleBase" title="rules.RuleBase"><span class="pre">rules.RuleBase</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">operand_set</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">fuzzy_machines.operators.OperatorEnum</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/rules.html#AND"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rules.AND" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="rules.RuleBase.html#rules.RuleBase" title="rules.RuleBase"><code class="xref py py-class docutils literal notranslate"><span class="pre">rules.RuleBase</span></code></a></p>
-<p>AND Operator. Performs the AND function as defined by the OperandEnum of choice</p>
+<p>AND Operator. Performs the AND function as defined by the OperatorEnum of choice</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="rules.AND.__init__">
-<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">a</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="rules.RuleBase.html#rules.RuleBase" title="rules.RuleBase"><span class="pre">rules.RuleBase</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">b</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="rules.RuleBase.html#rules.RuleBase" title="rules.RuleBase"><span class="pre">rules.RuleBase</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">operand_set</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">fuzzy_machines.operands.OperandEnum</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span></span></span><a class="reference internal" href="../_modules/rules.html#AND.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rules.AND.__init__" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">a</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="rules.RuleBase.html#rules.RuleBase" title="rules.RuleBase"><span class="pre">rules.RuleBase</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">b</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="rules.RuleBase.html#rules.RuleBase" title="rules.RuleBase"><span class="pre">rules.RuleBase</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">operand_set</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">fuzzy_machines.operators.OperatorEnum</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span></span></span><a class="reference internal" href="../_modules/rules.html#AND.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rules.AND.__init__" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <p class="rubric">Methods</p>
@@ -400,10 +440,10 @@
             <p class="prev-next-title">rules</p>
         </div>
     </a>
-    <a class='right-next' id="next-link" href="rules.NOT.html" title="next page">
+    <a class='right-next' id="next-link" href="rules.IS.html" title="next page">
     <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">rules.NOT</p>
+        <p class="prev-next-title">rules.IS</p>
     </div>
     <i class="fas fa-angle-right"></i>
     </a>

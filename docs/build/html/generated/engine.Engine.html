@@ -120,11 +120,6 @@
        kernel.Kernel
       </a>
      </li>
-     <li class="toctree-l3">
-      <a class="reference internal" href="kernel.KernelFuncMember.html">
-       kernel.KernelFuncMember
-      </a>
-     </li>
     </ul>
    </li>
    <li class="toctree-l2 has-children">
@@ -173,6 +168,11 @@
       </a>
      </li>
      <li class="toctree-l3">
+      <a class="reference internal" href="memb_funcs.Singleton.html">
+       memb_funcs.Singleton
+      </a>
+     </li>
+     <li class="toctree-l3">
       <a class="reference internal" href="memb_funcs.Smf.html">
        memb_funcs.Smf
       </a>
@@ -195,8 +195,8 @@
     </ul>
    </li>
    <li class="toctree-l2 has-children">
-    <a class="reference internal" href="operands.html">
-     operands
+    <a class="reference internal" href="operators.html">
+     operators
     </a>
     <input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" type="checkbox"/>
     <label for="toctree-checkbox-5">
@@ -205,23 +205,58 @@
     </label>
     <ul>
      <li class="toctree-l3">
-      <a class="reference internal" href="operands.and_default.html">
-       operands.and_default
+      <a class="reference internal" href="operators.and_bounded_diff.html">
+       operators.and_bounded_diff
       </a>
      </li>
      <li class="toctree-l3">
-      <a class="reference internal" href="operands.not_default.html">
-       operands.not_default
+      <a class="reference internal" href="operators.and_default.html">
+       operators.and_default
       </a>
      </li>
      <li class="toctree-l3">
-      <a class="reference internal" href="operands.or_default.html">
-       operands.or_default
+      <a class="reference internal" href="operators.and_product.html">
+       operators.and_product
       </a>
      </li>
      <li class="toctree-l3">
-      <a class="reference internal" href="operands.OperandEnum.html">
-       operands.OperandEnum
+      <a class="reference internal" href="operators.is_default.html">
+       operators.is_default
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="operators.not_default.html">
+       operators.not_default
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="operators.or_algebraic_product.html">
+       operators.or_algebraic_product
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="operators.or_bounded_sum.html">
+       operators.or_bounded_sum
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="operators.or_default.html">
+       operators.or_default
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="operators.DefuzzEnum.html">
+       operators.DefuzzEnum
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="operators.OperatorEnum.html">
+       operators.OperatorEnum
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="operators.RuleAggregationEnum.html">
+       operators.RuleAggregationEnum
       </a>
      </li>
     </ul>
@@ -239,6 +274,11 @@
      <li class="toctree-l3">
       <a class="reference internal" href="rules.AND.html">
        rules.AND
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="rules.IS.html">
+       rules.IS
       </a>
      </li>
      <li class="toctree-l3">
@@ -363,25 +403,25 @@
 <h1>engine.Engine<a class="headerlink" href="#engine-engine" title="Permalink to this headline">¶</a></h1>
 <dl class="py class">
 <dt class="sig sig-object py" id="engine.Engine">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">engine.</span></span><span class="sig-name descname"><span class="pre">Engine</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">operands</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">fuzzy_machines.operands.OperandEnum</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">OperandEnum.DEFAULT</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/engine.html#Engine"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#engine.Engine" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">engine.</span></span><span class="sig-name descname"><span class="pre">Engine</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">operands</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">fuzzy_machines.operators.OperatorEnum</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">OperatorEnum.DEFAULT</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rule_agg</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">fuzzy_machines.operators.RuleAggregationEnum</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">RuleAggregationEnum.MAX</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">defuzz_method</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">fuzzy_machines.operators.DefuzzEnum</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">DefuzzEnum.LINGUISTIC</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/engine.html#Engine"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#engine.Engine" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>The Fuzzy Engine wraps the input kernels, rules and inference system to provide the
 fuzzyfy, defuzzyfy and generate surface methods.</p>
 <p>Usage steps:
 1: create engine</p>
 <p>2: add input kernels (see Kernel for further reference)</p>
-<p>3: add inference system kernel (see Kernel for further reference)</p>
+<p>3: add inference system (Kernel or Takagi-Sugeno based)</p>
 <p>4: add rules to map the input kernels to the inference system</p>
 <p>5: call engine.fuzzyfy() to run the system</p>
 <p>6: call engine.defuzzyfy() to reduce the fuzzy result to a single float number</p>
 <p>7: call engine.gen_surface() to build a iterable cache-like map to greatly reduce time compute</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="engine.Engine.__init__">
-<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">operands</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">fuzzy_machines.operands.OperandEnum</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">OperandEnum.DEFAULT</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="../_modules/engine.html#Engine.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#engine.Engine.__init__" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">operands</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">fuzzy_machines.operators.OperatorEnum</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">OperatorEnum.DEFAULT</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rule_agg</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">fuzzy_machines.operators.RuleAggregationEnum</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">RuleAggregationEnum.MAX</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">defuzz_method</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">fuzzy_machines.operators.DefuzzEnum</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">DefuzzEnum.LINGUISTIC</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="../_modules/engine.html#Engine.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#engine.Engine.__init__" title="Permalink to this definition">¶</a></dt>
 <dd><p>Initializes a new engine object</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>operands</strong> (<a class="reference internal" href="operands.OperandEnum.html#operands.OperandEnum" title="operands.OperandEnum"><em>OperandEnum</em></a><em>, </em><em>optional</em>) – Operation definitions for AND, OR and NOT methods.         Defaults to OperandEnum.DEFAULT.</p>
+<dd class="field-odd"><p><strong>operands</strong> (<em>OperandEnum</em><em>, </em><em>optional</em>) – Operation definitions for AND, OR and NOT methods.         Defaults to OperandEnum.DEFAULT.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -393,7 +433,7 @@ fuzzyfy, defuzzyfy and generate surface methods.</p>
 <col style="width: 90%" />
 </colgroup>
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="#engine.Engine.__init__" title="engine.Engine.__init__"><code class="xref py py-obj docutils literal notranslate"><span class="pre">__init__</span></code></a>([operands])</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#engine.Engine.__init__" title="engine.Engine.__init__"><code class="xref py py-obj docutils literal notranslate"><span class="pre">__init__</span></code></a>([operands, rule_agg, defuzz_method])</p></td>
 <td><p>Initializes a new engine object</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#engine.Engine.add_inference_kernel" title="engine.Engine.add_inference_kernel"><code class="xref py py-obj docutils literal notranslate"><span class="pre">add_inference_kernel</span></code></a>(kernel)</p></td>
@@ -405,20 +445,23 @@ fuzzyfy, defuzzyfy and generate surface methods.</p>
 <tr class="row-even"><td><p><a class="reference internal" href="#engine.Engine.add_rule" title="engine.Engine.add_rule"><code class="xref py py-obj docutils literal notranslate"><span class="pre">add_rule</span></code></a>(name, rule)</p></td>
 <td><p>Add a declarative rule, mapping each input kernel membership values to the inference system membership functions.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#engine.Engine.defuzzyfy" title="engine.Engine.defuzzyfy"><code class="xref py py-obj docutils literal notranslate"><span class="pre">defuzzyfy</span></code></a>()</p></td>
-<td><p>Transform the fuzzy result to a numerical float value.</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#engine.Engine.del_inference_kernel" title="engine.Engine.del_inference_kernel"><code class="xref py py-obj docutils literal notranslate"><span class="pre">del_inference_kernel</span></code></a>()</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#engine.Engine.del_inference_kernel" title="engine.Engine.del_inference_kernel"><code class="xref py py-obj docutils literal notranslate"><span class="pre">del_inference_kernel</span></code></a>()</p></td>
 <td><p>Deletes the registered inference kernel, if there is one</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#engine.Engine.del_kernel" title="engine.Engine.del_kernel"><code class="xref py py-obj docutils literal notranslate"><span class="pre">del_kernel</span></code></a>(name)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#engine.Engine.del_kernel" title="engine.Engine.del_kernel"><code class="xref py py-obj docutils literal notranslate"><span class="pre">del_kernel</span></code></a>(name)</p></td>
 <td><p>Deletes a registered input kernel</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#engine.Engine.delete_rule" title="engine.Engine.delete_rule"><code class="xref py py-obj docutils literal notranslate"><span class="pre">delete_rule</span></code></a>(name)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#engine.Engine.delete_rule" title="engine.Engine.delete_rule"><code class="xref py py-obj docutils literal notranslate"><span class="pre">delete_rule</span></code></a>(name)</p></td>
 <td><p>Deletes a registered rule at self.ruleset</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#engine.Engine.fuzzyfy" title="engine.Engine.fuzzyfy"><code class="xref py py-obj docutils literal notranslate"><span class="pre">fuzzyfy</span></code></a>(measurements)</p></td>
-<td><p>Main fuzzyfication method.</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#engine.Engine.gen_surface" title="engine.Engine.gen_surface"><code class="xref py py-obj docutils literal notranslate"><span class="pre">gen_surface</span></code></a>(granularity)</p></td>
+<td><p>Very expensive operation, if used with Linguistic Fuzzy Systems.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">run_defuzz</span></code>(measurements, granularity)</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">run_fuzz</span></code>(measurements)</p></td>
+<td><p></p></td>
 </tr>
 </tbody>
 </table>
@@ -468,7 +511,7 @@ functions</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="engine.Engine.add_rule">
-<span class="sig-name descname"><span class="pre">add_rule</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rule</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">fuzzy_machines.rules.RuleBase</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/engine.html#Engine.add_rule"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#engine.Engine.add_rule" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">add_rule</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rule</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">fuzzy_machines.rules.RuleBase</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/engine.html#Engine.add_rule"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#engine.Engine.add_rule" title="Permalink to this definition">¶</a></dt>
 <dd><p>Add a declarative rule, mapping each input kernel membership values to the inference
 system membership functions.</p>
 <dl class="field-list simple">
@@ -502,17 +545,6 @@ system membership functions.</p>
 </dd>
 <dt class="field-even">Return type</dt>
 <dd class="field-even"><p><a class="reference internal" href="#engine.Engine" title="engine.Engine">Engine</a></p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="engine.Engine.defuzzyfy">
-<span class="sig-name descname"><span class="pre">defuzzyfy</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/engine.html#Engine.defuzzyfy"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#engine.Engine.defuzzyfy" title="Permalink to this definition">¶</a></dt>
-<dd><p>Transform the fuzzy result to a numerical float value.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Raises</dt>
-<dd class="field-odd"><p><strong>NotImplementedError</strong> – [description]</p>
 </dd>
 </dl>
 </dd></dl>
@@ -552,23 +584,18 @@ system membership functions.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="engine.Engine.fuzzyfy">
-<span class="sig-name descname"><span class="pre">fuzzyfy</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">measurements</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/engine.html#Engine.fuzzyfy"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#engine.Engine.fuzzyfy" title="Permalink to this definition">¶</a></dt>
-<dd><p>Main fuzzyfication method. Passing a dictionary of measurements for each registered         input kernel (in the format {‘kernel_name’: data}), this methods runs all kernel membership         functions and store the corresponding values.</p>
-<p>Next, it parses all rules and construct the “actuation signal”, which is the actual values         sent to the inference system.</p>
-<p>Finally, the inference system is run based on the actuation signal.</p>
+<dt class="sig sig-object py" id="engine.Engine.gen_surface">
+<span class="sig-name descname"><span class="pre">gen_surface</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">granularity</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/engine.html#Engine.gen_surface"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#engine.Engine.gen_surface" title="Permalink to this definition">¶</a></dt>
+<dd><p>Very expensive operation, if used with Linguistic Fuzzy Systems.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>measurements</strong> (<em>Dict</em><em>[</em><em>str</em><em>, </em><em>Any</em><em>]</em>) – measurements for each registered registered input kernel         (in the format {‘kernel_name’: data})</p>
+<dd class="field-odd"><p><strong>granularity</strong> (<em>Union</em><em>[</em><em>float</em><em>, </em><em>Dict</em><em>[</em><em>str</em><em>, </em><em>float</em><em>]</em><em>]</em>) – [description]</p>
 </dd>
-<dt class="field-even">Raises</dt>
-<dd class="field-even"><p><strong>KeyError</strong> – if there’s a mismatch between input_kernel_set.keys() and measurements.keys()</p>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>[description]</p>
 </dd>
-<dt class="field-odd">Returns</dt>
-<dd class="field-odd"><p>{‘fuzzy_func’: ‘fuzzy_result’}</p>
-</dd>
-<dt class="field-even">Return type</dt>
-<dd class="field-even"><p>Dict[str, float]</p>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>[type]</p>
 </dd>
 </dl>
 </dd></dl>

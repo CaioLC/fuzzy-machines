@@ -90,6 +90,7 @@ class NOT(RuleBase):
         print("NOT:", a, "->", func(a))
         return func(a)
 
+
 class IS(RuleBase):
     """IS Operator. Performs the IS function as defined by the OperatorEnum of choice"""
 

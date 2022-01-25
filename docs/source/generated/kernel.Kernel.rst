@@ -18,6 +18,8 @@ kernel.Kernel
    
       ~Kernel.__init__
       ~Kernel.add_memb_func
+      ~Kernel.check_coverage
+      ~Kernel.check_normalized
       ~Kernel.del_memb_func
       ~Kernel.describe
    

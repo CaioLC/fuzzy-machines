@@ -119,11 +119,6 @@
        kernel.Kernel
       </a>
      </li>
-     <li class="toctree-l3">
-      <a class="reference internal" href="generated/kernel.KernelFuncMember.html">
-       kernel.KernelFuncMember
-      </a>
-     </li>
     </ul>
    </li>
    <li class="toctree-l2 has-children">
@@ -172,6 +167,11 @@
       </a>
      </li>
      <li class="toctree-l3">
+      <a class="reference internal" href="generated/memb_funcs.Singleton.html">
+       memb_funcs.Singleton
+      </a>
+     </li>
+     <li class="toctree-l3">
       <a class="reference internal" href="generated/memb_funcs.Smf.html">
        memb_funcs.Smf
       </a>
@@ -194,8 +194,8 @@
     </ul>
    </li>
    <li class="toctree-l2 has-children">
-    <a class="reference internal" href="generated/operands.html">
-     operands
+    <a class="reference internal" href="generated/operators.html">
+     operators
     </a>
     <input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" type="checkbox"/>
     <label for="toctree-checkbox-5">
@@ -204,23 +204,58 @@
     </label>
     <ul>
      <li class="toctree-l3">
-      <a class="reference internal" href="generated/operands.and_default.html">
-       operands.and_default
+      <a class="reference internal" href="generated/operators.and_bounded_diff.html">
+       operators.and_bounded_diff
       </a>
      </li>
      <li class="toctree-l3">
-      <a class="reference internal" href="generated/operands.not_default.html">
-       operands.not_default
+      <a class="reference internal" href="generated/operators.and_default.html">
+       operators.and_default
       </a>
      </li>
      <li class="toctree-l3">
-      <a class="reference internal" href="generated/operands.or_default.html">
-       operands.or_default
+      <a class="reference internal" href="generated/operators.and_product.html">
+       operators.and_product
       </a>
      </li>
      <li class="toctree-l3">
-      <a class="reference internal" href="generated/operands.OperandEnum.html">
-       operands.OperandEnum
+      <a class="reference internal" href="generated/operators.is_default.html">
+       operators.is_default
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="generated/operators.not_default.html">
+       operators.not_default
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="generated/operators.or_algebraic_product.html">
+       operators.or_algebraic_product
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="generated/operators.or_bounded_sum.html">
+       operators.or_bounded_sum
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="generated/operators.or_default.html">
+       operators.or_default
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="generated/operators.DefuzzEnum.html">
+       operators.DefuzzEnum
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="generated/operators.OperatorEnum.html">
+       operators.OperatorEnum
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="generated/operators.RuleAggregationEnum.html">
+       operators.RuleAggregationEnum
       </a>
      </li>
     </ul>
@@ -238,6 +273,11 @@
      <li class="toctree-l3">
       <a class="reference internal" href="generated/rules.AND.html">
        rules.AND
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="generated/rules.IS.html">
+       rules.IS
       </a>
      </li>
      <li class="toctree-l3">
@@ -372,26 +412,6 @@
    </li>
   </ul>
  </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#get-started">
-   Get Started!
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#pull-request-guidelines">
-   Pull Request Guidelines
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#tips">
-   Tips
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#deploying">
-   Deploying
-  </a>
- </li>
 </ul>
 
             </nav>
@@ -439,26 +459,6 @@
    </li>
   </ul>
  </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#get-started">
-   Get Started!
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#pull-request-guidelines">
-   Pull Request Guidelines
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#tips">
-   Tips
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#deploying">
-   Deploying
-  </a>
- </li>
 </ul>
 
                         </nav>
@@ -477,7 +477,7 @@
 <h2>Types of Contributions<a class="headerlink" href="#types-of-contributions" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="report-bugs">
 <h3>Report Bugs<a class="headerlink" href="#report-bugs" title="Permalink to this headline">¶</a></h3>
-<p>Report bugs at <a class="reference external" href="https://github.com/notebooktoall/notebooktoall/issues">https://github.com/notebooktoall/notebooktoall/issues</a>.</p>
+<p>Report bugs at <a class="reference external" href="https://github.com/CTred/fuzzy-machines/issues">https://github.com/CTred/fuzzy-machines/issues</a>.</p>
 <p>If you are reporting a bug, please include:</p>
 <ul class="simple">
 <li><p>Your operating system name and version, if applicable.</p></li>
@@ -497,11 +497,11 @@ and “help wanted” is open to whoever wants to implement it.</p>
 </div>
 <div class="section" id="write-documentation">
 <h3>Write Documentation<a class="headerlink" href="#write-documentation" title="Permalink to this headline">¶</a></h3>
-<p>notebooktoall could always use more documentation, whether as part of the
-official notebooktoall docs, in docstrings, or even on the web in blog posts.
+<p>fuzzy-machines could always use more documentation, whether as part of the
+official fuzzy-machines docs, in docstrings, or even on the web in blog posts.
 Submit Feedback
 ~~~~~~~~~~~~~~~</p>
-<p>The best way to send feedback is to file an issue at <a class="reference external" href="https://github.com/notebooktoall/notebooktoall/issues">https://github.com/notebooktoall/notebooktoall/issues</a>.</p>
+<p>The best way to send feedback is to file an issue at <a class="reference external" href="https://github.com/CTred/fuzzy-machines/issues">https://github.com/CTred/fuzzy-machines/issues</a>.</p>
 <p>If you are proposing a feature:</p>
 <ul class="simple">
 <li><p>Explain in detail how it would work.</p></li>
@@ -510,80 +510,6 @@ Submit Feedback
 are welcome :)</p></li>
 </ul>
 </div>
-</div>
-<div class="section" id="get-started">
-<h2>Get Started!<a class="headerlink" href="#get-started" title="Permalink to this headline">¶</a></h2>
-<p>Ready to contribute? Here’s how to set up <cite>notebooktoall</cite> for local development.</p>
-<ol class="arabic">
-<li><p>Fork the <cite>notebooktoall</cite> repo on GitHub.</p></li>
-<li><p>Clone your fork locally:</p>
-<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$ git clone git@github.com:your_name_here/notebooktoall.git
-</pre></div>
-</div>
-</li>
-<li><p>Install your local copy into a virtualenv. Assuming you have virtualenvwrapper installed, this is how you set up your fork for local development:</p>
-<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$ mkvirtualenv notebooktoall
-$ <span class="nb">cd</span> notebooktoall/
-$ python setup.py develop
-</pre></div>
-</div>
-</li>
-<li><p>Create a branch for local development:</p>
-<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$ git checkout -b name-of-your-bugfix-or-feature
-</pre></div>
-</div>
-<p>Now you can make your changes locally.</p>
-</li>
-<li><p>When you’re done making changes, check that your changes pass flake8 and the
-tests, including testing other Python versions with tox:</p>
-<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$ flake8 notebooktoall tests
-$ python setup.py <span class="nb">test</span> or py.test
-$ tox
-</pre></div>
-</div>
-<p>To get flake8 and tox, just pip install them into your virtualenv.</p>
-</li>
-<li><p>Commit your changes and push your branch to GitHub:</p>
-<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$ git add .
-$ git commit -m <span class="s2">&quot;Your detailed description of your changes.&quot;</span>
-$ git push origin name-of-your-bugfix-or-feature
-</pre></div>
-</div>
-</li>
-<li><p>Submit a pull request through the GitHub website.</p></li>
-</ol>
-</div>
-<div class="section" id="pull-request-guidelines">
-<h2>Pull Request Guidelines<a class="headerlink" href="#pull-request-guidelines" title="Permalink to this headline">¶</a></h2>
-<p>Before you submit a pull request, check that it meets these guidelines:</p>
-<ol class="arabic simple">
-<li><p>The pull request should include tests.</p></li>
-<li><p>If the pull request adds functionality, the docs should be updated. Put
-your new functionality into a function with a docstring, and add the
-feature to the list in README.rst.</p></li>
-<li><p>The pull request should work for Python 3.6 and for PyPy. Check
-<a class="reference external" href="https://travis-ci.org/notebooktoall/notebooktoall/pull_requests">https://travis-ci.org/notebooktoall/notebooktoall/pull_requests</a>
-and make sure that the tests pass for all supported Python versions.</p></li>
-</ol>
-</div>
-<div class="section" id="tips">
-<h2>Tips<a class="headerlink" href="#tips" title="Permalink to this headline">¶</a></h2>
-<p>To run a subset of tests:</p>
-<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$ py.test tests.test_notebooktoall
-</pre></div>
-</div>
-</div>
-<div class="section" id="deploying">
-<h2>Deploying<a class="headerlink" href="#deploying" title="Permalink to this headline">¶</a></h2>
-<p>A reminder for the maintainers on how to deploy.
-Make sure all your changes are committed (including an entry in HISTORY.rst).
-Then run:</p>
-<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$ bumpversion patch <span class="c1"># possible: major / minor / patch</span>
-$ git push
-$ git push --tags
-</pre></div>
-</div>
-<p>Travis will then deploy to PyPI if tests pass.</p>
 </div>
 </div>
 

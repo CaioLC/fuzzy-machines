@@ -20,11 +20,12 @@ engine.Engine
       ~Engine.add_inference_kernel
       ~Engine.add_kernel
       ~Engine.add_rule
-      ~Engine.defuzzyfy
       ~Engine.del_inference_kernel
       ~Engine.del_kernel
       ~Engine.delete_rule
-      ~Engine.fuzzyfy
+      ~Engine.gen_surface
+      ~Engine.run_defuzz
+      ~Engine.run_fuzz
    
    
 

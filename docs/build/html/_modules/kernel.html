@@ -118,11 +118,6 @@
        kernel.Kernel
       </a>
      </li>
-     <li class="toctree-l3">
-      <a class="reference internal" href="../generated/kernel.KernelFuncMember.html">
-       kernel.KernelFuncMember
-      </a>
-     </li>
     </ul>
    </li>
    <li class="toctree-l2 has-children">
@@ -171,6 +166,11 @@
       </a>
      </li>
      <li class="toctree-l3">
+      <a class="reference internal" href="../generated/memb_funcs.Singleton.html">
+       memb_funcs.Singleton
+      </a>
+     </li>
+     <li class="toctree-l3">
       <a class="reference internal" href="../generated/memb_funcs.Smf.html">
        memb_funcs.Smf
       </a>
@@ -193,8 +193,8 @@
     </ul>
    </li>
    <li class="toctree-l2 has-children">
-    <a class="reference internal" href="../generated/operands.html">
-     operands
+    <a class="reference internal" href="../generated/operators.html">
+     operators
     </a>
     <input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" type="checkbox"/>
     <label for="toctree-checkbox-5">
@@ -203,23 +203,58 @@
     </label>
     <ul>
      <li class="toctree-l3">
-      <a class="reference internal" href="../generated/operands.and_default.html">
-       operands.and_default
+      <a class="reference internal" href="../generated/operators.and_bounded_diff.html">
+       operators.and_bounded_diff
       </a>
      </li>
      <li class="toctree-l3">
-      <a class="reference internal" href="../generated/operands.not_default.html">
-       operands.not_default
+      <a class="reference internal" href="../generated/operators.and_default.html">
+       operators.and_default
       </a>
      </li>
      <li class="toctree-l3">
-      <a class="reference internal" href="../generated/operands.or_default.html">
-       operands.or_default
+      <a class="reference internal" href="../generated/operators.and_product.html">
+       operators.and_product
       </a>
      </li>
      <li class="toctree-l3">
-      <a class="reference internal" href="../generated/operands.OperandEnum.html">
-       operands.OperandEnum
+      <a class="reference internal" href="../generated/operators.is_default.html">
+       operators.is_default
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="../generated/operators.not_default.html">
+       operators.not_default
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="../generated/operators.or_algebraic_product.html">
+       operators.or_algebraic_product
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="../generated/operators.or_bounded_sum.html">
+       operators.or_bounded_sum
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="../generated/operators.or_default.html">
+       operators.or_default
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="../generated/operators.DefuzzEnum.html">
+       operators.DefuzzEnum
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="../generated/operators.OperatorEnum.html">
+       operators.OperatorEnum
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="../generated/operators.RuleAggregationEnum.html">
+       operators.RuleAggregationEnum
       </a>
      </li>
     </ul>
@@ -237,6 +272,11 @@
      <li class="toctree-l3">
       <a class="reference internal" href="../generated/rules.AND.html">
        rules.AND
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="../generated/rules.IS.html">
+       rules.IS
       </a>
      </li>
      <li class="toctree-l3">
@@ -344,55 +384,15 @@
 <span></span><span class="sd">&quot;&quot;&quot;Inference System and Membership Function classes. Building blocks of a Fuzzy Machine&quot;&quot;&quot;</span>
 
 <span class="kn">from</span> <span class="nn">numbers</span> <span class="kn">import</span> <span class="n">Number</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">List</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Any</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">List</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Tuple</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 
 <span class="kn">from</span> <span class="nn">fuzzy_machines.memb_funcs</span> <span class="kn">import</span> <span class="n">FunctionBase</span>
 
-
-<span class="k">def</span> <span class="nf">_clamp</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">lower</span><span class="p">,</span> <span class="n">upper</span><span class="p">):</span>
-    <span class="k">return</span> <span class="n">lower</span> <span class="k">if</span> <span class="n">value</span> <span class="o">&lt;</span> <span class="n">lower</span> <span class="k">else</span> <span class="n">upper</span> <span class="k">if</span> <span class="n">value</span> <span class="o">&gt;</span> <span class="n">upper</span> <span class="k">else</span> <span class="n">value</span>
-
-
-<div class="viewcode-block" id="KernelFuncMember"><a class="viewcode-back" href="../generated/kernel.KernelFuncMember.html#kernel.KernelFuncMember">[docs]</a><span class="k">class</span> <span class="nc">KernelFuncMember</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    KernelFuncMember is a wrapper to FunctionBase, providing two additional methods: \</span>
-<span class="sd">        - __call__: clamps the results of any function between 0 and 1 (inclusive ends) \</span>
-<span class="sd">        - iterate(): a for_loop traversing the KernelFuncMember for a range of values. \</span>
-<span class="sd">    Required for generating surfaces at the Engine.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-
-<div class="viewcode-block" id="KernelFuncMember.__init__"><a class="viewcode-back" href="../generated/kernel.KernelFuncMember.html#kernel.KernelFuncMember.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">func</span><span class="p">:</span> <span class="n">FunctionBase</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">func</span><span class="p">,</span> <span class="n">FunctionBase</span><span class="p">):</span>
-            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Expected type FunctionBase for &#39;func&#39;. Got </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">func</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">func</span> <span class="o">=</span> <span class="n">func</span></div>
-
-    <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">val</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
-        <span class="k">return</span> <span class="n">_clamp</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">func</span><span class="p">(</span><span class="n">val</span><span class="p">),</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">)</span>
-
-<div class="viewcode-block" id="KernelFuncMember.iterate"><a class="viewcode-back" href="../generated/kernel.KernelFuncMember.html#kernel.KernelFuncMember.iterate">[docs]</a>    <span class="k">def</span> <span class="nf">iterate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">min_v</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">max_v</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">sample_size</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">float</span><span class="p">]:</span>
-        <span class="sd">&quot;&quot;&quot;Calls the KernelFuncMember with a list of values, which is a linear iteration</span>
-<span class="sd">        between min value and max value given a certain sample_size.</span>
-
-<span class="sd">        Args:</span>
-<span class="sd">            min_v (float): iteration start</span>
-<span class="sd">            max_v (float): iteration end (inclusive)</span>
-<span class="sd">            sample_size (int): number os datapoints</span>
-
-<span class="sd">        Returns:</span>
-<span class="sd">            List[float]: the results for calling the function for each datapoint</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">res</span> <span class="o">=</span> <span class="p">[]</span>
-        <span class="k">for</span> <span class="n">val</span> <span class="ow">in</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">min_v</span><span class="p">,</span> <span class="n">max_v</span><span class="p">,</span> <span class="n">sample_size</span><span class="p">):</span>
-            <span class="n">res</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="fm">__call__</span><span class="p">(</span><span class="n">val</span><span class="p">))</span>
-        <span class="k">return</span> <span class="n">res</span></div></div>
-
-
 <div class="viewcode-block" id="Kernel"><a class="viewcode-back" href="../generated/kernel.Kernel.html#kernel.Kernel">[docs]</a><span class="k">class</span> <span class="nc">Kernel</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    A wrapper that represents all manners a particular variable is mapped to KernelFuncMembers.</span>
+<span class="sd">    A wrapper that represents all manners a particular variable is mapped its MFs.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-
 <div class="viewcode-block" id="Kernel.__init__"><a class="viewcode-back" href="../generated/kernel.Kernel.html#kernel.Kernel.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">min_v</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">max_v</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">min_v</span><span class="p">,</span> <span class="n">Number</span><span class="p">):</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;expected numeric for &#39;min_v&#39;. Found </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">min_v</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
@@ -402,20 +402,18 @@
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;&#39;max_v&#39; must be greater or equal than &#39;min_v&#39;&quot;</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">min_v</span> <span class="o">=</span> <span class="n">min_v</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">max_v</span> <span class="o">=</span> <span class="n">max_v</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">input_functions</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">KernelFuncMember</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">input_membership</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span></div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">input_functions</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">FunctionBase</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">membership_degree</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span></div>
 
     <span class="c1"># NOTE: https://www.sciencedirect.com/topics/engineering/fuzzification</span>
     <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">measurement</span><span class="p">:</span> <span class="n">Any</span><span class="p">):</span>
-        <span class="c1"># NOTE: all input_membership_functions must &quot;consume&quot; the same type of data.</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">input_membership</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">membership_degree</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">func</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">input_functions</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
             <span class="n">res</span> <span class="o">=</span> <span class="n">func</span><span class="p">(</span><span class="n">measurement</span><span class="p">)</span>
-            <span class="nb">print</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">input_membership</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">res</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">input_membership</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">membership_degree</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">res</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">membership_degree</span>
 
-<div class="viewcode-block" id="Kernel.add_memb_func"><a class="viewcode-back" href="../generated/kernel.Kernel.html#kernel.Kernel.add_memb_func">[docs]</a>    <span class="k">def</span> <span class="nf">add_memb_func</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">var_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">func</span><span class="p">:</span> <span class="n">KernelFuncMember</span><span class="p">):</span>
+<div class="viewcode-block" id="Kernel.add_memb_func"><a class="viewcode-back" href="../generated/kernel.Kernel.html#kernel.Kernel.add_memb_func">[docs]</a>    <span class="k">def</span> <span class="nf">add_memb_func</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">var_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">func</span><span class="p">:</span> <span class="n">FunctionBase</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Registers a KernelFuncMember as part of the Kernel</span>
 
 <span class="sd">        Args:</span>
@@ -433,8 +431,8 @@
         <span class="c1"># NOTE: Do all membership functions must have some overlapping areas??</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">var_name</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
             <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Expected type str for &#39;variable&#39;. Got </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">var_name</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">func</span><span class="p">,</span> <span class="n">KernelFuncMember</span><span class="p">):</span>
-            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Expected type KernelFuncMember for &#39;func&#39;. Got </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">func</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">func</span><span class="p">,</span> <span class="n">FunctionBase</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Expected type FunctionBase for &#39;func&#39;. Got </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">func</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">input_functions</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">input_functions</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">({</span><span class="n">var_name</span><span class="p">:</span> <span class="n">func</span><span class="p">})</span>
         <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">input_functions</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
@@ -460,12 +458,27 @@
         <span class="k">except</span> <span class="ne">KeyError</span> <span class="k">as</span> <span class="n">error</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">KeyError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">var_name</span><span class="si">}</span><span class="s2"> not found in rules dict&quot;</span><span class="p">)</span> <span class="kn">from</span> <span class="nn">error</span></div>
 
-<div class="viewcode-block" id="Kernel.describe"><a class="viewcode-back" href="../generated/kernel.Kernel.html#kernel.Kernel.describe">[docs]</a>    <span class="k">def</span> <span class="nf">describe</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sample_size</span><span class="p">):</span>
+<div class="viewcode-block" id="Kernel.describe"><a class="viewcode-back" href="../generated/kernel.Kernel.html#kernel.Kernel.describe">[docs]</a>    <span class="k">def</span> <span class="nf">describe</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]]:</span>
         <span class="sd">&quot;&quot;&quot;Plots 1-d function outputs for every memb function&quot;&quot;&quot;</span>
         <span class="n">res</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">kernel_func</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">input_functions</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-            <span class="n">res</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">kernel_func</span><span class="o">.</span><span class="n">iterate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">min_v</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">max_v</span><span class="p">,</span> <span class="n">sample_size</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">res</span></div></div>
+            <span class="n">res</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">kernel_func</span><span class="o">.</span><span class="n">describe</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">res</span></div>
+
+<div class="viewcode-block" id="Kernel.check_coverage"><a class="viewcode-back" href="../generated/kernel.Kernel.html#kernel.Kernel.check_coverage">[docs]</a>    <span class="k">def</span> <span class="nf">check_coverage</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Checks if registered MFS cover the entire universe data range&quot;&quot;&quot;</span>
+        <span class="n">min_k_value</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">v</span><span class="o">.</span><span class="n">min_v</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">input_functions</span><span class="o">.</span><span class="n">values</span><span class="p">())</span>
+        <span class="n">max_k_value</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">v</span><span class="o">.</span><span class="n">max_v</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">input_functions</span><span class="o">.</span><span class="n">values</span><span class="p">())</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">min_v</span> <span class="o">&gt;=</span> <span class="n">min_k_value</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">max_v</span> <span class="o">&lt;=</span> <span class="n">max_k_value</span></div>
+
+<div class="viewcode-block" id="Kernel.check_normalized"><a class="viewcode-back" href="../generated/kernel.Kernel.html#kernel.Kernel.check_normalized">[docs]</a>    <span class="k">def</span> <span class="nf">check_normalized</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Checks with granularity == .01 whether all Membership Functions sums 1 for all x values. \</span>
+<span class="sd">        Though not required, this property is often employed because it makes interpretation easier.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">res</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">iterate</span><span class="p">(</span><span class="mf">.01</span><span class="p">)</span>
+        <span class="n">sum_res</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">v</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">res</span><span class="o">.</span><span class="n">values</span><span class="p">())</span>
+        <span class="k">return</span> <span class="nb">set</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">sum_res</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span> <span class="o">==</span> <span class="p">{</span><span class="mi">1</span><span class="p">}</span></div></div>
 </pre></div>
 
               </div>

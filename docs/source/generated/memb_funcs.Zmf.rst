@@ -17,6 +17,11 @@ memb\_funcs.Zmf
    .. autosummary::
    
       ~Zmf.__init__
+      ~Zmf.area
+      ~Zmf.describe
+      ~Zmf.naive_describe
+      ~Zmf.naive_integration
+      ~Zmf.optimal_integration
    
    
 

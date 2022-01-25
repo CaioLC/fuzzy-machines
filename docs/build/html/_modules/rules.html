@@ -118,11 +118,6 @@
        kernel.Kernel
       </a>
      </li>
-     <li class="toctree-l3">
-      <a class="reference internal" href="../generated/kernel.KernelFuncMember.html">
-       kernel.KernelFuncMember
-      </a>
-     </li>
     </ul>
    </li>
    <li class="toctree-l2 has-children">
@@ -171,6 +166,11 @@
       </a>
      </li>
      <li class="toctree-l3">
+      <a class="reference internal" href="../generated/memb_funcs.Singleton.html">
+       memb_funcs.Singleton
+      </a>
+     </li>
+     <li class="toctree-l3">
       <a class="reference internal" href="../generated/memb_funcs.Smf.html">
        memb_funcs.Smf
       </a>
@@ -193,8 +193,8 @@
     </ul>
    </li>
    <li class="toctree-l2 has-children">
-    <a class="reference internal" href="../generated/operands.html">
-     operands
+    <a class="reference internal" href="../generated/operators.html">
+     operators
     </a>
     <input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" type="checkbox"/>
     <label for="toctree-checkbox-5">
@@ -203,23 +203,58 @@
     </label>
     <ul>
      <li class="toctree-l3">
-      <a class="reference internal" href="../generated/operands.and_default.html">
-       operands.and_default
+      <a class="reference internal" href="../generated/operators.and_bounded_diff.html">
+       operators.and_bounded_diff
       </a>
      </li>
      <li class="toctree-l3">
-      <a class="reference internal" href="../generated/operands.not_default.html">
-       operands.not_default
+      <a class="reference internal" href="../generated/operators.and_default.html">
+       operators.and_default
       </a>
      </li>
      <li class="toctree-l3">
-      <a class="reference internal" href="../generated/operands.or_default.html">
-       operands.or_default
+      <a class="reference internal" href="../generated/operators.and_product.html">
+       operators.and_product
       </a>
      </li>
      <li class="toctree-l3">
-      <a class="reference internal" href="../generated/operands.OperandEnum.html">
-       operands.OperandEnum
+      <a class="reference internal" href="../generated/operators.is_default.html">
+       operators.is_default
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="../generated/operators.not_default.html">
+       operators.not_default
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="../generated/operators.or_algebraic_product.html">
+       operators.or_algebraic_product
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="../generated/operators.or_bounded_sum.html">
+       operators.or_bounded_sum
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="../generated/operators.or_default.html">
+       operators.or_default
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="../generated/operators.DefuzzEnum.html">
+       operators.DefuzzEnum
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="../generated/operators.OperatorEnum.html">
+       operators.OperatorEnum
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="../generated/operators.RuleAggregationEnum.html">
+       operators.RuleAggregationEnum
       </a>
      </li>
     </ul>
@@ -237,6 +272,11 @@
      <li class="toctree-l3">
       <a class="reference internal" href="../generated/rules.AND.html">
        rules.AND
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="../generated/rules.IS.html">
+       rules.IS
       </a>
      </li>
      <li class="toctree-l3">
@@ -345,9 +385,10 @@
 <span class="c1"># pylint: disable=invalid-name, R0903</span>
 
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Union</span><span class="p">,</span> <span class="n">Dict</span>
+<span class="kn">from</span> <span class="nn">enum</span> <span class="kn">import</span> <span class="n">Enum</span>
 <span class="kn">from</span> <span class="nn">fuzzy_machines.kernel</span> <span class="kn">import</span> <span class="n">Kernel</span>
 
-<span class="kn">from</span> <span class="nn">fuzzy_machines.operands</span> <span class="kn">import</span> <span class="n">OperandEnum</span>
+<span class="kn">from</span> <span class="nn">fuzzy_machines.operators</span> <span class="kn">import</span> <span class="n">OperatorEnum</span>
 
 
 <div class="viewcode-block" id="Rules"><a class="viewcode-back" href="../generated/rules.Rules.html#rules.Rules">[docs]</a><span class="k">class</span> <span class="nc">Rules</span><span class="p">:</span>
@@ -357,9 +398,9 @@
 <div class="viewcode-block" id="RuleBase"><a class="viewcode-back" href="../generated/rules.RuleBase.html#rules.RuleBase">[docs]</a><span class="k">class</span> <span class="nc">RuleBase</span><span class="p">(</span><span class="n">Rules</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Base class for all declarative rules&quot;&quot;&quot;</span>
 
-<div class="viewcode-block" id="RuleBase.__init__"><a class="viewcode-back" href="../generated/rules.RuleBase.html#rules.RuleBase.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">operand_set</span><span class="p">:</span> <span class="n">OperandEnum</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="k">if</span> <span class="n">operand_set</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">operand_set</span><span class="p">,</span> <span class="n">OperandEnum</span><span class="p">):</span>
-            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Expected type OperandEnum for &#39;operand&#39;. Got </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">operand_set</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<div class="viewcode-block" id="RuleBase.__init__"><a class="viewcode-back" href="../generated/rules.RuleBase.html#rules.RuleBase.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">operand_set</span><span class="p">:</span> <span class="n">OperatorEnum</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">operand_set</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">operand_set</span><span class="p">,</span> <span class="n">OperatorEnum</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Expected type OperatorEnum for &#39;operand&#39;. Got </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">operand_set</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">operand_set</span> <span class="o">=</span> <span class="n">operand_set</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">a</span> <span class="o">=</span> <span class="n">a</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">b</span> <span class="o">=</span> <span class="n">b</span></div>
@@ -374,17 +415,20 @@
 
     <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span>
     <span class="n">variable</span><span class="p">,</span> <span class="n">membership_val</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">popitem</span><span class="p">()</span>
-    <span class="k">return</span> <span class="n">input_kernel_set</span><span class="p">[</span><span class="n">variable</span><span class="p">]</span><span class="o">.</span><span class="n">input_membership</span><span class="p">[</span><span class="n">membership_val</span><span class="p">]</span>
+    <span class="k">if</span> <span class="n">variable</span> <span class="ow">in</span> <span class="n">input_kernel_set</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+        <span class="k">return</span> <span class="n">input_kernel_set</span><span class="p">[</span><span class="n">variable</span><span class="p">]</span><span class="o">.</span><span class="n">membership_degree</span><span class="p">[</span><span class="n">membership_val</span><span class="p">]</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">KeyError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Cannot find kernel named &#39;</span><span class="si">{</span><span class="n">variable</span><span class="si">}</span><span class="s2">&#39; in the kernel set&quot;</span><span class="p">)</span>
 
 
 <div class="viewcode-block" id="AND"><a class="viewcode-back" href="../generated/rules.AND.html#rules.AND">[docs]</a><span class="k">class</span> <span class="nc">AND</span><span class="p">(</span><span class="n">RuleBase</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;AND Operator. Performs the AND function as defined by the OperandEnum of choice&quot;&quot;&quot;</span>
+    <span class="sd">&quot;&quot;&quot;AND Operator. Performs the AND function as defined by the OperatorEnum of choice&quot;&quot;&quot;</span>
 
 <div class="viewcode-block" id="AND.__init__"><a class="viewcode-back" href="../generated/rules.AND.html#rules.AND.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">a</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">RuleBase</span><span class="p">,</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]],</span>
         <span class="n">b</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">RuleBase</span><span class="p">,</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]],</span>
-        <span class="n">operand_set</span><span class="p">:</span> <span class="n">OperandEnum</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">operand_set</span><span class="p">:</span> <span class="n">OperatorEnum</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">operand_set</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span></div>
 
@@ -397,13 +441,13 @@
 
 
 <div class="viewcode-block" id="OR"><a class="viewcode-back" href="../generated/rules.OR.html#rules.OR">[docs]</a><span class="k">class</span> <span class="nc">OR</span><span class="p">(</span><span class="n">RuleBase</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;OR Operator. Performs the OR function as defined by the OperandEnum of choice&quot;&quot;&quot;</span>
+    <span class="sd">&quot;&quot;&quot;OR Operator. Performs the OR function as defined by the OperatorEnum of choice&quot;&quot;&quot;</span>
 
 <div class="viewcode-block" id="OR.__init__"><a class="viewcode-back" href="../generated/rules.OR.html#rules.OR.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">a</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">RuleBase</span><span class="p">,</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]],</span>
         <span class="n">b</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">RuleBase</span><span class="p">,</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]],</span>
-        <span class="n">operand_set</span><span class="p">:</span> <span class="n">OperandEnum</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">operand_set</span><span class="p">:</span> <span class="n">OperatorEnum</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">operand_set</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span></div>
 
@@ -416,10 +460,10 @@
 
 
 <div class="viewcode-block" id="NOT"><a class="viewcode-back" href="../generated/rules.NOT.html#rules.NOT">[docs]</a><span class="k">class</span> <span class="nc">NOT</span><span class="p">(</span><span class="n">RuleBase</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;NOT Operator. Performs the NOT function as defined by the OperandEnum of choice&quot;&quot;&quot;</span>
+    <span class="sd">&quot;&quot;&quot;NOT Operator. Performs the NOT function as defined by the OperatorEnum of choice&quot;&quot;&quot;</span>
 
 <div class="viewcode-block" id="NOT.__init__"><a class="viewcode-back" href="../generated/rules.NOT.html#rules.NOT.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span> <span class="n">a</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">RuleBase</span><span class="p">,</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]],</span> <span class="n">operand_set</span><span class="p">:</span> <span class="n">OperandEnum</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">a</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">RuleBase</span><span class="p">,</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]],</span> <span class="n">operand_set</span><span class="p">:</span> <span class="n">OperatorEnum</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">operand_set</span><span class="p">,</span> <span class="n">a</span><span class="p">)</span></div>
 
@@ -427,6 +471,20 @@
         <span class="n">a</span> <span class="o">=</span> <span class="n">_resolve</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">a</span><span class="p">,</span> <span class="n">input_kernel_set</span><span class="p">)</span>
         <span class="n">func</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">operand_set</span><span class="o">.</span><span class="n">value</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
         <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;NOT:&quot;</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="s2">&quot;-&gt;&quot;</span><span class="p">,</span> <span class="n">func</span><span class="p">(</span><span class="n">a</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">func</span><span class="p">(</span><span class="n">a</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="IS"><a class="viewcode-back" href="../generated/rules.IS.html#rules.IS">[docs]</a><span class="k">class</span> <span class="nc">IS</span><span class="p">(</span><span class="n">RuleBase</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;IS Operator. Performs the IS function as defined by the OperatorEnum of choice&quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="IS.__init__"><a class="viewcode-back" href="../generated/rules.IS.html#rules.IS.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">a</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">RuleBase</span><span class="p">,</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]],</span> <span class="n">operand_set</span><span class="p">:</span> <span class="n">OperatorEnum</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">operand_set</span><span class="p">,</span> <span class="n">a</span><span class="p">)</span></div>
+
+    <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">input_kernel_set</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+        <span class="n">a</span> <span class="o">=</span> <span class="n">_resolve</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">a</span><span class="p">,</span> <span class="n">input_kernel_set</span><span class="p">)</span>
+        <span class="n">func</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">operand_set</span><span class="o">.</span><span class="n">value</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;IS:&quot;</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="s2">&quot;-&gt;&quot;</span><span class="p">,</span> <span class="n">func</span><span class="p">(</span><span class="n">a</span><span class="p">))</span>
         <span class="k">return</span> <span class="n">func</span><span class="p">(</span><span class="n">a</span><span class="p">)</span></div>
 </pre></div>
 

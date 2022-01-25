@@ -17,6 +17,11 @@ memb\_funcs.Constant
    .. autosummary::
    
       ~Constant.__init__
+      ~Constant.area
+      ~Constant.describe
+      ~Constant.naive_describe
+      ~Constant.naive_integration
+      ~Constant.optimal_integration
    
    
 

@@ -17,6 +17,11 @@ memb\_funcs.Pimf
    .. autosummary::
    
       ~Pimf.__init__
+      ~Pimf.area
+      ~Pimf.describe
+      ~Pimf.naive_describe
+      ~Pimf.naive_integration
+      ~Pimf.optimal_integration
    
    
 

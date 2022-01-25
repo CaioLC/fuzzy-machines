@@ -17,6 +17,11 @@ memb\_funcs.Trimf
    .. autosummary::
    
       ~Trimf.__init__
+      ~Trimf.area
+      ~Trimf.describe
+      ~Trimf.naive_describe
+      ~Trimf.naive_integration
+      ~Trimf.optimal_integration
    
    
 

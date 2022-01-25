@@ -34,7 +34,7 @@
     <script src="../_static/sphinx-book-theme.d59cb220de22ca1c485ebbdc042f0030.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="kernel.KernelFuncMember" href="kernel.KernelFuncMember.html" />
+    <link rel="next" title="memb_funcs" href="memb_funcs.html" />
     <link rel="prev" title="kernel" href="kernel.html" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="None">
@@ -120,11 +120,6 @@
        kernel.Kernel
       </a>
      </li>
-     <li class="toctree-l3">
-      <a class="reference internal" href="kernel.KernelFuncMember.html">
-       kernel.KernelFuncMember
-      </a>
-     </li>
     </ul>
    </li>
    <li class="toctree-l2 has-children">
@@ -173,6 +168,11 @@
       </a>
      </li>
      <li class="toctree-l3">
+      <a class="reference internal" href="memb_funcs.Singleton.html">
+       memb_funcs.Singleton
+      </a>
+     </li>
+     <li class="toctree-l3">
       <a class="reference internal" href="memb_funcs.Smf.html">
        memb_funcs.Smf
       </a>
@@ -195,8 +195,8 @@
     </ul>
    </li>
    <li class="toctree-l2 has-children">
-    <a class="reference internal" href="operands.html">
-     operands
+    <a class="reference internal" href="operators.html">
+     operators
     </a>
     <input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" type="checkbox"/>
     <label for="toctree-checkbox-5">
@@ -205,23 +205,58 @@
     </label>
     <ul>
      <li class="toctree-l3">
-      <a class="reference internal" href="operands.and_default.html">
-       operands.and_default
+      <a class="reference internal" href="operators.and_bounded_diff.html">
+       operators.and_bounded_diff
       </a>
      </li>
      <li class="toctree-l3">
-      <a class="reference internal" href="operands.not_default.html">
-       operands.not_default
+      <a class="reference internal" href="operators.and_default.html">
+       operators.and_default
       </a>
      </li>
      <li class="toctree-l3">
-      <a class="reference internal" href="operands.or_default.html">
-       operands.or_default
+      <a class="reference internal" href="operators.and_product.html">
+       operators.and_product
       </a>
      </li>
      <li class="toctree-l3">
-      <a class="reference internal" href="operands.OperandEnum.html">
-       operands.OperandEnum
+      <a class="reference internal" href="operators.is_default.html">
+       operators.is_default
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="operators.not_default.html">
+       operators.not_default
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="operators.or_algebraic_product.html">
+       operators.or_algebraic_product
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="operators.or_bounded_sum.html">
+       operators.or_bounded_sum
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="operators.or_default.html">
+       operators.or_default
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="operators.DefuzzEnum.html">
+       operators.DefuzzEnum
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="operators.OperatorEnum.html">
+       operators.OperatorEnum
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="operators.RuleAggregationEnum.html">
+       operators.RuleAggregationEnum
       </a>
      </li>
     </ul>
@@ -239,6 +274,11 @@
      <li class="toctree-l3">
       <a class="reference internal" href="rules.AND.html">
        rules.AND
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="rules.IS.html">
+       rules.IS
       </a>
      </li>
      <li class="toctree-l3">
@@ -365,7 +405,7 @@
 <dt class="sig sig-object py" id="kernel.Kernel">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">kernel.</span></span><span class="sig-name descname"><span class="pre">Kernel</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">min_v</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_v</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/kernel.html#Kernel"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kernel.Kernel" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
-<p>A wrapper that represents all manners a particular variable is mapped to KernelFuncMembers.</p>
+<p>A wrapper that represents all manners a particular variable is mapped its MFs.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="kernel.Kernel.__init__">
 <span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">min_v</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_v</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="../_modules/kernel.html#Kernel.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kernel.Kernel.__init__" title="Permalink to this definition">¶</a></dt>
@@ -384,23 +424,29 @@
 <tr class="row-even"><td><p><a class="reference internal" href="#kernel.Kernel.add_memb_func" title="kernel.Kernel.add_memb_func"><code class="xref py py-obj docutils literal notranslate"><span class="pre">add_memb_func</span></code></a>(var_name, func)</p></td>
 <td><p>Registers a KernelFuncMember as part of the Kernel</p></td>
 </tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#kernel.Kernel.check_coverage" title="kernel.Kernel.check_coverage"><code class="xref py py-obj docutils literal notranslate"><span class="pre">check_coverage</span></code></a>()</p></td>
+<td><p>Checks if registered MFS cover the entire universe data range</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#kernel.Kernel.check_normalized" title="kernel.Kernel.check_normalized"><code class="xref py py-obj docutils literal notranslate"><span class="pre">check_normalized</span></code></a>()</p></td>
+<td><p>Checks with granularity == .01 whether all Membership Functions sums 1 for all x values.</p></td>
+</tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#kernel.Kernel.del_memb_func" title="kernel.Kernel.del_memb_func"><code class="xref py py-obj docutils literal notranslate"><span class="pre">del_memb_func</span></code></a>(var_name)</p></td>
 <td><p>Deletes a registered KernelFuncMember</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#kernel.Kernel.describe" title="kernel.Kernel.describe"><code class="xref py py-obj docutils literal notranslate"><span class="pre">describe</span></code></a>(sample_size)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#kernel.Kernel.describe" title="kernel.Kernel.describe"><code class="xref py py-obj docutils literal notranslate"><span class="pre">describe</span></code></a>()</p></td>
 <td><p>Plots 1-d function outputs for every memb function</p></td>
 </tr>
 </tbody>
 </table>
 <dl class="py method">
 <dt class="sig sig-object py" id="kernel.Kernel.add_memb_func">
-<span class="sig-name descname"><span class="pre">add_memb_func</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">var_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">func</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="kernel.KernelFuncMember.html#kernel.KernelFuncMember" title="kernel.KernelFuncMember"><span class="pre">kernel.KernelFuncMember</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/kernel.html#Kernel.add_memb_func"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kernel.Kernel.add_memb_func" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">add_memb_func</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">var_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">func</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">fuzzy_machines.memb_funcs.FunctionBase</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/kernel.html#Kernel.add_memb_func"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kernel.Kernel.add_memb_func" title="Permalink to this definition">¶</a></dt>
 <dd><p>Registers a KernelFuncMember as part of the Kernel</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>var_name</strong> (<em>str</em>) – the name of the mapping KernelFuncMember</p></li>
-<li><p><strong>func</strong> (<a class="reference internal" href="kernel.KernelFuncMember.html#kernel.KernelFuncMember" title="kernel.KernelFuncMember"><em>KernelFuncMember</em></a>) – a KernelFuncMember object</p></li>
+<li><p><strong>func</strong> (<em>KernelFuncMember</em>) – a KernelFuncMember object</p></li>
 </ul>
 </dd>
 <dt class="field-even">Raises</dt>
@@ -420,6 +466,18 @@
 </dd></dl>
 
 <dl class="py method">
+<dt class="sig sig-object py" id="kernel.Kernel.check_coverage">
+<span class="sig-name descname"><span class="pre">check_coverage</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="reference internal" href="../_modules/kernel.html#Kernel.check_coverage"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kernel.Kernel.check_coverage" title="Permalink to this definition">¶</a></dt>
+<dd><p>Checks if registered MFS cover the entire universe data range</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="kernel.Kernel.check_normalized">
+<span class="sig-name descname"><span class="pre">check_normalized</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="reference internal" href="../_modules/kernel.html#Kernel.check_normalized"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kernel.Kernel.check_normalized" title="Permalink to this definition">¶</a></dt>
+<dd><p>Checks with granularity == .01 whether all Membership Functions sums 1 for all x values.         Though not required, this property is often employed because it makes interpretation easier.</p>
+</dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="kernel.Kernel.del_memb_func">
 <span class="sig-name descname"><span class="pre">del_memb_func</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">var_name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/kernel.html#Kernel.del_memb_func"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kernel.Kernel.del_memb_func" title="Permalink to this definition">¶</a></dt>
 <dd><p>Deletes a registered KernelFuncMember</p>
@@ -435,7 +493,7 @@
 
 <dl class="py method">
 <dt class="sig sig-object py" id="kernel.Kernel.describe">
-<span class="sig-name descname"><span class="pre">describe</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sample_size</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/kernel.html#Kernel.describe"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kernel.Kernel.describe" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">describe</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">numpy.ndarray</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">numpy.ndarray</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/kernel.html#Kernel.describe"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kernel.Kernel.describe" title="Permalink to this definition">¶</a></dt>
 <dd><p>Plots 1-d function outputs for every memb function</p>
 </dd></dl>
 
@@ -456,10 +514,10 @@
             <p class="prev-next-title">kernel</p>
         </div>
     </a>
-    <a class='right-next' id="next-link" href="kernel.KernelFuncMember.html" title="next page">
+    <a class='right-next' id="next-link" href="memb_funcs.html" title="next page">
     <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">kernel.KernelFuncMember</p>
+        <p class="prev-next-title">memb_funcs</p>
     </div>
     <i class="fas fa-angle-right"></i>
     </a>

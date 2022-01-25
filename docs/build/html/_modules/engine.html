@@ -118,11 +118,6 @@
        kernel.Kernel
       </a>
      </li>
-     <li class="toctree-l3">
-      <a class="reference internal" href="../generated/kernel.KernelFuncMember.html">
-       kernel.KernelFuncMember
-      </a>
-     </li>
     </ul>
    </li>
    <li class="toctree-l2 has-children">
@@ -171,6 +166,11 @@
       </a>
      </li>
      <li class="toctree-l3">
+      <a class="reference internal" href="../generated/memb_funcs.Singleton.html">
+       memb_funcs.Singleton
+      </a>
+     </li>
+     <li class="toctree-l3">
       <a class="reference internal" href="../generated/memb_funcs.Smf.html">
        memb_funcs.Smf
       </a>
@@ -193,8 +193,8 @@
     </ul>
    </li>
    <li class="toctree-l2 has-children">
-    <a class="reference internal" href="../generated/operands.html">
-     operands
+    <a class="reference internal" href="../generated/operators.html">
+     operators
     </a>
     <input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" type="checkbox"/>
     <label for="toctree-checkbox-5">
@@ -203,23 +203,58 @@
     </label>
     <ul>
      <li class="toctree-l3">
-      <a class="reference internal" href="../generated/operands.and_default.html">
-       operands.and_default
+      <a class="reference internal" href="../generated/operators.and_bounded_diff.html">
+       operators.and_bounded_diff
       </a>
      </li>
      <li class="toctree-l3">
-      <a class="reference internal" href="../generated/operands.not_default.html">
-       operands.not_default
+      <a class="reference internal" href="../generated/operators.and_default.html">
+       operators.and_default
       </a>
      </li>
      <li class="toctree-l3">
-      <a class="reference internal" href="../generated/operands.or_default.html">
-       operands.or_default
+      <a class="reference internal" href="../generated/operators.and_product.html">
+       operators.and_product
       </a>
      </li>
      <li class="toctree-l3">
-      <a class="reference internal" href="../generated/operands.OperandEnum.html">
-       operands.OperandEnum
+      <a class="reference internal" href="../generated/operators.is_default.html">
+       operators.is_default
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="../generated/operators.not_default.html">
+       operators.not_default
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="../generated/operators.or_algebraic_product.html">
+       operators.or_algebraic_product
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="../generated/operators.or_bounded_sum.html">
+       operators.or_bounded_sum
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="../generated/operators.or_default.html">
+       operators.or_default
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="../generated/operators.DefuzzEnum.html">
+       operators.DefuzzEnum
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="../generated/operators.OperatorEnum.html">
+       operators.OperatorEnum
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="../generated/operators.RuleAggregationEnum.html">
+       operators.RuleAggregationEnum
       </a>
      </li>
     </ul>
@@ -237,6 +272,11 @@
      <li class="toctree-l3">
       <a class="reference internal" href="../generated/rules.AND.html">
        rules.AND
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="../generated/rules.IS.html">
+       rules.IS
       </a>
      </li>
      <li class="toctree-l3">
@@ -343,14 +383,15 @@
   <h1>Source code for engine</h1><div class="highlight"><pre>
 <span></span><span class="sd">&quot;&quot;&quot; The machine to run the fuzzy logic &quot;&quot;&quot;</span>
 <span class="c1"># pylint: disable=invalid-name, fixme</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Dict</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Tuple</span>
+<span class="kn">from</span> <span class="nn">warnings</span> <span class="kn">import</span> <span class="n">warn</span>
 
 <span class="kn">from</span> <span class="nn">black</span> <span class="kn">import</span> <span class="n">Union</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 
-<span class="kn">from</span> <span class="nn">fuzzy_machines.operands</span> <span class="kn">import</span> <span class="n">OperandEnum</span>
+<span class="kn">from</span> <span class="nn">fuzzy_machines.operators</span> <span class="kn">import</span> <span class="n">DefuzzEnum</span><span class="p">,</span> <span class="n">OperatorEnum</span><span class="p">,</span> <span class="n">RuleAggregationEnum</span>
 <span class="kn">from</span> <span class="nn">fuzzy_machines.kernel</span> <span class="kn">import</span> <span class="n">Kernel</span>
 <span class="kn">from</span> <span class="nn">fuzzy_machines.rules</span> <span class="kn">import</span> <span class="n">RuleBase</span>
-
 
 <div class="viewcode-block" id="Engine"><a class="viewcode-back" href="../generated/engine.Engine.html#engine.Engine">[docs]</a><span class="k">class</span> <span class="nc">Engine</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;</span>
@@ -360,14 +401,19 @@
 <span class="sd">    Usage steps:</span>
 <span class="sd">    1: create engine \n</span>
 <span class="sd">    2: add input kernels (see Kernel for further reference) \n</span>
-<span class="sd">    3: add inference system kernel (see Kernel for further reference) \n</span>
+<span class="sd">    3: add inference system (Kernel or Takagi-Sugeno based) \n</span>
 <span class="sd">    4: add rules to map the input kernels to the inference system \n</span>
 <span class="sd">    5: call engine.fuzzyfy() to run the system \n</span>
 <span class="sd">    6: call engine.defuzzyfy() to reduce the fuzzy result to a single float number \n</span>
 <span class="sd">    7: call engine.gen_surface() to build a iterable cache-like map to greatly reduce time compute </span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-<div class="viewcode-block" id="Engine.__init__"><a class="viewcode-back" href="../generated/engine.Engine.html#engine.Engine.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">operands</span><span class="p">:</span> <span class="n">OperandEnum</span> <span class="o">=</span> <span class="n">OperandEnum</span><span class="o">.</span><span class="n">DEFAULT</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<div class="viewcode-block" id="Engine.__init__"><a class="viewcode-back" href="../generated/engine.Engine.html#engine.Engine.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+            <span class="bp">self</span><span class="p">,</span>
+            <span class="n">operands</span><span class="p">:</span> <span class="n">OperatorEnum</span> <span class="o">=</span> <span class="n">OperatorEnum</span><span class="o">.</span><span class="n">DEFAULT</span><span class="p">,</span>
+            <span class="n">rule_agg</span><span class="p">:</span> <span class="n">RuleAggregationEnum</span> <span class="o">=</span> <span class="n">RuleAggregationEnum</span><span class="o">.</span><span class="n">MAX</span><span class="p">,</span>
+            <span class="n">defuzz_method</span><span class="p">:</span> <span class="n">DefuzzEnum</span> <span class="o">=</span> <span class="n">DefuzzEnum</span><span class="o">.</span><span class="n">LINGUISTIC</span>
+        <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Initializes a new engine object</span>
 
 <span class="sd">        Args:</span>
@@ -376,16 +422,18 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="c1"># initialization</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">operands</span> <span class="o">=</span> <span class="n">operands</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">rule_agreggation</span> <span class="o">=</span> <span class="n">rule_agg</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">defuzz_method</span> <span class="o">=</span> <span class="n">defuzz_method</span>
 
         <span class="c1"># builder</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">input_kernel_set</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Kernel</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">inference_kernel</span><span class="p">:</span> <span class="n">Kernel</span> <span class="o">=</span> <span class="kc">None</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">ruleset</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Union</span><span class="p">[</span><span class="n">RuleBase</span><span class="p">,</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]]]</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ruleset</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="n">RuleBase</span><span class="p">]]</span> <span class="o">=</span> <span class="p">{}</span>
 
         <span class="c1"># results</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">actuation_signal</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">float</span><span class="p">]]</span> <span class="o">=</span> <span class="p">{}</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">fuzzy_res</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">defuzzy_res</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="kc">None</span></div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">actuation_signal</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">membership_degree</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">defuzzy_res</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span> <span class="o">=</span> <span class="kc">None</span></div>
 
     <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;String representation</span>
@@ -412,6 +460,8 @@
 <span class="sd">            Engine: self</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">_typecheck</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">kernel</span><span class="p">)</span>
+        <span class="c1"># if not kernel.check_normalized():</span>
+        <span class="c1">#     warn(f&quot;Kernel for {name} is not normalized&quot;)</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">input_kernel_set</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">input_kernel_set</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">({</span><span class="n">name</span><span class="p">:</span> <span class="n">kernel</span><span class="p">})</span>
         <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">input_kernel_set</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
@@ -457,7 +507,7 @@
         <span class="sd">&quot;&quot;&quot;Deletes the registered inference kernel, if there is one&quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">inference_kernel</span> <span class="o">=</span> <span class="kc">None</span></div>
 
-<div class="viewcode-block" id="Engine.add_rule"><a class="viewcode-back" href="../generated/engine.Engine.html#engine.Engine.add_rule">[docs]</a>    <span class="k">def</span> <span class="nf">add_rule</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">rule</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">RuleBase</span><span class="p">,</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]]):</span>
+<div class="viewcode-block" id="Engine.add_rule"><a class="viewcode-back" href="../generated/engine.Engine.html#engine.Engine.add_rule">[docs]</a>    <span class="k">def</span> <span class="nf">add_rule</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">rule</span><span class="p">:</span> <span class="n">RuleBase</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Add a declarative rule, mapping each input kernel membership values to the inference</span>
 <span class="sd">        system membership functions.</span>
 
@@ -479,9 +529,14 @@
 <span class="sd">        Returns:</span>
 <span class="sd">            Engine: self</span>
 <span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">rule</span><span class="p">,</span> <span class="n">RuleBase</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Expected type RuleBase for &#39;rule&#39;. Got </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">rule</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">rule</span><span class="p">,</span> <span class="n">RuleBase</span><span class="p">):</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_inject_operands</span><span class="p">(</span><span class="n">rule</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">ruleset</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">rule</span>
+        <span class="k">if</span> <span class="n">name</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">ruleset</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">ruleset</span><span class="p">[</span><span class="n">name</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">rule</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span> 
+            <span class="bp">self</span><span class="o">.</span><span class="n">ruleset</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">rule</span><span class="p">]</span>
         <span class="k">return</span> <span class="bp">self</span></div>
 
 <div class="viewcode-block" id="Engine.delete_rule"><a class="viewcode-back" href="../generated/engine.Engine.html#engine.Engine.delete_rule">[docs]</a>    <span class="k">def</span> <span class="nf">delete_rule</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
@@ -498,26 +553,19 @@
         <span class="k">except</span> <span class="ne">KeyError</span> <span class="k">as</span> <span class="n">error</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">KeyError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2"> not found in rules dict&quot;</span><span class="p">)</span> <span class="kn">from</span> <span class="nn">error</span></div>
 
-<div class="viewcode-block" id="Engine.fuzzyfy"><a class="viewcode-back" href="../generated/engine.Engine.html#engine.Engine.fuzzyfy">[docs]</a>    <span class="k">def</span> <span class="nf">fuzzyfy</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">measurements</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">float</span><span class="p">]:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Main fuzzyfication method. Passing a dictionary of measurements for each registered \</span>
-<span class="sd">        input kernel (in the format {&#39;kernel_name&#39;: data}), this methods runs all kernel membership \</span>
-<span class="sd">        functions and store the corresponding values. \n</span>
-
-<span class="sd">        Next, it parses all rules and construct the &quot;actuation signal&quot;, which is the actual values \</span>
-<span class="sd">        sent to the inference system. \n</span>
-
-<span class="sd">        Finally, the inference system is run based on the actuation signal. \n</span>
+    <span class="k">def</span> <span class="nf">_fuzzyfy</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">measurements</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">float</span><span class="p">]]:</span>
+        <span class="sd">&quot;&quot;&quot;Fuzzyfy the crisp measurement data for all registered kernels. Result is returned \</span>
+<span class="sd">            to the user as a nested dictionary but also stored in each kernel object.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            measurements (Dict[str, Any]): measurements for each registered registered input kernel \</span>
+<span class="sd">            measurements for each registered registered input kernel \</span>
 <span class="sd">        (in the format {&#39;kernel_name&#39;: data})</span>
 
 <span class="sd">        Raises:</span>
 <span class="sd">            KeyError: if there&#39;s a mismatch between input_kernel_set.keys() and measurements.keys()</span>
 
 <span class="sd">        Returns:</span>
-<span class="sd">            Dict[str, float]: {&#39;fuzzy_func&#39;: &#39;fuzzy_result&#39;}</span>
+<span class="sd">            Dict[str, Dict[str, float]]: dict(&#39;kernel_name&#39;: dict(&#39;function_member&#39;: value))</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">input_kernel_set</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span> <span class="o">!=</span> <span class="n">measurements</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
             <span class="k">raise</span> <span class="ne">KeyError</span><span class="p">(</span>
@@ -525,38 +573,97 @@
                 <span class="sa">f</span><span class="s2">&quot; </span><span class="si">{</span><span class="n">measurements</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span><span class="si">}</span><span class="se">\n</span><span class="s2">ruleset: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">input_kernel_set</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span>
             <span class="p">)</span>
 
-        <span class="c1"># run kernel and store membership values for all KernelFuncMember</span>
+        <span class="n">res</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="k">for</span> <span class="n">kkey</span><span class="p">,</span> <span class="n">kernel</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">input_kernel_set</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-            <span class="n">kernel</span><span class="p">(</span><span class="n">measurements</span><span class="p">[</span><span class="n">kkey</span><span class="p">])</span>
+            <span class="n">res</span><span class="p">[</span><span class="n">kkey</span><span class="p">]</span> <span class="o">=</span> <span class="n">kernel</span><span class="p">(</span><span class="n">measurements</span><span class="p">[</span><span class="n">kkey</span><span class="p">])</span>
+        <span class="k">return</span> <span class="n">res</span>
 
-        <span class="k">for</span> <span class="n">rkey</span><span class="p">,</span> <span class="n">rule</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">ruleset</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">rule</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
-                <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">rule</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span>
-                <span class="n">variable</span><span class="p">,</span> <span class="n">membership</span> <span class="o">=</span> <span class="n">rule</span><span class="o">.</span><span class="n">popitem</span><span class="p">()</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">actuation_signal</span><span class="p">[</span><span class="n">rkey</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">input_kernel_set</span><span class="p">[</span><span class="n">variable</span><span class="p">]</span><span class="o">.</span><span class="n">input_membership</span><span class="p">[</span>
-                    <span class="n">membership</span>
-                <span class="p">]</span>
-            <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">rule</span><span class="p">,</span> <span class="n">RuleBase</span><span class="p">):</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">actuation_signal</span><span class="p">[</span><span class="n">rkey</span><span class="p">]</span> <span class="o">=</span> <span class="n">rule</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">input_kernel_set</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">fuzzy_res</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">inference_kernel</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">actuation_signal</span><span class="p">)</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">fuzzy_res</span></div>
+    <span class="k">def</span> <span class="nf">_aggregate</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span> <span class="c1"># aggregation (running all rules) and returning one value per rule</span>
+        <span class="k">for</span> <span class="n">rkey</span><span class="p">,</span> <span class="n">rulelist</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">ruleset</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="n">agg_actuation</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">rule_agreggation</span><span class="o">.</span><span class="n">value</span><span class="p">(</span><span class="n">rule</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">input_kernel_set</span><span class="p">)</span> <span class="k">for</span> <span class="n">rule</span> <span class="ow">in</span> <span class="n">rulelist</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">actuation_signal</span><span class="p">[</span><span class="n">rkey</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asfarray</span><span class="p">(</span><span class="n">agg_actuation</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">actuation_signal</span>
 
-<div class="viewcode-block" id="Engine.defuzzyfy"><a class="viewcode-back" href="../generated/engine.Engine.html#engine.Engine.defuzzyfy">[docs]</a>    <span class="k">def</span> <span class="nf">defuzzyfy</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Transform the fuzzy result to a numerical float value.</span>
+    <span class="k">def</span> <span class="nf">_accumulate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">granularity</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        In the accumulation phase, all inference rules are joined using to form a single shape. \</span>
+<span class="sd">        The method traverses the inference system with granularity A and run each of its KMF with \</span>
+<span class="sd">        max activation set to aggregated rule value for each KMF. \</span>
+
+<span class="sd">        This method is implemented for Linguistic Inference Systems only and will raise exception \</span>
+<span class="sd">            if run with any other defuzzyfication method.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            granularity (float): the &quot;step size&quot; of the iterator function</span>
 
 <span class="sd">        Raises:</span>
-<span class="sd">            NotImplementedError: [description]</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="c1"># TODO: defuzzyfy not yet implemented</span>
-        <span class="c1"># 1 - draw line at percentage area of each membership figure</span>
-        <span class="c1"># 2 - build poligon area of all &#39;filled&#39; areas</span>
-        <span class="c1"># 3 - return X coordinate of the centroid</span>
-        <span class="c1"># see https://www.mathworks.com/help/fuzzy/defuzzification-methods.html</span>
-        <span class="k">raise</span> <span class="ne">NotImplementedError</span></div>
+<span class="sd">            ValueError: if _accumulate is called by an engine not running linguistic inference sys</span>
 
-    <span class="c1"># TODO: generate surface points.</span>
-    <span class="c1"># def gen_surface(self):</span>
-    <span class="c1">#     pass</span>
+<span class="sd">        Returns:</span>
+<span class="sd">            Tuple[np.ndarray, np.ndarray]: a mapping of x_values to y_values as a tuple of ndarray.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">inference_kernel</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Engine is missing the inference kernel system.&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">defuzz_method</span> <span class="o">==</span> <span class="n">DefuzzEnum</span><span class="o">.</span><span class="n">LINGUISTIC</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;self._accumulate is not valid for defuzzification method </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">defuzz_method</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="n">sample_size</span> <span class="o">=</span> <span class="nb">round</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">inference_kernel</span><span class="o">.</span><span class="n">max_v</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">inference_kernel</span><span class="o">.</span><span class="n">min_v</span><span class="p">)</span> <span class="o">/</span> <span class="n">granularity</span><span class="p">)</span>
+        <span class="n">x_range</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">inference_kernel</span><span class="o">.</span><span class="n">min_v</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">inference_kernel</span><span class="o">.</span><span class="n">max_v</span><span class="p">,</span> <span class="n">sample_size</span><span class="p">)</span>
+        <span class="n">y_range</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">sample_size</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">rule</span><span class="p">,</span> <span class="n">func</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">inference_kernel</span><span class="o">.</span><span class="n">input_functions</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="n">acc</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">actuation_signal</span><span class="p">[</span><span class="n">rule</span><span class="p">]</span>
+            <span class="n">y_proponent</span> <span class="o">=</span> <span class="n">func</span><span class="p">(</span><span class="n">x_range</span><span class="p">,</span> <span class="n">acc</span><span class="p">)</span>
+            <span class="n">y_range</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">maximum</span><span class="p">(</span><span class="n">y_range</span><span class="p">,</span> <span class="n">y_proponent</span><span class="p">)</span>
+        
+        <span class="k">return</span> <span class="n">x_range</span><span class="p">,</span> <span class="n">y_range</span>
+
+    <span class="k">def</span> <span class="nf">_centroid</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x_range</span><span class="p">,</span> <span class="n">y_range</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Transform the fuzzy result to a numerical float value.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">x_range</span> <span class="o">*</span> <span class="n">y_range</span><span class="p">)</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">y_range</span><span class="p">)</span> <span class="c1"># center of gravity</span>
+
+    <span class="k">def</span> <span class="nf">_takagi_sugeno</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="n">Any</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Transform the fuzzy result to a numerical float value.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="nb">sum</span><span class="p">(</span>
+            <span class="n">func</span><span class="p">(</span><span class="o">**</span><span class="n">data</span><span class="p">)</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">actuation_signal</span><span class="p">[</span><span class="n">rule</span><span class="p">]</span>
+            <span class="k">for</span> <span class="n">rule</span><span class="p">,</span> <span class="n">func</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">inference_kernel</span><span class="o">.</span><span class="n">input_functions</span><span class="o">.</span><span class="n">items</span><span class="p">()</span>
+        <span class="p">)</span> <span class="o">/</span> <span class="nb">sum</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">actuation_signal</span><span class="o">.</span><span class="n">values</span><span class="p">())</span>
+
+    <span class="k">def</span> <span class="nf">run_fuzz</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">measurements</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_fuzzyfy</span><span class="p">(</span><span class="n">measurements</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_aggregate</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">run_defuzz</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">measurements</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">],</span> <span class="n">granularity</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_fuzzyfy</span><span class="p">(</span><span class="n">measurements</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_aggregate</span><span class="p">()</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">defuzz_method</span> <span class="o">==</span> <span class="n">DefuzzEnum</span><span class="o">.</span><span class="n">LINGUISTIC</span><span class="p">:</span>
+            <span class="n">x_range</span><span class="p">,</span> <span class="n">y_range</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_accumulate</span><span class="p">(</span><span class="n">granularity</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">defuzzy_res</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_centroid</span><span class="p">(</span><span class="n">x_range</span><span class="p">,</span> <span class="n">y_range</span><span class="p">)</span>
+
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">defuzz_method</span> <span class="o">==</span> <span class="n">DefuzzEnum</span><span class="o">.</span><span class="n">TAKAGI_SUGENO</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">defuzzy_res</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_takagi_sugeno</span><span class="p">(</span><span class="n">measurements</span><span class="p">)</span>
+
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;defuzzyfy for </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">defuzz_method</span><span class="si">}</span><span class="s1"> is not implemented&#39;</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">defuzzy_res</span>
+
+<div class="viewcode-block" id="Engine.gen_surface"><a class="viewcode-back" href="../generated/engine.Engine.html#engine.Engine.gen_surface">[docs]</a>    <span class="k">def</span> <span class="nf">gen_surface</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">granularity</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">float</span><span class="p">]]):</span>
+        <span class="sd">&quot;&quot;&quot;Very expensive operation, if used with Linguistic Fuzzy Systems.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            granularity (Union[float, Dict[str, float]]): [description]</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            [type]: [description]</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">x_data</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">for</span> <span class="n">variable</span><span class="p">,</span> <span class="n">func</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">input_kernel_set</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="n">res</span> <span class="o">=</span> <span class="n">granularity</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">granularity</span><span class="p">,</span> <span class="nb">float</span><span class="p">)</span> <span class="k">else</span> <span class="n">granularity</span><span class="p">[</span><span class="n">variable</span><span class="p">]</span>
+            <span class="n">sample_size</span> <span class="o">=</span> <span class="nb">round</span><span class="p">((</span><span class="n">func</span><span class="o">.</span><span class="n">max_v</span> <span class="o">-</span> <span class="n">func</span><span class="o">.</span><span class="n">min_v</span><span class="p">)</span> <span class="o">/</span> <span class="n">res</span><span class="p">)</span>
+            <span class="n">x_data</span><span class="p">[</span><span class="n">variable</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">func</span><span class="o">.</span><span class="n">min_v</span><span class="p">,</span> <span class="n">func</span><span class="o">.</span><span class="n">max_v</span><span class="p">,</span> <span class="n">sample_size</span><span class="p">)</span>
+        <span class="n">y_arr</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">run_defuzz</span><span class="p">(</span><span class="n">x_data</span><span class="p">,</span> <span class="n">granularity</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">x_data</span><span class="o">.</span><span class="n">values</span><span class="p">(),</span> <span class="n">y_arr</span><span class="o">.</span><span class="n">values</span><span class="p">()])</span></div>
+
+
 
     <span class="k">def</span> <span class="nf">_inject_operands</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">rule</span><span class="p">:</span> <span class="n">RuleBase</span><span class="p">):</span>
         <span class="n">rule</span><span class="o">.</span><span class="n">operand_set</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">operands</span>

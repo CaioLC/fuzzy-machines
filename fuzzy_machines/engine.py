@@ -19,19 +19,19 @@ class Engine:
     Usage steps:
     1: create engine \n
     2: add input kernels (see Kernel for further reference) \n
-    3: add inference system kernel (see Kernel for further reference) \n
+    3: add inference system (Kernel or Takagi-Sugeno based) \n
     4: add rules to map the input kernels to the inference system \n
     5: call engine.fuzzyfy() to run the system \n
     6: call engine.defuzzyfy() to reduce the fuzzy result to a single float number \n
-    7: call engine.gen_surface() to build a iterable cache-like map to greatly reduce time compute 
+    7: call engine.gen_surface() to build a iterable cache-like map to greatly reduce time compute
     """
 
     def __init__(
-            self,
-            operands: OperatorEnum = OperatorEnum.DEFAULT,
-            rule_agreggation: RuleAggregationEnum = RuleAggregationEnum.MAX,
-            defuzz_method: DefuzzEnum = DefuzzEnum.WEIGHTED_AREA
-        ) -> None:
+        self,
+        operands: OperatorEnum = OperatorEnum.DEFAULT,
+        rule_agg: RuleAggregationEnum = RuleAggregationEnum.MAX,
+        defuzz_method: DefuzzEnum = DefuzzEnum.LINGUISTIC,
+    ) -> None:
         """Initializes a new engine object
 
         Args:
@@ -40,7 +40,7 @@ class Engine:
         """
         # initialization
         self.operands = operands
-        self.rule_agreggation = rule_agreggation
+        self.rule_agreggation = rule_agg
         self.defuzz_method = defuzz_method
 
         # builder
@@ -51,7 +51,7 @@ class Engine:
         # results
         self.actuation_signal: Dict[str, float] = {}
         self.membership_degree: Dict[str, float] = {}
-        self.defuzzy_res: float = None
+        self.defuzzy_res: np.ndarray = None
 
     def __repr__(self) -> str:
         """String representation
@@ -153,7 +153,7 @@ class Engine:
             self._inject_operands(rule)
         if name in self.ruleset.keys():
             self.ruleset[name].append(rule)
-        else: 
+        else:
             self.ruleset[name] = [rule]
         return self
 
@@ -196,52 +196,98 @@ class Engine:
             res[kkey] = kernel(measurements[kkey])
         return res
 
-    def _aggregate(self) -> Dict[str, np.ndarray]: # aggregation (running all rules) and returning one value per rule
+    def _aggregate(
+        self,
+    ) -> Dict[str, np.ndarray]:  # aggregation (running all rules) and returning one value per rule
         for rkey, rulelist in self.ruleset.items():
-            agg_actuation = self.rule_agreggation.value(rule(self.input_kernel_set) for rule in rulelist)
+            agg_actuation = self.rule_agreggation.value(
+                rule(self.input_kernel_set) for rule in rulelist
+            )
             self.actuation_signal[rkey] = np.asfarray(agg_actuation)
         return self.actuation_signal
 
-    def _accumulate(self, granularity) -> Tuple[np.ndarray, np.ndarray]:
-        # step 1: find non overlapping area and return minimum xy pairs
-        # step 2: iterate through all overlapping areas and return granular xy pairs
-        # step 3: join everything and calculate area
-        sample_size = round((self.inference_kernel.max_v - self.inference_kernel.min_v) / granularity)
+    def _accumulate(self, granularity: float) -> Tuple[np.ndarray, np.ndarray]:
+        """
+        In the accumulation phase, all inference rules are joined using to form a single shape. \
+        The method traverses the inference system with granularity A and run each of its KMF with \
+        max activation set to aggregated rule value for each KMF. \
+
+        This method is implemented for Linguistic Inference Systems only and will raise exception \
+            if run with any other defuzzyfication method.
+
+        Args:
+            granularity (float): the "step size" of the iterator function
+
+        Raises:
+            ValueError: if _accumulate is called by an engine not running linguistic inference sys
+
+        Returns:
+            Tuple[np.ndarray, np.ndarray]: a mapping of x_values to y_values as a tuple of ndarray.
+        """
+        if self.inference_kernel is None:
+            raise ValueError("Engine is missing the inference kernel system.")
+        if not self.defuzz_method == DefuzzEnum.LINGUISTIC:
+            raise ValueError(
+                f"self._accumulate is not valid for defuzzification method {self.defuzz_method}"
+            )
+        sample_size = round(
+            (self.inference_kernel.max_v - self.inference_kernel.min_v) / granularity
+        )
         x_range = np.linspace(self.inference_kernel.min_v, self.inference_kernel.max_v, sample_size)
         y_range = np.zeros(sample_size)
         for rule, func in self.inference_kernel.input_functions.items():
             acc = self.actuation_signal[rule]
             y_proponent = func(x_range, acc)
             y_range = np.maximum(y_range, y_proponent)
-        
+
         return x_range, y_range
 
-
-    def _defuzzyfy(self, x_range, y_range):
+    def _centroid(self, x_range, y_range):
         """Transform the fuzzy result to a numerical float value."""
-        y1_range = np.array([np.nan]) + y_range[:-1]
-        x1_range = np.array([np.nan]) + x_range[:-1]
-        moment_area = (x1_range - x_range) * np.mean(np.array(y1_range, y_range))
-        total_area = (self.inference_kernel.max_v - self.inference_kernel.min_v) * np.mean(y_range)
-        self.defuzzy_res = moment_area / total_area
-        return self.defuzzy_res
+        return np.sum(x_range * y_range) / np.sum(y_range)  # center of gravity
 
+    def _takagi_sugeno(self, data: Any):
+        """Transform the fuzzy result to a numerical float value."""
+        return sum(
+            func(**data) * self.actuation_signal[rule]
+            for rule, func in self.inference_kernel.input_functions.items()
+        ) / sum(self.actuation_signal.values())
 
-    def run_fuzzy(self, measurements: Dict[str, Any]) -> Dict[str, np.ndarray]:
+    def run_fuzz(self, measurements: Dict[str, Any]) -> Dict[str, np.ndarray]:
         self._fuzzyfy(measurements)
         return self._aggregate()
 
     def run_defuzz(self, measurements: Dict[str, Any], granularity) -> Dict[str, np.ndarray]:
-        # TODO: add cache
         self._fuzzyfy(measurements)
         self._aggregate()
-        x_range, y_range = self._accumulate(granularity)
-        self._defuzzyfy(x_range, y_range)
+        if self.defuzz_method == DefuzzEnum.LINGUISTIC:
+            x_range, y_range = self._accumulate(granularity)
+            self.defuzzy_res = self._centroid(x_range, y_range)
+
+        elif self.defuzz_method == DefuzzEnum.TAKAGI_SUGENO:
+            self.defuzzy_res = self._takagi_sugeno(measurements)
+
+        else:
+            raise NotImplementedError(f"defuzzyfy for {self.defuzz_method} is not implemented")
+
         return self.defuzzy_res
 
-    # TODO: generate surface points.
-    # def gen_surface(self):
-    #     pass
+    def gen_surface(self, granularity: Union[float, Dict[str, float]]):
+        """Very expensive operation, if used with Linguistic Fuzzy Systems.
+
+        Args:
+            granularity (Union[float, Dict[str, float]]): [description]
+
+        Returns:
+            [type]: [description]
+        """
+        x_data = {}
+        for variable, func in self.input_kernel_set.items():
+            res = granularity if isinstance(granularity, float) else granularity[variable]
+            sample_size = round((func.max_v - func.min_v) / res)
+            x_data[variable] = np.linspace(func.min_v, func.max_v, sample_size)
+        y_arr = self.run_defuzz(x_data, granularity)
+        return np.array([x_data.values(), y_arr.values()])
 
     def _inject_operands(self, rule: RuleBase):
         rule.operand_set = self.operands

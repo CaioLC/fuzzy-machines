@@ -1,6 +1,8 @@
 """ Fuzzy Logic Operators """
 # pylint: disable=invalid-name, missing-function-docstring
-from enum import Enum
+from enum import Enum, auto
+from math import prod
+from itertools import product
 from typing import Iterable
 
 from fuzzy_machines.kernel import Kernel
@@ -10,57 +12,33 @@ from fuzzy_machines.memb_funcs import FunctionBase
 def and_default(a, b):
     return min(a, b)
 
-def and_sqrt(a, b):
-    return a*a + b
 
 def and_product(a, b):
     return a * b
 
+
 def and_bounded_diff(a, b):
     return max(0, a + b - 1)
+
 
 def or_default(a, b):
     return max(a, b)
 
+
 def or_algebraic_product(a, b):
-    return a + b - a*b
+    return a + b - a * b
+
 
 def or_bounded_sum(a, b):
     return min(1, a + b)
 
+
 def not_default(a):
     return 1 - a
 
+
 def is_default(a):
     return a
-
-def sum_fuzzy(a: Iterable[float]):
-    return min(1, sum(a))
-
-def middle_of_maximum(aggregation, min_value, max_value):
-    max_value = max(aggregation)
-    if max_value == 0.:
-        return 0.
-    
-    space = (max_value - min_value) / len(aggregation)
-    start_index = None
-    end_index = None
-    for i in range(len(aggregation)):
-        if aggregation[i] == max_value and start_index is None:
-            start_index = i
-            end_index = i
-        if i != 0 and aggregation[i-1] == max_value and aggregation[i] != max_value:
-            end_index = i-1
-            break
-    
-    index = (start_index + end_index) / 2
-    value = min_value + (index +1) * space
-    return value
-
-def center_of_gravity(inference_function: FunctionBase, activation):
-    area_activated = inference_function.area(activation)
-    (activation * area_activated) / area_activated
-
 
 
 class OperatorEnum(Enum):
@@ -77,12 +55,11 @@ class OperatorEnum(Enum):
     PRODUCT = [and_product, or_algebraic_product, not_default, is_default]
     BOUNDED = [and_bounded_diff, or_bounded_sum, not_default, is_default]
 
+
 class RuleAggregationEnum(Enum):
     MAX = max
-    SUM_CRISP = sum
-    
+
+
 class DefuzzEnum(Enum):
-    SUGENO = NotImplemented # TODO:!
-    CENTER_GRAVITY = center_of_gravity
-    WEIGHTED_AREA = NotImplemented # TODO:!
-    
+    TAKAGI_SUGENO = auto()
+    LINGUISTIC = auto()

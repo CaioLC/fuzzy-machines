@@ -6,10 +6,12 @@ import numpy as np
 
 from fuzzy_machines.memb_funcs import FunctionBase
 
+
 class Kernel:
     """
     A wrapper that represents all manners a particular variable is mapped its MFs.
     """
+
     def __init__(self, min_v: float, max_v: float) -> None:
         if not isinstance(min_v, Number):
             raise ValueError(f"expected numeric for 'min_v'. Found {type(min_v)}")
@@ -93,6 +95,6 @@ class Kernel:
         Checks with granularity == .01 whether all Membership Functions sums 1 for all x values. \
         Though not required, this property is often employed because it makes interpretation easier.
         """
-        res = self.iterate(.01)
+        res = self.iterate(0.01)
         sum_res = sum(v[1] for v in res.values())
         return set(np.round(sum_res, 2)) == {1}

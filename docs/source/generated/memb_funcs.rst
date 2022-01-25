@@ -26,6 +26,7 @@
       Gbellmf
       Linear
       Pimf
+      Singleton
       Smf
       Trapmf
       Trimf

@@ -17,6 +17,11 @@ memb\_funcs.Smf
    .. autosummary::
    
       ~Smf.__init__
+      ~Smf.area
+      ~Smf.describe
+      ~Smf.naive_describe
+      ~Smf.naive_integration
+      ~Smf.optimal_integration
    
    
 

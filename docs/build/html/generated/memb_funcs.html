@@ -35,7 +35,7 @@
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="memb_funcs.Constant" href="memb_funcs.Constant.html" />
-    <link rel="prev" title="kernel.KernelFuncMember" href="kernel.KernelFuncMember.html" />
+    <link rel="prev" title="kernel.Kernel" href="kernel.Kernel.html" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="None">
     
@@ -120,11 +120,6 @@
        kernel.Kernel
       </a>
      </li>
-     <li class="toctree-l3">
-      <a class="reference internal" href="kernel.KernelFuncMember.html">
-       kernel.KernelFuncMember
-      </a>
-     </li>
     </ul>
    </li>
    <li class="toctree-l2 current active has-children">
@@ -173,6 +168,11 @@
       </a>
      </li>
      <li class="toctree-l3">
+      <a class="reference internal" href="memb_funcs.Singleton.html">
+       memb_funcs.Singleton
+      </a>
+     </li>
+     <li class="toctree-l3">
       <a class="reference internal" href="memb_funcs.Smf.html">
        memb_funcs.Smf
       </a>
@@ -195,8 +195,8 @@
     </ul>
    </li>
    <li class="toctree-l2 has-children">
-    <a class="reference internal" href="operands.html">
-     operands
+    <a class="reference internal" href="operators.html">
+     operators
     </a>
     <input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" type="checkbox"/>
     <label for="toctree-checkbox-5">
@@ -205,23 +205,58 @@
     </label>
     <ul>
      <li class="toctree-l3">
-      <a class="reference internal" href="operands.and_default.html">
-       operands.and_default
+      <a class="reference internal" href="operators.and_bounded_diff.html">
+       operators.and_bounded_diff
       </a>
      </li>
      <li class="toctree-l3">
-      <a class="reference internal" href="operands.not_default.html">
-       operands.not_default
+      <a class="reference internal" href="operators.and_default.html">
+       operators.and_default
       </a>
      </li>
      <li class="toctree-l3">
-      <a class="reference internal" href="operands.or_default.html">
-       operands.or_default
+      <a class="reference internal" href="operators.and_product.html">
+       operators.and_product
       </a>
      </li>
      <li class="toctree-l3">
-      <a class="reference internal" href="operands.OperandEnum.html">
-       operands.OperandEnum
+      <a class="reference internal" href="operators.is_default.html">
+       operators.is_default
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="operators.not_default.html">
+       operators.not_default
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="operators.or_algebraic_product.html">
+       operators.or_algebraic_product
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="operators.or_bounded_sum.html">
+       operators.or_bounded_sum
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="operators.or_default.html">
+       operators.or_default
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="operators.DefuzzEnum.html">
+       operators.DefuzzEnum
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="operators.OperatorEnum.html">
+       operators.OperatorEnum
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="operators.RuleAggregationEnum.html">
+       operators.RuleAggregationEnum
       </a>
      </li>
     </ul>
@@ -239,6 +274,11 @@
      <li class="toctree-l3">
       <a class="reference internal" href="rules.AND.html">
        rules.AND
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="rules.IS.html">
+       rules.IS
       </a>
      </li>
      <li class="toctree-l3">
@@ -369,37 +409,40 @@
 <col style="width: 90%" />
 </colgroup>
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="memb_funcs.Constant.html#memb_funcs.Constant" title="memb_funcs.Constant"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Constant</span></code></a>(value)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="memb_funcs.Constant.html#memb_funcs.Constant" title="memb_funcs.Constant"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Constant</span></code></a>(v_min, v_max)</p></td>
 <td><p>Constant function.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="memb_funcs.FunctionBase.html#memb_funcs.FunctionBase" title="memb_funcs.FunctionBase"><code class="xref py py-obj docutils literal notranslate"><span class="pre">FunctionBase</span></code></a>()</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="memb_funcs.FunctionBase.html#memb_funcs.FunctionBase" title="memb_funcs.FunctionBase"><code class="xref py py-obj docutils literal notranslate"><span class="pre">FunctionBase</span></code></a>(min_v, max_v)</p></td>
 <td><p>Function Meta</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="memb_funcs.Gauss2mf.html#memb_funcs.Gauss2mf" title="memb_funcs.Gauss2mf"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gauss2mf</span></code></a>()</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="memb_funcs.Gauss2mf.html#memb_funcs.Gauss2mf" title="memb_funcs.Gauss2mf"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gauss2mf</span></code></a>(min_v, max_v)</p></td>
 <td><p>Gaussian combination membership function</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="memb_funcs.Gaussmf.html#memb_funcs.Gaussmf" title="memb_funcs.Gaussmf"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gaussmf</span></code></a>()</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="memb_funcs.Gaussmf.html#memb_funcs.Gaussmf" title="memb_funcs.Gaussmf"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gaussmf</span></code></a>(min_v, max_v)</p></td>
 <td><p>Gaussian membership function</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="memb_funcs.Gbellmf.html#memb_funcs.Gbellmf" title="memb_funcs.Gbellmf"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gbellmf</span></code></a>()</p></td>
 <td><p>Generalized bell-shaped membership function</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="memb_funcs.Linear.html#memb_funcs.Linear" title="memb_funcs.Linear"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Linear</span></code></a>(slope, b)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="memb_funcs.Linear.html#memb_funcs.Linear" title="memb_funcs.Linear"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Linear</span></code></a>(y_eq_zero, y_eq_one)</p></td>
 <td><p>Linear function</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="memb_funcs.Pimf.html#memb_funcs.Pimf" title="memb_funcs.Pimf"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Pimf</span></code></a>()</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="memb_funcs.Pimf.html#memb_funcs.Pimf" title="memb_funcs.Pimf"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Pimf</span></code></a>(min_v, max_v)</p></td>
 <td><p>Pi-shaped membership function</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="memb_funcs.Smf.html#memb_funcs.Smf" title="memb_funcs.Smf"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Smf</span></code></a>()</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="memb_funcs.Singleton.html#memb_funcs.Singleton" title="memb_funcs.Singleton"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Singleton</span></code></a>(value)</p></td>
+<td><p>Boolean function.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="memb_funcs.Smf.html#memb_funcs.Smf" title="memb_funcs.Smf"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Smf</span></code></a>(min_v, max_v)</p></td>
 <td><p>S-shaped membership function</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="memb_funcs.Trapmf.html#memb_funcs.Trapmf" title="memb_funcs.Trapmf"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Trapmf</span></code></a>()</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="memb_funcs.Trapmf.html#memb_funcs.Trapmf" title="memb_funcs.Trapmf"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Trapmf</span></code></a>(bottom1, top1, top2, bottom2)</p></td>
 <td><p>Trapezoidal membership function</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="memb_funcs.Trimf.html#memb_funcs.Trimf" title="memb_funcs.Trimf"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Trimf</span></code></a>()</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="memb_funcs.Trimf.html#memb_funcs.Trimf" title="memb_funcs.Trimf"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Trimf</span></code></a>(bottom1, peak, bottom2)</p></td>
 <td><p>Triangular membership function</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="memb_funcs.Zmf.html#memb_funcs.Zmf" title="memb_funcs.Zmf"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Zmf</span></code></a>()</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="memb_funcs.Zmf.html#memb_funcs.Zmf" title="memb_funcs.Zmf"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Zmf</span></code></a>(min_v, max_v)</p></td>
 <td><p>Z-shaped membership function</p></td>
 </tr>
 </tbody>
@@ -412,11 +455,11 @@
             
                 <!-- Previous / next buttons -->
 <div class='prev-next-area'> 
-    <a class='left-prev' id="prev-link" href="kernel.KernelFuncMember.html" title="previous page">
+    <a class='left-prev' id="prev-link" href="kernel.Kernel.html" title="previous page">
         <i class="fas fa-angle-left"></i>
         <div class="prev-next-info">
             <p class="prev-next-subtitle">previous</p>
-            <p class="prev-next-title">kernel.KernelFuncMember</p>
+            <p class="prev-next-title">kernel.Kernel</p>
         </div>
     </a>
     <a class='right-next' id="next-link" href="memb_funcs.Constant.html" title="next page">

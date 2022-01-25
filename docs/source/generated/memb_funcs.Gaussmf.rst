@@ -17,6 +17,11 @@ memb\_funcs.Gaussmf
    .. autosummary::
    
       ~Gaussmf.__init__
+      ~Gaussmf.area
+      ~Gaussmf.describe
+      ~Gaussmf.naive_describe
+      ~Gaussmf.naive_integration
+      ~Gaussmf.optimal_integration
    
    
 

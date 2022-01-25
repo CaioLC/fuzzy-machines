@@ -60,4 +60,4 @@ html_theme = "sphinx_book_theme"
 html_static_path = ["_static"]
 
 # Other configurations
-pygments_style = 'sphinx'
+pygments_style = "sphinx"

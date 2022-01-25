@@ -90,9 +90,9 @@ def test_kernel_describe():
     food.add_memb_func("good", Linear(0, 10))
     food.add_memb_func("bad", Linear(10, 0))
     res = food.describe()
-    x_arr, y_arr = res['good']
-    assert x_arr.all() == np.array([0,10]).all()
-    assert y_arr.all() == np.array([0,1]).all()
-    x_arr, y_arr = res['bad']
-    assert x_arr.all() == np.array([10,0]).all()
-    assert y_arr.all() == np.array([0,1]).all()
+    x_arr, y_arr = res["good"]
+    assert x_arr.all() == np.array([0, 10]).all()
+    assert y_arr.all() == np.array([0, 1]).all()
+    x_arr, y_arr = res["bad"]
+    assert x_arr.all() == np.array([10, 0]).all()
+    assert y_arr.all() == np.array([0, 1]).all()

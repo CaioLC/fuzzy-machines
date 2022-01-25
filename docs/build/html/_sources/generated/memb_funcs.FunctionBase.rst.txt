@@ -17,6 +17,11 @@ memb\_funcs.FunctionBase
    .. autosummary::
    
       ~FunctionBase.__init__
+      ~FunctionBase.area
+      ~FunctionBase.describe
+      ~FunctionBase.naive_describe
+      ~FunctionBase.naive_integration
+      ~FunctionBase.optimal_integration
    
    
 

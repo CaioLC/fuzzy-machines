@@ -9,5 +9,5 @@ Fuzzy Machines API
     engine
     kernel
     memb_funcs
-    operands
+    operators
     rules
