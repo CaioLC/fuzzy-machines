@@ -21,16 +21,10 @@
    
       Constant
       FunctionBase
-      Gauss2mf
-      Gaussmf
-      Gbellmf
       Linear
-      Pimf
       Singleton
-      Smf
       Trapmf
       Trimf
-      Zmf
    
    
 

@@ -1,16 +1,12 @@
 """ Fuzzy Logic Operators """
 # pylint: disable=invalid-name, missing-function-docstring
 from enum import Enum, auto
-from math import prod
-from itertools import product
-from typing import Iterable
-
-from fuzzy_machines.kernel import Kernel
-from fuzzy_machines.memb_funcs import FunctionBase
+import numpy as np
 
 
 def and_default(a, b):
-    return min(a, b)
+    # np.asfarray(a, b)
+    return np.minimum(a, b)
 
 
 def and_product(a, b):
@@ -22,7 +18,7 @@ def and_bounded_diff(a, b):
 
 
 def or_default(a, b):
-    return max(a, b)
+    return np.maximum(a, b)
 
 
 def or_algebraic_product(a, b):
@@ -57,9 +53,18 @@ class OperatorEnum(Enum):
 
 
 class RuleAggregationEnum(Enum):
+    """
+    Defines the rules aggregation methods available when joining partial rules mapping to the \
+    same output inference system function
+    """
+
     MAX = max
 
 
 class DefuzzEnum(Enum):
+    """
+    Defines the defuzzification methods available at Engine.
+    """
+
     TAKAGI_SUGENO = auto()
     LINGUISTIC = auto()

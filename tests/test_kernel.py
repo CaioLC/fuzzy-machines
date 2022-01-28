@@ -3,7 +3,7 @@
 import numpy as np
 import pytest
 from fuzzy_machines.kernel import Kernel
-from fuzzy_machines.memb_funcs import FunctionBase, Constant, Linear
+from fuzzy_machines.memb_funcs import MembershipFunction, Linear
 
 
 def test_kernel_init():
@@ -42,8 +42,8 @@ def test_kernel_add_func():
     with pytest.raises(KeyError):
         food.input_functions["error"]  # pylint: disable=pointless-statement
 
-    assert isinstance(food.input_functions["good"], FunctionBase)
-    assert isinstance(food.input_functions["bad"], FunctionBase)
+    assert isinstance(food.input_functions["good"], MembershipFunction)
+    assert isinstance(food.input_functions["bad"], MembershipFunction)
 
     with pytest.raises(TypeError):
 

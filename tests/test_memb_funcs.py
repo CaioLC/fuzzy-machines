@@ -6,7 +6,7 @@ from fuzzy_machines.memb_funcs import Constant, Linear
 
 # Singleton
 def test_singleton():
-    True
+    pass
 
 
 # Constant

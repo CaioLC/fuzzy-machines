@@ -3,11 +3,10 @@
 from typing import cast
 import numpy as np
 import pytest
-from fuzzy_machines import operators
 
 from fuzzy_machines.engine import Engine
 from fuzzy_machines.kernel import Kernel
-from fuzzy_machines.memb_funcs import Constant, FunctionBase, Linear, Trimf
+from fuzzy_machines.memb_funcs import Constant, MembershipFunction, Linear
 from fuzzy_machines.operators import DefuzzEnum, OperatorEnum, RuleAggregationEnum
 from fuzzy_machines.rules import AND, NOT, OR, IS, RuleBase
 
@@ -31,7 +30,7 @@ tips = (
 )
 
 
-class TKG_Low(FunctionBase):
+class TKG_Low(MembershipFunction):
     def __init__(self) -> None:
         super().__init__(0, 10)
 
@@ -39,7 +38,7 @@ class TKG_Low(FunctionBase):
         return 10 + 0.4 * food + 0.3 * price + 0.3 * service
 
 
-class TKG_Medium(FunctionBase):
+class TKG_Medium(MembershipFunction):
     def __init__(self) -> None:
         super().__init__(0, 10)
 
@@ -47,7 +46,7 @@ class TKG_Medium(FunctionBase):
         return 0.8 * food + 0.6 * price + 0.6 * service
 
 
-class TKG_High(FunctionBase):
+class TKG_High(MembershipFunction):
     def __init__(self) -> None:
         super().__init__(0, 10)
 
@@ -216,10 +215,29 @@ def test_aggregation():
     aggregation_method = [
         (
             RuleAggregationEnum.MAX,
+            {"food": 4, "service": 8, "price": 2},
             {"low": np.array(0.6), "average": np.array(0.6), "high": np.array(0.4)},
-        )
+        ),
+        (
+            RuleAggregationEnum.MAX,
+            {"food": np.array(4), "service": np.array(8), "price": np.array(2)},
+            {"low": np.array([0.6]), "average": np.array([0.6]), "high": np.array([0.4])},
+        ),
+        (
+            RuleAggregationEnum.MAX,
+            {
+                "food": np.array([4, 8, 10]),
+                "service": np.array([8, 10, 3]),
+                "price": np.array([2, 2, 8]),
+            },
+            {
+                "low": np.array([0.6, 0.2, 0.8]),
+                "average": np.array([0.6, 0.2, 1.0]),
+                "high": np.array([0.4, 0.8, 0.0]),
+            },
+        ),
     ]
-    for agg, result in aggregation_method:
+    for agg, measurement_data, result in aggregation_method:
         eng = (
             Engine(rule_agg=agg)
             .add_kernel("food", food_quality)
@@ -236,9 +254,9 @@ def test_aggregation():
             )
             .add_rule("high", AND({"food": "good"}, {"service": "good"}))
         )
-        measurement_data = dict({"food": 4, "service": 8, "price": 2})
         eng._fuzzyfy(measurement_data)
-        assert eng._aggregate() == result
+        res = eng._aggregate()
+        assert np.all(list(res.values())) == np.all(list(result.values()))
 
 
 tips_lin = Kernel(10, 30).add_memb_func("low", Linear(25, 10)).add_memb_func("high", Linear(20, 30))
@@ -362,4 +380,4 @@ def test_gen_surface():
             .add_rule("high", AND({"food": "good"}, {"service": "good"}))
             .add_inference_kernel(inf_sys)
         )
-        eng.gen_surface(0.5)
+        eng.gen_surface(0.1)

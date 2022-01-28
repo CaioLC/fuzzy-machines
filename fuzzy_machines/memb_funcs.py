@@ -1,8 +1,6 @@
 """ Membership function types, ranging from constant, linear or other more complex shape mapping """
 # pylint: disable=fixme, invalid-name, R0903
-from numbers import Number
-from typing import Any, List, Tuple, cast
-from warnings import warn
+from typing import Any, List, Tuple
 import numpy as np
 
 
@@ -10,7 +8,11 @@ def _integral_approximation(a: float, b: float, f: np.ndarray):
     return (b - a) * np.mean(f)
 
 
-class FunctionBase:
+def _call_end(data: np.ndarray) -> np.ndarray:
+    return np.where(np.isnan(data), 0, data)
+
+
+class MembershipFunction:
     """Function Meta"""
 
     def __init__(self, min_v: float, max_v: float) -> None:
@@ -18,22 +20,39 @@ class FunctionBase:
         self.max_v = float(max_v)
 
     def __call__(self, data: Any, activation: float) -> np.ndarray:
-        if not (0.0 <= activation <= 1.0):
+        if not 0.0 <= activation <= 1.0:
             raise ValueError(f"Expected activation to be between 0 and 1. Received {activation}")
         data = np.asfarray(data)
         data = np.where(data > self.max_v, np.nan, data)
         data = np.where(data < self.min_v, np.nan, data)
         return data
 
-    def _call_end(self, data: np.ndarray) -> np.ndarray:
-        return np.where(np.isnan(data), 0, data)
-
     def describe(self) -> Tuple[np.ndarray, np.ndarray]:
+        """describe is an function-optimized iterator, from min_v to max_v returning a tuple of \
+            ndarrays as X and Y values. Useful for plotting a line graph and visualizing \
+            the membership function shape
+
+        Raises:
+            NotImplementedError: means the membership function is missing the describe method
+
+        Returns:
+            Tuple[np.ndarray, np.ndarray]: a tuple of X-Y value arrays
+        """
         raise NotImplementedError
 
     def naive_describe(
         self, activation: float, granularity: float
     ) -> Tuple[np.ndarray, np.ndarray]:
+        """same as describe, but not optmize. Draws an iterator with linear values between \
+            min_v and max_v and a certain granularity.
+
+        Args:
+            activation (float): max y-value for any x-value
+            granularity (float): defines the linear iteration sample size
+
+        Returns:
+            Tuple[np.ndarray, np.ndarray]: a tuple of X-Y value arrays.
+        """
         sample_size = round((self.max_v - self.min_v) / granularity)
         x_range = np.linspace(self.min_v, self.max_v, sample_size)
         y_range = self.__call__(x_range, activation)
@@ -54,7 +73,8 @@ class FunctionBase:
             granularity (float): sample size to numerical integration approximation
 
         Returns:
-            List[Tuple[float, float, np.ndarray]]: List of Tuple object containing (a, b, f(x)) for numerical integration
+            List[Tuple[float, float, np.ndarray]]: List of Tuple object containing (a, b, f(x)) \
+                for numerical integration
         """
         desc = self.naive_describe(activation, granularity)
         return [(self.min_v, self.max_v, desc[1])]
@@ -80,16 +100,17 @@ class FunctionBase:
         return area
 
 
-class Singleton(FunctionBase):
+class Singleton(MembershipFunction):
     """Boolean function. Return 1 when x == value and 0 otherwise"""
 
-    def __init__(self, value: float) -> None:
+    def __init__(self, v_min: float, v_max: float, value: float) -> None:
+        super().__init__(v_min, v_max)
         self.value = value
 
     def __call__(self, data: np.ndarray, activation=1.0) -> np.ndarray:
         data = super().__call__(data, activation)
         res_val = activation if activation is not None else 1.0
-        return super()._call_end(np.where(data == self.value, res_val, 0))
+        return _call_end(np.where(data == self.value, res_val, 0))
 
     def describe(self):
         x_array = np.sort(
@@ -102,16 +123,16 @@ class Singleton(FunctionBase):
         raise TypeError("Cannot calculate area or perform integration on singleton type")
 
 
-class Constant(FunctionBase):
+class Constant(MembershipFunction):
     """Constant function. Returns the initialization value"""
 
-    def __init__(self, v_min: float, v_max: float) -> None:
-        super().__init__(v_min, v_max)
+    # def __init__(self, v_min: float, v_max: float) -> None:
+    #     super().__init__(v_min, v_max)
 
     def __call__(self, data: np.ndarray, activation=1.0) -> np.ndarray:
         data = super().__call__(data, activation)
         y_res = np.where(np.isnan(data), np.nan, activation)
-        return super()._call_end(y_res)
+        return _call_end(y_res)
 
     def describe(self):
         x_array = np.array([self.min_v, self.max_v])
@@ -123,7 +144,7 @@ class Constant(FunctionBase):
         return [(self.min_v, self.max_v, np.full(1, y_arr))]
 
 
-class Linear(FunctionBase):
+class Linear(MembershipFunction):
     """Linear function"""
 
     def __init__(self, y_eq_zero: float, y_eq_one: float) -> None:
@@ -142,7 +163,7 @@ class Linear(FunctionBase):
     def __call__(self, data: np.ndarray, activation=1.0) -> np.ndarray:
         data = super().__call__(data, activation)
         y_res = data * self.slope + self.b
-        return super()._call_end(np.where(y_res > activation, activation, y_res))
+        return _call_end(np.where(y_res > activation, activation, y_res))
 
     def describe(self):
         x_array = np.array([self.min_v, self.max_v])
@@ -151,7 +172,7 @@ class Linear(FunctionBase):
 
     def optimal_integration(self, activation) -> List[Tuple[float, float, np.ndarray]]:
         x = (activation - self.b) / self.slope
-        if x == self.min_v or x == self.max_v:
+        if x in (self.min_v, self.max_v):
             y_arr = self.__call__(np.array([self.min_v, self.max_v]), activation)
             return [(self.min_v, self.max_v, y_arr)]
         if self.min_v < x < self.max_v:
@@ -164,19 +185,19 @@ class Linear(FunctionBase):
         raise NotImplementedError
 
 
-class Smf(FunctionBase):
-    """S-shaped membership function"""
+# class Smf(FunctionBase):
+#     """S-shaped membership function"""
 
 
-class Pimf(FunctionBase):
-    """Pi-shaped membership function"""
+# class Pimf(FunctionBase):
+#     """Pi-shaped membership function"""
 
 
-class Zmf(FunctionBase):
-    """Z-shaped membership function"""
+# class Zmf(FunctionBase):
+#     """Z-shaped membership function"""
 
 
-class Trimf(FunctionBase):
+class Trimf(MembershipFunction):
     """Triangular membership function"""
 
     def __init__(self, bottom1: float, peak: float, bottom2: float) -> None:
@@ -194,7 +215,7 @@ class Trimf(FunctionBase):
         dt_down = indexed_data[:, ~mask]
         res_down = np.array([dt_down[0], self.down(dt_down[1], activation)])
         all_res = np.sort(np.append(res_up, res_down, axis=1))
-        return super()._call_end(all_res[1])
+        return _call_end(all_res[1])
 
     def describe(self):
         x_up, y_up = self.up.describe()
@@ -207,7 +228,7 @@ class Trimf(FunctionBase):
         return up_opt + down_opt
 
 
-class Trapmf(FunctionBase):
+class Trapmf(MembershipFunction):
     """Trapezoidal membership function"""
 
     def __init__(self, bottom1: float, top1: float, top2: float, bottom2: float) -> None:
@@ -230,7 +251,7 @@ class Trapmf(FunctionBase):
         dt_down = indexed_data[:, mask3]
         res_down = np.array([dt_down[0], self.down(dt_down[1], activation)])
         all_res = np.sort(np.concatenate((res_up, res_cons, res_down), axis=1))
-        return super()._call_end(all_res[1])
+        return _call_end(all_res[1])
 
     def describe(self):
         x_up, y_up = self.up.describe()
@@ -238,20 +259,68 @@ class Trapmf(FunctionBase):
         x_down, y_down = self.down.describe()
         return np.concatenate(x_up, x_cons, x_down), np.concatenate(y_up, y_cons, y_down)
 
-    def _optimal_integration(self, activation: float) -> List[Tuple[float, float, np.ndarray]]:
+    def optimal_integration(self, activation: float) -> List[Tuple[float, float, np.ndarray]]:
         up_opt = self.up.optimal_integration(activation)
         cons_opt = self.cons.optimal_integration(activation)
         down_opt = self.down.optimal_integration(activation)
         return up_opt + cons_opt + down_opt
 
 
-class Gaussmf(FunctionBase):
-    """Gaussian membership function"""
+# class Gaussmf(FunctionBase):
+#     """Gaussian membership function"""
+
+#     def __init__(self, min_v: float, max_v: float) -> None:
+#         raise NotImplementedError
+
+#     def __call__(self, data: Any, activation: float) -> np.ndarray:
+#         raise NotImplementedError
+
+#     def _call_end(self, data: np.ndarray) -> np.ndarray:
+#         raise NotImplementedError
+
+#     def describe(self) -> Tuple[np.ndarray, np.ndarray]:
+#         raise NotImplementedError
+
+#     def optimal_integration(self, activation: float) -> List[Tuple[float, float, np.ndarray]]:
+#         """Optimal integration strategy. Defined at subclass"""
+#         raise NotImplementedError
 
 
-class Gauss2mf(FunctionBase):
-    """Gaussian combination membership function"""
+# class Gauss2mf(FunctionBase):
+#     """Gaussian combination membership function"""
+
+#     def __init__(self, min_v: float, max_v: float) -> None:
+#         raise NotImplementedError
+
+#     def __call__(self, data: Any, activation: float) -> np.ndarray:
+#         raise NotImplementedError
+
+#     def _call_end(self, data: np.ndarray) -> np.ndarray:
+#         raise NotImplementedError
+
+#     def describe(self) -> Tuple[np.ndarray, np.ndarray]:
+#         raise NotImplementedError
+
+#     def optimal_integration(self, activation: float) -> List[Tuple[float, float, np.ndarray]]:
+#         """Optimal integration strategy. Defined at subclass"""
+#         raise NotImplementedError
 
 
-class Gbellmf:
-    """Generalized bell-shaped membership function"""
+# class Gbellmf:
+#     """Generalized bell-shaped membership function"""
+
+#     def __init__(self, min_v: float, max_v: float) -> None:
+#         raise NotImplementedError
+
+#     def __call__(self, data: Any, activation: float) -> np.ndarray:
+#         raise NotImplementedError
+
+#     def _call_end(self, data: np.ndarray) -> np.ndarray:
+#         raise NotImplementedError
+
+#     def describe(self) -> Tuple[np.ndarray, np.ndarray]:
+#         raise NotImplementedError
+
+#     def optimal_integration(self, activation: float) -> List[Tuple[float, float, np.ndarray]]:
+#         """Optimal integration strategy. Defined at subclass"""
+#         raise NotImplementedError

@@ -1,10 +1,10 @@
 """Inference System and Membership Function classes. Building blocks of a Fuzzy Machine"""
 
 from numbers import Number
-from typing import List, Dict, Any, Tuple
+from typing import Dict, Any, Tuple
 import numpy as np
 
-from fuzzy_machines.memb_funcs import FunctionBase
+from fuzzy_machines.memb_funcs import MembershipFunction
 
 
 class Kernel:
@@ -21,10 +21,9 @@ class Kernel:
             raise ValueError("'max_v' must be greater or equal than 'min_v'")
         self.min_v = min_v
         self.max_v = max_v
-        self.input_functions: Dict[str, FunctionBase] = None
+        self.input_functions: Dict[str, MembershipFunction] = None
         self.membership_degree: Dict[str, float] = None
 
-    # NOTE: https://www.sciencedirect.com/topics/engineering/fuzzification
     def __call__(self, measurement: Any):
         self.membership_degree = {}
         for key, func in self.input_functions.items():
@@ -32,7 +31,7 @@ class Kernel:
             self.membership_degree[key] = res
         return self.membership_degree
 
-    def add_memb_func(self, var_name: str, func: FunctionBase):
+    def add_memb_func(self, var_name: str, func: MembershipFunction):
         """Registers a KernelFuncMember as part of the Kernel
 
         Args:
@@ -47,10 +46,9 @@ class Kernel:
         Returns:
             Kernel: self
         """
-        # NOTE: Do all membership functions must have some overlapping areas??
         if not isinstance(var_name, str):
             raise TypeError(f"Expected type str for 'variable'. Got {type(var_name)}")
-        if not isinstance(func, FunctionBase):
+        if not isinstance(func, MembershipFunction):
             raise TypeError(f"Expected type FunctionBase for 'func'. Got {type(func)}")
         if not self.input_functions:
             self.input_functions = dict({var_name: func})
@@ -90,11 +88,11 @@ class Kernel:
         max_k_value = max(v.max_v for v in self.input_functions.values())
         return self.min_v >= min_k_value and self.max_v <= max_k_value
 
-    def check_normalized(self) -> bool:
-        """
-        Checks with granularity == .01 whether all Membership Functions sums 1 for all x values. \
-        Though not required, this property is often employed because it makes interpretation easier.
-        """
-        res = self.iterate(0.01)
-        sum_res = sum(v[1] for v in res.values())
-        return set(np.round(sum_res, 2)) == {1}
+    # def check_normalized(self) -> bool:
+    #     """
+    #     Checks with granularity == .01 whether all Membership Functions sums 1 for all x values. \
+    #     This property is often employed because it makes interpretation easier.
+    #     """
+    #     res = self.iterate(0.01)
+    #     sum_res = sum(v[1] for v in res.values())
+    #     return set(np.round(sum_res, 2)) == {1}

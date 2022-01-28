@@ -2,9 +2,9 @@
 # pylint: disable=invalid-name, R0903
 
 from typing import Union, Dict
-from enum import Enum
-from fuzzy_machines.kernel import Kernel
+import numpy as np
 
+from fuzzy_machines.kernel import Kernel
 from fuzzy_machines.operators import OperatorEnum
 
 
@@ -22,20 +22,18 @@ class RuleBase(Rules):
         self.a = a
         self.b = b
 
-    def __call__(self, input_kernel_membership) -> float:
+    def __call__(self, input_kernel_membership) -> np.ndarray:
         pass
 
 
-def _resolve(x: Union[Rules, Dict[str, str]], input_kernel_set: Dict[str, Kernel]) -> float:
+def _resolve(x: Union[Rules, Dict[str, str]], input_kernel_set: Dict[str, Kernel]) -> np.ndarray:
     if isinstance(x, RuleBase):
         return x(input_kernel_set)
-
     assert len(x) == 1
     variable, membership_val = x.popitem()
     if variable in input_kernel_set.keys():
         return input_kernel_set[variable].membership_degree[membership_val]
-    else:
-        raise KeyError(f"Cannot find kernel named '{variable}' in the kernel set")
+    raise KeyError(f"Cannot find kernel named '{variable}' in the kernel set")
 
 
 class AND(RuleBase):
@@ -49,11 +47,11 @@ class AND(RuleBase):
     ) -> float:
         super().__init__(operand_set, a, b)
 
-    def __call__(self, input_kernel_membership) -> float:
+    def __call__(self, input_kernel_membership) -> np.ndarray:
         a = _resolve(self.a, input_kernel_membership)
         b = _resolve(self.b, input_kernel_membership)
         func = self.operand_set.value[0]
-        print("AND:", a, b, "->", func(a, b))
+        # print("AND:", a, b, "->", func(a, b))
         return func(a, b)
 
 
@@ -68,11 +66,11 @@ class OR(RuleBase):
     ) -> float:
         super().__init__(operand_set, a, b)
 
-    def __call__(self, input_kernel_membership) -> float:
+    def __call__(self, input_kernel_membership) -> np.ndarray:
         a = _resolve(self.a, input_kernel_membership)
         b = _resolve(self.b, input_kernel_membership)
         func = self.operand_set.value[1]
-        print("OR:", a, b, "->", func(a, b))
+        # print("OR:", a, b, "->", func(a, b))
         return func(a, b)
 
 
@@ -84,10 +82,10 @@ class NOT(RuleBase):
     ) -> float:
         super().__init__(operand_set, a)
 
-    def __call__(self, input_kernel_set) -> float:
+    def __call__(self, input_kernel_set) -> np.ndarray:
         a = _resolve(self.a, input_kernel_set)
         func = self.operand_set.value[2]
-        print("NOT:", a, "->", func(a))
+        # print("NOT:", a, "->", func(a))
         return func(a)
 
 
@@ -99,8 +97,8 @@ class IS(RuleBase):
     ) -> float:
         super().__init__(operand_set, a)
 
-    def __call__(self, input_kernel_set) -> float:
+    def __call__(self, input_kernel_set) -> np.ndarray:
         a = _resolve(self.a, input_kernel_set)
         func = self.operand_set.value[3]
-        print("IS:", a, "->", func(a))
+        # print("IS:", a, "->", func(a))
         return func(a)

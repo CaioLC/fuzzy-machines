@@ -1,418 +1,104 @@
-
 <!DOCTYPE html>
-
-<html>
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>memb_funcs.Linear &#8212; Fuzzy Machines 0.0.1 documentation</title>
-    
-  <link href="../_static/css/theme.css" rel="stylesheet">
-  <link href="../_static/css/index.ff1ffe594081f20da1ef19478df9384b.css" rel="stylesheet">
-
-    
-  <link rel="stylesheet"
-    href="../_static/vendor/fontawesome/5.13.0/css/all.min.css">
-  <link rel="preload" as="font" type="font/woff2" crossorigin
-    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
-  <link rel="preload" as="font" type="font/woff2" crossorigin
-    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
-
-    
-      
-
-    
-    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/sphinx-book-theme.css?digest=c3fdc42140077d1ad13ad2f1588a4309" />
-    
-  <link rel="preload" as="script" href="../_static/js/index.be7d3bbb2ef33a8344ce.js">
-
-    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
-    <script src="../_static/jquery.js"></script>
-    <script src="../_static/underscore.js"></script>
-    <script src="../_static/doctools.js"></script>
-    <script src="../_static/sphinx-book-theme.d59cb220de22ca1c485ebbdc042f0030.js"></script>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>memb_funcs.Linear &mdash; Fuzzy Machines 0.1.0 documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+    <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="memb_funcs.Pimf" href="memb_funcs.Pimf.html" />
-    <link rel="prev" title="memb_funcs.Gbellmf" href="memb_funcs.Gbellmf.html" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="docsearch:language" content="None">
-    
+    <link rel="next" title="memb_funcs.Singleton" href="memb_funcs.Singleton.html" />
+    <link rel="prev" title="memb_funcs.FunctionBase" href="memb_funcs.FunctionBase.html" /> 
+</head>
 
-    <!-- Google Analytics -->
-    
-  </head>
-  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
-    
-    <div class="container-fluid" id="banner"></div>
-
-    
-
-    <div class="container-xl">
-      <div class="row">
-          
-<div class="col-12 col-md-3 bd-sidebar site-navigation show" id="site-navigation">
-    
-        <div class="navbar-brand-box">
-    <a class="navbar-brand text-wrap" href="../index.html">
-      
-      
-      
-      <h1 class="site-logo" id="site-title">Fuzzy Machines 0.0.1 documentation</h1>
-      
-    </a>
-</div><form class="bd-search d-flex align-items-center" action="../search.html" method="get">
-  <i class="icon fas fa-search"></i>
-  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search the docs ..." aria-label="Search the docs ..." autocomplete="off" >
-</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
-    <div class="bd-toc-item active">
-        <p aria-level="2" class="caption" role="heading">
- <span class="caption-text">
-  Contents:
- </span>
-</p>
-<ul class="current nav bd-sidenav">
- <li class="toctree-l1">
-  <a class="reference internal" href="../quickstart.html">
-   Quick Start
-  </a>
- </li>
- <li class="toctree-l1 current active has-children">
-  <a class="reference internal" href="../api.html">
-   Fuzzy Machines API
-  </a>
-  <input checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/>
-  <label for="toctree-checkbox-1">
-   <i class="fas fa-chevron-down">
-   </i>
-  </label>
-  <ul class="current">
-   <li class="toctree-l2 has-children">
-    <a class="reference internal" href="engine.html">
-     engine
-    </a>
-    <input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/>
-    <label for="toctree-checkbox-2">
-     <i class="fas fa-chevron-down">
-     </i>
-    </label>
-    <ul>
-     <li class="toctree-l3">
-      <a class="reference internal" href="engine.Engine.html">
-       engine.Engine
-      </a>
-     </li>
-    </ul>
-   </li>
-   <li class="toctree-l2 has-children">
-    <a class="reference internal" href="kernel.html">
-     kernel
-    </a>
-    <input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/>
-    <label for="toctree-checkbox-3">
-     <i class="fas fa-chevron-down">
-     </i>
-    </label>
-    <ul>
-     <li class="toctree-l3">
-      <a class="reference internal" href="kernel.Kernel.html">
-       kernel.Kernel
-      </a>
-     </li>
-    </ul>
-   </li>
-   <li class="toctree-l2 current active has-children">
-    <a class="reference internal" href="memb_funcs.html">
-     memb_funcs
-    </a>
-    <input checked="" class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/>
-    <label for="toctree-checkbox-4">
-     <i class="fas fa-chevron-down">
-     </i>
-    </label>
-    <ul class="current">
-     <li class="toctree-l3">
-      <a class="reference internal" href="memb_funcs.Constant.html">
-       memb_funcs.Constant
-      </a>
-     </li>
-     <li class="toctree-l3">
-      <a class="reference internal" href="memb_funcs.FunctionBase.html">
-       memb_funcs.FunctionBase
-      </a>
-     </li>
-     <li class="toctree-l3">
-      <a class="reference internal" href="memb_funcs.Gauss2mf.html">
-       memb_funcs.Gauss2mf
-      </a>
-     </li>
-     <li class="toctree-l3">
-      <a class="reference internal" href="memb_funcs.Gaussmf.html">
-       memb_funcs.Gaussmf
-      </a>
-     </li>
-     <li class="toctree-l3">
-      <a class="reference internal" href="memb_funcs.Gbellmf.html">
-       memb_funcs.Gbellmf
-      </a>
-     </li>
-     <li class="toctree-l3 current active">
-      <a class="current reference internal" href="#">
-       memb_funcs.Linear
-      </a>
-     </li>
-     <li class="toctree-l3">
-      <a class="reference internal" href="memb_funcs.Pimf.html">
-       memb_funcs.Pimf
-      </a>
-     </li>
-     <li class="toctree-l3">
-      <a class="reference internal" href="memb_funcs.Singleton.html">
-       memb_funcs.Singleton
-      </a>
-     </li>
-     <li class="toctree-l3">
-      <a class="reference internal" href="memb_funcs.Smf.html">
-       memb_funcs.Smf
-      </a>
-     </li>
-     <li class="toctree-l3">
-      <a class="reference internal" href="memb_funcs.Trapmf.html">
-       memb_funcs.Trapmf
-      </a>
-     </li>
-     <li class="toctree-l3">
-      <a class="reference internal" href="memb_funcs.Trimf.html">
-       memb_funcs.Trimf
-      </a>
-     </li>
-     <li class="toctree-l3">
-      <a class="reference internal" href="memb_funcs.Zmf.html">
-       memb_funcs.Zmf
-      </a>
-     </li>
-    </ul>
-   </li>
-   <li class="toctree-l2 has-children">
-    <a class="reference internal" href="operators.html">
-     operators
-    </a>
-    <input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" type="checkbox"/>
-    <label for="toctree-checkbox-5">
-     <i class="fas fa-chevron-down">
-     </i>
-    </label>
-    <ul>
-     <li class="toctree-l3">
-      <a class="reference internal" href="operators.and_bounded_diff.html">
-       operators.and_bounded_diff
-      </a>
-     </li>
-     <li class="toctree-l3">
-      <a class="reference internal" href="operators.and_default.html">
-       operators.and_default
-      </a>
-     </li>
-     <li class="toctree-l3">
-      <a class="reference internal" href="operators.and_product.html">
-       operators.and_product
-      </a>
-     </li>
-     <li class="toctree-l3">
-      <a class="reference internal" href="operators.is_default.html">
-       operators.is_default
-      </a>
-     </li>
-     <li class="toctree-l3">
-      <a class="reference internal" href="operators.not_default.html">
-       operators.not_default
-      </a>
-     </li>
-     <li class="toctree-l3">
-      <a class="reference internal" href="operators.or_algebraic_product.html">
-       operators.or_algebraic_product
-      </a>
-     </li>
-     <li class="toctree-l3">
-      <a class="reference internal" href="operators.or_bounded_sum.html">
-       operators.or_bounded_sum
-      </a>
-     </li>
-     <li class="toctree-l3">
-      <a class="reference internal" href="operators.or_default.html">
-       operators.or_default
-      </a>
-     </li>
-     <li class="toctree-l3">
-      <a class="reference internal" href="operators.DefuzzEnum.html">
-       operators.DefuzzEnum
-      </a>
-     </li>
-     <li class="toctree-l3">
-      <a class="reference internal" href="operators.OperatorEnum.html">
-       operators.OperatorEnum
-      </a>
-     </li>
-     <li class="toctree-l3">
-      <a class="reference internal" href="operators.RuleAggregationEnum.html">
-       operators.RuleAggregationEnum
-      </a>
-     </li>
-    </ul>
-   </li>
-   <li class="toctree-l2 has-children">
-    <a class="reference internal" href="rules.html">
-     rules
-    </a>
-    <input class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" type="checkbox"/>
-    <label for="toctree-checkbox-6">
-     <i class="fas fa-chevron-down">
-     </i>
-    </label>
-    <ul>
-     <li class="toctree-l3">
-      <a class="reference internal" href="rules.AND.html">
-       rules.AND
-      </a>
-     </li>
-     <li class="toctree-l3">
-      <a class="reference internal" href="rules.IS.html">
-       rules.IS
-      </a>
-     </li>
-     <li class="toctree-l3">
-      <a class="reference internal" href="rules.NOT.html">
-       rules.NOT
-      </a>
-     </li>
-     <li class="toctree-l3">
-      <a class="reference internal" href="rules.OR.html">
-       rules.OR
-      </a>
-     </li>
-     <li class="toctree-l3">
-      <a class="reference internal" href="rules.RuleBase.html">
-       rules.RuleBase
-      </a>
-     </li>
-     <li class="toctree-l3">
-      <a class="reference internal" href="rules.Rules.html">
-       rules.Rules
-      </a>
-     </li>
-    </ul>
-   </li>
-  </ul>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="../HISTORY.html">
-   History
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="../CONTRIBUTING.html">
-   Contributing
-  </a>
- </li>
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../index.html" class="icon icon-home"> Fuzzy Machines
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../quickstart.html">Quick Start</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../api.html">Fuzzy Machines API</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="engine.html">engine</a></li>
+<li class="toctree-l2"><a class="reference internal" href="kernel.html">kernel</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="memb_funcs.html">memb_funcs</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="memb_funcs.Constant.html">memb_funcs.Constant</a></li>
+<li class="toctree-l3"><a class="reference internal" href="memb_funcs.FunctionBase.html">memb_funcs.FunctionBase</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">memb_funcs.Linear</a></li>
+<li class="toctree-l3"><a class="reference internal" href="memb_funcs.Singleton.html">memb_funcs.Singleton</a></li>
+<li class="toctree-l3"><a class="reference internal" href="memb_funcs.Trapmf.html">memb_funcs.Trapmf</a></li>
+<li class="toctree-l3"><a class="reference internal" href="memb_funcs.Trimf.html">memb_funcs.Trimf</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="operators.html">operators</a></li>
+<li class="toctree-l2"><a class="reference internal" href="rules.html">rules</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../HISTORY.html">History</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../CONTRIBUTING.html">Contributing</a></li>
 </ul>
 
-    </div>
-</nav> <!-- To handle the deprecated key -->
-
-<div class="navbar_extra_footer">
-  Theme by the <a href="https://ebp.jupyterbook.org">Executable Book Project</a>
-</div>
-
-</div>
-
-
-          
-
-
-          
-<main class="col py-md-3 pl-md-4 bd-content overflow-auto" role="main">
-    
-    <div class="topbar container-xl fixed-top">
-    <div class="topbar-contents row">
-        <div class="col-12 col-md-3 bd-topbar-whitespace site-navigation show"></div>
-        <div class="col pl-md-4 topbar-main">
-            
-            <button id="navbar-toggler" class="navbar-toggler ml-0" type="button" data-toggle="collapse"
-                data-toggle="tooltip" data-placement="bottom" data-target=".site-navigation" aria-controls="navbar-menu"
-                aria-expanded="true" aria-label="Toggle navigation" aria-controls="site-navigation"
-                title="Toggle navigation" data-toggle="tooltip" data-placement="left">
-                <i class="fas fa-bars"></i>
-                <i class="fas fa-arrow-left"></i>
-                <i class="fas fa-arrow-up"></i>
-            </button>
-            
-            
-<div class="dropdown-buttons-trigger">
-    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Download this page"><i
-            class="fas fa-download"></i></button>
-
-    <div class="dropdown-buttons">
-        <!-- ipynb file if we had a myst markdown file -->
-        
-        <!-- Download raw file -->
-        <a class="dropdown-buttons" href="../_sources/generated/memb_funcs.Linear.rst.txt"><button type="button"
-                class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
-                data-placement="left">.rst</button></a>
-        <!-- Download PDF via print -->
-        <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF"
-                onclick="printPdf(this)" data-toggle="tooltip" data-placement="left">.pdf</button>
-    </div>
-</div>
-
-            <!-- Source interaction buttons -->
-
-            <!-- Full screen (wrap in <a> to have style consistency -->
-
-<a class="full-screen-button"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip"
-        data-placement="bottom" onclick="toggleFullScreen()" aria-label="Fullscreen mode"
-        title="Fullscreen mode"><i
-            class="fas fa-expand"></i></button></a>
-
-            <!-- Launch buttons -->
-
         </div>
+      </div>
+    </nav>
 
-        <!-- Table of contents -->
-        <div class="d-none d-md-block col-md-2 bd-toc show noprint">
-            
-        </div>
-    </div>
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Fuzzy Machines</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="../api.html">Fuzzy Machines API</a> &raquo;</li>
+          <li><a href="memb_funcs.html">memb_funcs</a> &raquo;</li>
+      <li>memb_funcs.Linear</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/generated/memb_funcs.Linear.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
 </div>
-    <div id="main-content" class="row">
-        <div class="col-12 col-md-9 pl-md-3 pr-md-0">
-            <!-- Table of contents that is only displayed when printing the page -->
-            <div id="jb-print-docs-body" class="onlyprint">
-                <h1>memb_funcs.Linear</h1>
-                <!-- Table of contents -->
-                <div id="print-main-content">
-                    <div id="jb-print-toc">
-                        
-                    </div>
-                </div>
-            </div>
-            
-              <div>
-                
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
   <div class="section" id="memb-funcs-linear">
-<h1>memb_funcs.Linear<a class="headerlink" href="#memb-funcs-linear" title="Permalink to this headline">¶</a></h1>
+<h1>memb_funcs.Linear<a class="headerlink" href="#memb-funcs-linear" title="Permalink to this headline"></a></h1>
 <dl class="py class">
 <dt class="sig sig-object py" id="memb_funcs.Linear">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">memb_funcs.</span></span><span class="sig-name descname"><span class="pre">Linear</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">y_eq_zero</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_eq_one</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/memb_funcs.html#Linear"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#memb_funcs.Linear" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">memb_funcs.</span></span><span class="sig-name descname"><span class="pre">Linear</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">y_eq_zero</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_eq_one</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/memb_funcs.html#Linear"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#memb_funcs.Linear" title="Permalink to this definition"></a></dt>
 <dd><p>Bases: <a class="reference internal" href="memb_funcs.FunctionBase.html#memb_funcs.FunctionBase" title="memb_funcs.FunctionBase"><code class="xref py py-class docutils literal notranslate"><span class="pre">memb_funcs.FunctionBase</span></code></a></p>
 <p>Linear function</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="memb_funcs.Linear.__init__">
-<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">y_eq_zero</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_eq_one</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="../_modules/memb_funcs.html#Linear.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#memb_funcs.Linear.__init__" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">y_eq_zero</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_eq_one</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="../_modules/memb_funcs.html#Linear.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#memb_funcs.Linear.__init__" title="Permalink to this definition"></a></dt>
 <dd></dd></dl>
 
 <p class="rubric">Methods</p>
-<table class="longtable table autosummary">
+<table class="longtable docutils align-default">
 <colgroup>
 <col style="width: 10%" />
 <col style="width: 90%" />
@@ -424,11 +110,11 @@
 <tr class="row-even"><td><p><a class="reference internal" href="#memb_funcs.Linear.area" title="memb_funcs.Linear.area"><code class="xref py py-obj docutils literal notranslate"><span class="pre">area</span></code></a>([activation, granularity])</p></td>
 <td><p>Numerical integration to calculate area</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">describe</span></code>()</p></td>
-<td><p></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#memb_funcs.Linear.describe" title="memb_funcs.Linear.describe"><code class="xref py py-obj docutils literal notranslate"><span class="pre">describe</span></code></a>()</p></td>
+<td><p>describe is an function-optimized iterator, from min_v to max_v returning a tuple of             ndarrays as X and Y values.</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">naive_describe</span></code>(activation, granularity)</p></td>
-<td><p></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#memb_funcs.Linear.naive_describe" title="memb_funcs.Linear.naive_describe"><code class="xref py py-obj docutils literal notranslate"><span class="pre">naive_describe</span></code></a>(activation, granularity)</p></td>
+<td><p>same as describe, but not optmize.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#memb_funcs.Linear.naive_integration" title="memb_funcs.Linear.naive_integration"><code class="xref py py-obj docutils literal notranslate"><span class="pre">naive_integration</span></code></a>(activation, granularity)</p></td>
 <td><p>naive linear integration traversing the entire function.</p></td>
@@ -440,7 +126,7 @@
 </table>
 <dl class="py method">
 <dt class="sig sig-object py" id="memb_funcs.Linear.area">
-<span class="sig-name descname"><span class="pre">area</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">activation</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">granularity</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.01</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#memb_funcs.Linear.area" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">area</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">activation</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">granularity</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.01</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#memb_funcs.Linear.area" title="Permalink to this definition"></a></dt>
 <dd><p>Numerical integration to calculate area</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -453,15 +139,52 @@
 </dd></dl>
 
 <dl class="py method">
+<dt class="sig sig-object py" id="memb_funcs.Linear.describe">
+<span class="sig-name descname"><span class="pre">describe</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/memb_funcs.html#Linear.describe"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#memb_funcs.Linear.describe" title="Permalink to this definition"></a></dt>
+<dd><p>describe is an function-optimized iterator, from min_v to max_v returning a tuple of             ndarrays as X and Y values. Useful for plotting a line graph and visualizing             the membership function shape</p>
+<dl class="field-list simple">
+<dt class="field-odd">Raises</dt>
+<dd class="field-odd"><p><strong>NotImplementedError</strong> – means the membership function is missing the describe method</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>a tuple of X-Y value arrays</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>Tuple[np.ndarray, np.ndarray]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="memb_funcs.Linear.naive_describe">
+<span class="sig-name descname"><span class="pre">naive_describe</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">activation</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">granularity</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">numpy.ndarray</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">numpy.ndarray</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#memb_funcs.Linear.naive_describe" title="Permalink to this definition"></a></dt>
+<dd><p>same as describe, but not optmize. Draws an iterator with linear values between             min_v and max_v and a certain granularity.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>activation</strong> (<em>float</em>) – max y-value for any x-value</p></li>
+<li><p><strong>granularity</strong> (<em>float</em>) – defines the linear iteration sample size</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>a tuple of X-Y value arrays.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>Tuple[np.ndarray, np.ndarray]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="memb_funcs.Linear.naive_integration">
-<span class="sig-name descname"><span class="pre">naive_integration</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">activation</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">granularity</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">numpy.ndarray</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#memb_funcs.Linear.naive_integration" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">naive_integration</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">activation</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">granularity</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">numpy.ndarray</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#memb_funcs.Linear.naive_integration" title="Permalink to this definition"></a></dt>
 <dd><p>naive linear integration traversing the entire function.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><p><strong>granularity</strong> (<em>float</em>) – sample size to numerical integration approximation</p>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><p>List of Tuple object containing (a, b, f(x)) for numerical integration</p>
+<dd class="field-even"><p>List of Tuple object containing (a, b, f(x))                 for numerical integration</p>
 </dd>
 <dt class="field-odd">Return type</dt>
 <dd class="field-odd"><p>List[Tuple[float, float, np.ndarray]]</p>
@@ -471,7 +194,7 @@
 
 <dl class="py method">
 <dt class="sig sig-object py" id="memb_funcs.Linear.optimal_integration">
-<span class="sig-name descname"><span class="pre">optimal_integration</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">activation</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">numpy.ndarray</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/memb_funcs.html#Linear.optimal_integration"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#memb_funcs.Linear.optimal_integration" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">optimal_integration</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">activation</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">numpy.ndarray</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/memb_funcs.html#Linear.optimal_integration"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#memb_funcs.Linear.optimal_integration" title="Permalink to this definition"></a></dt>
 <dd><p>Optimal integration strategy. Defined at subclass</p>
 </dd></dl>
 
@@ -480,44 +203,34 @@
 </div>
 
 
-              </div>
-              
-            
-                <!-- Previous / next buttons -->
-<div class='prev-next-area'> 
-    <a class='left-prev' id="prev-link" href="memb_funcs.Gbellmf.html" title="previous page">
-        <i class="fas fa-angle-left"></i>
-        <div class="prev-next-info">
-            <p class="prev-next-subtitle">previous</p>
-            <p class="prev-next-title">memb_funcs.Gbellmf</p>
-        </div>
-    </a>
-    <a class='right-next' id="next-link" href="memb_funcs.Pimf.html" title="next page">
-    <div class="prev-next-info">
-        <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">memb_funcs.Pimf</p>
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="memb_funcs.FunctionBase.html" class="btn btn-neutral float-left" title="memb_funcs.FunctionBase" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="memb_funcs.Singleton.html" class="btn btn-neutral float-right" title="memb_funcs.Singleton" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
-    <i class="fas fa-angle-right"></i>
-    </a>
-</div>
-            
-        </div>
-    </div>
-    <footer class="footer">
-  <p>
-    
-      By Caio Castro<br/>
-    
-        &copy; Copyright 2022, Caio Castro.<br/>
-  </p>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Caio Castro.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
 </footer>
-</main>
-
-
+        </div>
       </div>
-    </div>
-  
-  <script src="../_static/js/index.be7d3bbb2ef33a8344ce.js"></script>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
 
-  </body>
+</body>
 </html>
