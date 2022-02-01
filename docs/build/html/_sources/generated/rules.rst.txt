@@ -20,6 +20,7 @@
       :template: custom-class-template.rst               
    
       AND
+      IS
       NOT
       OR
       RuleBase

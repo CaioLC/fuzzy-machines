@@ -20,7 +20,6 @@
       :template: custom-class-template.rst               
    
       Kernel
-      KernelFuncMember
    
    
 

@@ -1,516 +1,148 @@
-
 <!DOCTYPE html>
-
-<html>
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Quick Start &#8212; Fuzzy Machines 0.0.1 documentation</title>
-    
-  <link href="_static/css/theme.css" rel="stylesheet">
-  <link href="_static/css/index.ff1ffe594081f20da1ef19478df9384b.css" rel="stylesheet">
-
-    
-  <link rel="stylesheet"
-    href="_static/vendor/fontawesome/5.13.0/css/all.min.css">
-  <link rel="preload" as="font" type="font/woff2" crossorigin
-    href="_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
-  <link rel="preload" as="font" type="font/woff2" crossorigin
-    href="_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
-
-    
-      
-
-    
-    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
-    <link rel="stylesheet" type="text/css" href="_static/sphinx-book-theme.css?digest=c3fdc42140077d1ad13ad2f1588a4309" />
-    
-  <link rel="preload" as="script" href="_static/js/index.be7d3bbb2ef33a8344ce.js">
-
-    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
-    <script src="_static/jquery.js"></script>
-    <script src="_static/underscore.js"></script>
-    <script src="_static/doctools.js"></script>
-    <script src="_static/sphinx-book-theme.d59cb220de22ca1c485ebbdc042f0030.js"></script>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Quick Start &mdash; Fuzzy Machines 0.1.0 documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+    <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="Fuzzy Machines API" href="api.html" />
-    <link rel="prev" title="Fuzzy Machines’s documentation" href="index.html" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="docsearch:language" content="None">
-    
+    <link rel="prev" title="Fuzzy Machines’s documentation" href="index.html" /> 
+</head>
 
-    <!-- Google Analytics -->
-    
-  </head>
-  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
-    
-    <div class="container-fluid" id="banner"></div>
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="index.html" class="icon icon-home"> Fuzzy Machines
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Quick Start</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#first-step-defining-the-problem">First Step: defining the problem</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#second-step-building-the-input-kernels">Second Step: building the Input Kernels</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#third-step-inference-system">Third Step: Inference System</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#fourth-step-rules">Fourth Step: Rules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#fifth-step-putting-it-all-together">Fifth Step: Putting it all together</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#running-the-machine">Running the machine</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#tl-dr">TL;DR</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="api.html">Fuzzy Machines API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="HISTORY.html">History</a></li>
+<li class="toctree-l1"><a class="reference internal" href="CONTRIBUTING.html">Contributing</a></li>
+</ul>
 
-    
+        </div>
+      </div>
+    </nav>
 
-    <div class="container-xl">
-      <div class="row">
-          
-<div class="col-12 col-md-3 bd-sidebar site-navigation show" id="site-navigation">
-    
-        <div class="navbar-brand-box">
-    <a class="navbar-brand text-wrap" href="index.html">
-      
-      
-      
-      <h1 class="site-logo" id="site-title">Fuzzy Machines 0.0.1 documentation</h1>
-      
-    </a>
-</div><form class="bd-search d-flex align-items-center" action="search.html" method="get">
-  <i class="icon fas fa-search"></i>
-  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search the docs ..." aria-label="Search the docs ..." autocomplete="off" >
-</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
-    <div class="bd-toc-item active">
-        <p aria-level="2" class="caption" role="heading">
- <span class="caption-text">
-  Contents:
- </span>
-</p>
-<ul class="current nav bd-sidenav">
- <li class="toctree-l1 current active">
-  <a class="current reference internal" href="#">
-   Quick Start
-  </a>
- </li>
- <li class="toctree-l1 has-children">
-  <a class="reference internal" href="api.html">
-   Fuzzy Machines API
-  </a>
-  <input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/>
-  <label for="toctree-checkbox-1">
-   <i class="fas fa-chevron-down">
-   </i>
-  </label>
-  <ul>
-   <li class="toctree-l2 has-children">
-    <a class="reference internal" href="generated/engine.html">
-     engine
-    </a>
-    <input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/>
-    <label for="toctree-checkbox-2">
-     <i class="fas fa-chevron-down">
-     </i>
-    </label>
-    <ul>
-     <li class="toctree-l3">
-      <a class="reference internal" href="generated/engine.Engine.html">
-       engine.Engine
-      </a>
-     </li>
-    </ul>
-   </li>
-   <li class="toctree-l2 has-children">
-    <a class="reference internal" href="generated/kernel.html">
-     kernel
-    </a>
-    <input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/>
-    <label for="toctree-checkbox-3">
-     <i class="fas fa-chevron-down">
-     </i>
-    </label>
-    <ul>
-     <li class="toctree-l3">
-      <a class="reference internal" href="generated/kernel.Kernel.html">
-       kernel.Kernel
-      </a>
-     </li>
-     <li class="toctree-l3">
-      <a class="reference internal" href="generated/kernel.KernelFuncMember.html">
-       kernel.KernelFuncMember
-      </a>
-     </li>
-    </ul>
-   </li>
-   <li class="toctree-l2 has-children">
-    <a class="reference internal" href="generated/memb_funcs.html">
-     memb_funcs
-    </a>
-    <input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/>
-    <label for="toctree-checkbox-4">
-     <i class="fas fa-chevron-down">
-     </i>
-    </label>
-    <ul>
-     <li class="toctree-l3">
-      <a class="reference internal" href="generated/memb_funcs.Constant.html">
-       memb_funcs.Constant
-      </a>
-     </li>
-     <li class="toctree-l3">
-      <a class="reference internal" href="generated/memb_funcs.FunctionBase.html">
-       memb_funcs.FunctionBase
-      </a>
-     </li>
-     <li class="toctree-l3">
-      <a class="reference internal" href="generated/memb_funcs.Gauss2mf.html">
-       memb_funcs.Gauss2mf
-      </a>
-     </li>
-     <li class="toctree-l3">
-      <a class="reference internal" href="generated/memb_funcs.Gaussmf.html">
-       memb_funcs.Gaussmf
-      </a>
-     </li>
-     <li class="toctree-l3">
-      <a class="reference internal" href="generated/memb_funcs.Gbellmf.html">
-       memb_funcs.Gbellmf
-      </a>
-     </li>
-     <li class="toctree-l3">
-      <a class="reference internal" href="generated/memb_funcs.Linear.html">
-       memb_funcs.Linear
-      </a>
-     </li>
-     <li class="toctree-l3">
-      <a class="reference internal" href="generated/memb_funcs.Pimf.html">
-       memb_funcs.Pimf
-      </a>
-     </li>
-     <li class="toctree-l3">
-      <a class="reference internal" href="generated/memb_funcs.Smf.html">
-       memb_funcs.Smf
-      </a>
-     </li>
-     <li class="toctree-l3">
-      <a class="reference internal" href="generated/memb_funcs.Trapmf.html">
-       memb_funcs.Trapmf
-      </a>
-     </li>
-     <li class="toctree-l3">
-      <a class="reference internal" href="generated/memb_funcs.Trimf.html">
-       memb_funcs.Trimf
-      </a>
-     </li>
-     <li class="toctree-l3">
-      <a class="reference internal" href="generated/memb_funcs.Zmf.html">
-       memb_funcs.Zmf
-      </a>
-     </li>
-    </ul>
-   </li>
-   <li class="toctree-l2 has-children">
-    <a class="reference internal" href="generated/operands.html">
-     operands
-    </a>
-    <input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" type="checkbox"/>
-    <label for="toctree-checkbox-5">
-     <i class="fas fa-chevron-down">
-     </i>
-    </label>
-    <ul>
-     <li class="toctree-l3">
-      <a class="reference internal" href="generated/operands.and_default.html">
-       operands.and_default
-      </a>
-     </li>
-     <li class="toctree-l3">
-      <a class="reference internal" href="generated/operands.not_default.html">
-       operands.not_default
-      </a>
-     </li>
-     <li class="toctree-l3">
-      <a class="reference internal" href="generated/operands.or_default.html">
-       operands.or_default
-      </a>
-     </li>
-     <li class="toctree-l3">
-      <a class="reference internal" href="generated/operands.OperandEnum.html">
-       operands.OperandEnum
-      </a>
-     </li>
-    </ul>
-   </li>
-   <li class="toctree-l2 has-children">
-    <a class="reference internal" href="generated/rules.html">
-     rules
-    </a>
-    <input class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" type="checkbox"/>
-    <label for="toctree-checkbox-6">
-     <i class="fas fa-chevron-down">
-     </i>
-    </label>
-    <ul>
-     <li class="toctree-l3">
-      <a class="reference internal" href="generated/rules.AND.html">
-       rules.AND
-      </a>
-     </li>
-     <li class="toctree-l3">
-      <a class="reference internal" href="generated/rules.NOT.html">
-       rules.NOT
-      </a>
-     </li>
-     <li class="toctree-l3">
-      <a class="reference internal" href="generated/rules.OR.html">
-       rules.OR
-      </a>
-     </li>
-     <li class="toctree-l3">
-      <a class="reference internal" href="generated/rules.RuleBase.html">
-       rules.RuleBase
-      </a>
-     </li>
-     <li class="toctree-l3">
-      <a class="reference internal" href="generated/rules.Rules.html">
-       rules.Rules
-      </a>
-     </li>
-    </ul>
-   </li>
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Fuzzy Machines</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+      <li>Quick Start</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/quickstart.rst.txt" rel="nofollow"> View page source</a>
+      </li>
   </ul>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="HISTORY.html">
-   History
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="CONTRIBUTING.html">
-   Contributing
-  </a>
- </li>
-</ul>
-
-    </div>
-</nav> <!-- To handle the deprecated key -->
-
-<div class="navbar_extra_footer">
-  Theme by the <a href="https://ebp.jupyterbook.org">Executable Book Project</a>
+  <hr/>
 </div>
-
-</div>
-
-
-          
-
-
-          
-<main class="col py-md-3 pl-md-4 bd-content overflow-auto" role="main">
-    
-    <div class="topbar container-xl fixed-top">
-    <div class="topbar-contents row">
-        <div class="col-12 col-md-3 bd-topbar-whitespace site-navigation show"></div>
-        <div class="col pl-md-4 topbar-main">
-            
-            <button id="navbar-toggler" class="navbar-toggler ml-0" type="button" data-toggle="collapse"
-                data-toggle="tooltip" data-placement="bottom" data-target=".site-navigation" aria-controls="navbar-menu"
-                aria-expanded="true" aria-label="Toggle navigation" aria-controls="site-navigation"
-                title="Toggle navigation" data-toggle="tooltip" data-placement="left">
-                <i class="fas fa-bars"></i>
-                <i class="fas fa-arrow-left"></i>
-                <i class="fas fa-arrow-up"></i>
-            </button>
-            
-            
-<div class="dropdown-buttons-trigger">
-    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Download this page"><i
-            class="fas fa-download"></i></button>
-
-    <div class="dropdown-buttons">
-        <!-- ipynb file if we had a myst markdown file -->
-        
-        <!-- Download raw file -->
-        <a class="dropdown-buttons" href="_sources/quickstart.rst.txt"><button type="button"
-                class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
-                data-placement="left">.rst</button></a>
-        <!-- Download PDF via print -->
-        <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF"
-                onclick="printPdf(this)" data-toggle="tooltip" data-placement="left">.pdf</button>
-    </div>
-</div>
-
-            <!-- Source interaction buttons -->
-
-            <!-- Full screen (wrap in <a> to have style consistency -->
-
-<a class="full-screen-button"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip"
-        data-placement="bottom" onclick="toggleFullScreen()" aria-label="Fullscreen mode"
-        title="Fullscreen mode"><i
-            class="fas fa-expand"></i></button></a>
-
-            <!-- Launch buttons -->
-
-        </div>
-
-        <!-- Table of contents -->
-        <div class="d-none d-md-block col-md-2 bd-toc show noprint">
-            
-            <div class="tocsection onthispage pt-5 pb-3">
-                <i class="fas fa-list"></i> Contents
-            </div>
-            <nav id="bd-toc-nav" aria-label="Page">
-                <ul class="visible nav section-nav flex-column">
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#first-step-defining-the-problem">
-   First Step: defining the problem
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#second-step-building-the-input-kernels">
-   Second Step: building the Input Kernels
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#third-step-inference-system">
-   Third Step: Inference System
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#fourth-step-rules">
-   Fourth Step: Rules
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#fifth-step-putting-it-all-together">
-   Fifth Step: Putting it all together
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#running-the-machine">
-   Running the machine
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#tl-dr">
-   TL;DR
-  </a>
- </li>
-</ul>
-
-            </nav>
-        </div>
-    </div>
-</div>
-    <div id="main-content" class="row">
-        <div class="col-12 col-md-9 pl-md-3 pr-md-0">
-            <!-- Table of contents that is only displayed when printing the page -->
-            <div id="jb-print-docs-body" class="onlyprint">
-                <h1>Quick Start</h1>
-                <!-- Table of contents -->
-                <div id="print-main-content">
-                    <div id="jb-print-toc">
-                        
-                        <div>
-                            <h2> Contents </h2>
-                        </div>
-                        <nav aria-label="Page">
-                            <ul class="visible nav section-nav flex-column">
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#first-step-defining-the-problem">
-   First Step: defining the problem
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#second-step-building-the-input-kernels">
-   Second Step: building the Input Kernels
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#third-step-inference-system">
-   Third Step: Inference System
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#fourth-step-rules">
-   Fourth Step: Rules
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#fifth-step-putting-it-all-together">
-   Fifth Step: Putting it all together
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#running-the-machine">
-   Running the machine
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#tl-dr">
-   TL;DR
-  </a>
- </li>
-</ul>
-
-                        </nav>
-                    </div>
-                </div>
-            </div>
-            
-              <div>
-                
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
   <div class="section" id="quick-start">
-<h1>Quick Start<a class="headerlink" href="#quick-start" title="Permalink to this headline">¶</a></h1>
+<h1>Quick Start<a class="headerlink" href="#quick-start" title="Permalink to this headline"></a></h1>
 <p><strong>Fuzzy Machines</strong> is a Python library for building general fuzzy logic inference systems.</p>
 <p>This chapters is intended as a quick and simple example that should give you the big picture on how to use the library, but it is
 not intended as a full explanation on how inference systems work, or why use them. For further reference on the subject as a whole, there is a great youtube series at <a class="reference external" href="https://www.youtube.com/watch?v=__0nZuG4sTw">https://www.youtube.com/watch?v=__0nZuG4sTw</a>. As
 a matter of fact, in this tutorial we will be building a fuzzy machine inspired by the “Restaurant Tip” example of the series, so you can see what a python implementation using this library would look like.</p>
 <div class="section" id="first-step-defining-the-problem">
-<h2>First Step: defining the problem<a class="headerlink" href="#first-step-defining-the-problem" title="Permalink to this headline">¶</a></h2>
+<h2>First Step: defining the problem<a class="headerlink" href="#first-step-defining-the-problem" title="Permalink to this headline"></a></h2>
 <p>Designing fuzzy logic inference systems can get pretty complicated pretty rapidly. So before we get our hands dirty, it is always best to have a clear understanding of what is our data and what we want to achieve.</p>
 <p>Our system is a simple one: we want to define a fair tip percentage we give at a restaurant, given the food quality and service quality. Our data for food and service quality ranges from 0-10 and we want to give tips between 10% and 30%.</p>
 </div>
 <div class="section" id="second-step-building-the-input-kernels">
-<h2>Second Step: building the Input Kernels<a class="headerlink" href="#second-step-building-the-input-kernels" title="Permalink to this headline">¶</a></h2>
+<h2>Second Step: building the Input Kernels<a class="headerlink" href="#second-step-building-the-input-kernels" title="Permalink to this headline"></a></h2>
 <p>The Kernel is one of the building blocks of the Engine we will create following this tutorial. Each Kernel is responsible for mapping raw data about a particular variable of interest to various inner functions.
 In our case, we need one Kernel to describe food quality and a second one to describe food service.</p>
-<p>Each Kernel is comprised of inner membership functions of type KernelFuncMember. If a Kernel describe a particular variable of interest, each KernelFuncMember describe a particular state of such variable.
+<p>Each Kernel is comprised of inner membership functions of type MembershipFunction. If a Kernel describe a particular variable of interest, each MembershipFunction describe a particular state of such variable.
 For instance: (i) the ‘food’ variable could be ‘excelent’ or ‘rancid’; and (ii) the ‘service’ variable could be ‘great’ or ‘poor’.</p>
-<p>For each state (‘good’, ‘rancid’, ‘great’ and ‘poor’) we will instatiate the KernelFuncMember that maps the raw data (remember, 0-10 for both variables, but it will vary from case to case) to a particular function.
-For consistency at the API level, instead of passing a generic function directly, we will instantiate the KernelFuncMembers with membership functions (any class that inherits from FunctionBase).</p>
+<p>For each state (‘good’, ‘rancid’, ‘great’ and ‘poor’) we will instatiate the MembershipFunction that maps the raw data (remember, 0-10 for both variables, but it will vary from case to case) to a particular function.
+For consistency at the API level, instead of passing a generic function directly, we will instantiate with MembershipFunction (any class that inherits from MembershipFunction).</p>
 <p>Putting it all together we have:</p>
-<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">fuzzy_machines.kernel</span> <span class="kn">import</span> <span class="n">Kernel</span><span class="p">,</span> <span class="n">KernelFuncMember</span><span class="p">,</span>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">fuzzy_machines.kernel</span> <span class="kn">import</span> <span class="n">Kernel</span>
 <span class="kn">from</span> <span class="nn">fuzzy_machines.memb_funcs</span> <span class="kn">import</span> <span class="n">Constant</span><span class="p">,</span> <span class="n">Linear</span>
 
 <span class="n">food</span> <span class="o">=</span> <span class="n">Kernel</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span> <span class="c1"># instatiate the &quot;Food Quality Kernel&quot; and register that raw data ranges from 0 to 10 (inclusive)</span>
-<span class="n">food</span><span class="o">.</span><span class="n">add_memb_func</span><span class="p">(</span><span class="s2">&quot;good&quot;</span><span class="p">,</span> <span class="n">KernelFuncMember</span><span class="p">(</span><span class="n">Linear</span><span class="p">(</span><span class="mf">0.1</span><span class="p">,</span> <span class="mi">0</span><span class="p">)))</span> <span class="c1"># register a KernelFuncMember for what is a &#39;good&#39; food quality</span>
-<span class="n">food</span><span class="o">.</span><span class="n">add_memb_func</span><span class="p">(</span><span class="s2">&quot;rancid&quot;</span><span class="p">,</span> <span class="n">KernelFuncMember</span><span class="p">(</span><span class="n">Linear</span><span class="p">(</span><span class="o">-</span><span class="mf">0.1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)))</span> <span class="c1"># register a KernelFuncMember for what is a &#39;rancid&#39; food quality</span>
+<span class="n">food</span><span class="o">.</span><span class="n">add_memb_func</span><span class="p">(</span><span class="s2">&quot;good&quot;</span><span class="p">,</span> <span class="n">Linear</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">))</span> <span class="c1"># register a linear membership function defining what is a &#39;good&#39; food quality</span>
+<span class="n">food</span><span class="o">.</span><span class="n">add_memb_func</span><span class="p">(</span><span class="s2">&quot;rancid&quot;</span><span class="p">,</span> <span class="n">Linear</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span> <span class="c1"># register a linear membership function defining what is a &#39;rancid&#39; food quality</span>
 
 <span class="c1"># now we do the same for the service quality kernel:</span>
 <span class="n">service</span> <span class="o">=</span> <span class="n">Kernel</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
-<span class="n">service</span><span class="o">.</span><span class="n">add_memb_func</span><span class="p">(</span><span class="s2">&quot;great&quot;</span><span class="p">,</span> <span class="n">KernelFuncMember</span><span class="p">(</span><span class="n">Linear</span><span class="p">(</span><span class="mf">0.1</span><span class="p">,</span> <span class="mi">0</span><span class="p">)))</span>
-<span class="n">service</span><span class="o">.</span><span class="n">add_memb_func</span><span class="p">(</span><span class="s2">&quot;poor&quot;</span><span class="p">,</span> <span class="n">KernelFuncMember</span><span class="p">(</span><span class="n">Linear</span><span class="p">(</span><span class="o">-</span><span class="mf">0.1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)))</span>
+<span class="n">service</span><span class="o">.</span><span class="n">add_memb_func</span><span class="p">(</span><span class="s2">&quot;great&quot;</span><span class="p">,</span> <span class="n">Linear</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">))</span>
+<span class="n">service</span><span class="o">.</span><span class="n">add_memb_func</span><span class="p">(</span><span class="s2">&quot;poor&quot;</span><span class="p">,</span> <span class="n">Linear</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span>
 </pre></div>
 </div>
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
 <p>By definition, membership functions maps how much the raw data “fits” each the state definition. The same way probability ranges only between 0-1 (0-100%),
-the Kernel clamps all function results to be between 0 and 1. If the user register a KernelFuncMember that returns values greater than 1 or less than 0, all
-such results will be transformed to 1 and 0 respectively. A quick way to check if the KernelFuncMember are properly set is calling the kernel.describe method and ploting
+the Kernel clamps all function results to be between 0 and 1. If the user register a MembershipFunction that returns values greater than 1 or less than 0, all
+such results will be transformed to 1 and 0 respectively. A quick way to check if the MembershipFunction are properly set is calling the kernel.describe method and ploting
 the results with your preferred plotting library.</p>
 </div>
 </div>
 <div class="section" id="third-step-inference-system">
-<h2>Third Step: Inference System<a class="headerlink" href="#third-step-inference-system" title="Permalink to this headline">¶</a></h2>
-<p>The inference system is also a Kernel, which is formed by KernelFuncMembers and FunctionBases, so the building process is the same as above. The inference system maps the fuzzy states of the output we’re interest.
+<h2>Third Step: Inference System<a class="headerlink" href="#third-step-inference-system" title="Permalink to this headline"></a></h2>
+<p>The inference system is also a Kernel, which is formed by MembershipFunctions, so the building process is the same as above. The inference system maps the fuzzy states of the output we’re interest.
 In our case, we can give the restaurant a ‘low’, ‘average’ or ‘high’ tip, depending on food and service quality. Thus:</p>
 <div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="n">tips</span> <span class="o">=</span> <span class="n">Kernel</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">30</span><span class="p">)</span> <span class="c1"># tips will range between 10% and 30%</span>
-<span class="n">tips</span><span class="o">.</span><span class="n">add_memb_func</span><span class="p">(</span><span class="s2">&quot;low&quot;</span><span class="p">,</span> <span class="n">KernelFuncMember</span><span class="p">(</span><span class="n">Constant</span><span class="p">(</span><span class="mi">10</span><span class="p">)))</span> <span class="c1"># if low we give 10% tip to the restaurant</span>
-<span class="n">tips</span><span class="o">.</span><span class="n">add_memb_func</span><span class="p">(</span><span class="s2">&quot;average&quot;</span><span class="p">,</span> <span class="n">KernelFuncMember</span><span class="p">(</span><span class="n">Constant</span><span class="p">(</span><span class="mi">20</span><span class="p">)))</span>
-<span class="n">tips</span><span class="o">.</span><span class="n">add_memb_func</span><span class="p">(</span><span class="s2">&quot;high&quot;</span><span class="p">,</span> <span class="n">KernelFuncMember</span><span class="p">(</span><span class="n">Constant</span><span class="p">(</span><span class="mi">30</span><span class="p">)))</span>
+<span class="n">tips</span><span class="o">.</span><span class="n">add_memb_func</span><span class="p">(</span><span class="s2">&quot;low&quot;</span><span class="p">,</span> <span class="n">Constant</span><span class="p">(</span><span class="mi">10</span><span class="p">))</span> <span class="c1"># if low we give 10% tip to the restaurant</span>
+<span class="n">tips</span><span class="o">.</span><span class="n">add_memb_func</span><span class="p">(</span><span class="s2">&quot;average&quot;</span><span class="p">,</span> <span class="n">Constant</span><span class="p">(</span><span class="mi">20</span><span class="p">))</span>
+<span class="n">tips</span><span class="o">.</span><span class="n">add_memb_func</span><span class="p">(</span><span class="s2">&quot;high&quot;</span><span class="p">,</span> <span class="n">Constant</span><span class="p">(</span><span class="mi">30</span><span class="p">))</span>
 </pre></div>
 </div>
 </div>
 <div class="section" id="fourth-step-rules">
-<h2>Fourth Step: Rules<a class="headerlink" href="#fourth-step-rules" title="Permalink to this headline">¶</a></h2>
-<p>This is pretty self explanatory. We want to add declarations on how to map food and service quality to the amount of tip we pay the restaurant. This is done by adding rules to the engine, which can be simple dictionaries or a Rule object.
+<h2>Fourth Step: Rules<a class="headerlink" href="#fourth-step-rules" title="Permalink to this headline"></a></h2>
+<p>This is pretty self explanatory. We want to add declarations on how to map food and service quality to the amount of tip we pay the restaurant. This is done by adding rules to the engine, which are of type RuleBase.
 In our example, the tip will be low if food quality is rancid. Average if food quality is good but service is poor. And high if food is good and service is great:</p>
-<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">fuzzy_machines.rules</span> <span class="kn">import</span> <span class="n">AND</span><span class="p">,</span> <span class="n">OR</span><span class="p">,</span> <span class="n">NOT</span>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">fuzzy_machines.rules</span> <span class="kn">import</span> <span class="n">AND</span><span class="p">,</span> <span class="n">OR</span><span class="p">,</span> <span class="n">IS</span><span class="p">,</span> <span class="n">NOT</span>
 
-<span class="n">low</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;low&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;food&quot;</span><span class="p">:</span> <span class="s1">&#39;rancid&#39;</span><span class="p">}}</span>
+<span class="n">low</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;low&quot;</span><span class="p">:</span> <span class="n">IS</span><span class="p">({</span><span class="s2">&quot;food&quot;</span><span class="p">:</span> <span class="s1">&#39;rancid&#39;</span><span class="p">})}</span>
 <span class="n">average</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;average&quot;</span><span class="p">:</span> <span class="n">AND</span><span class="p">({</span><span class="s2">&quot;food&quot;</span><span class="p">:</span> <span class="s2">&quot;good&quot;</span><span class="p">},</span> <span class="p">{</span><span class="s2">&quot;service&quot;</span><span class="p">:</span> <span class="s2">&quot;poor&quot;</span><span class="p">})}</span>
 <span class="n">high</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;high&quot;</span><span class="p">:</span> <span class="n">AND</span><span class="p">({</span><span class="s2">&quot;food&quot;</span><span class="p">:</span> <span class="s2">&quot;good&quot;</span><span class="p">},</span> <span class="p">{</span><span class="s2">&quot;service&quot;</span><span class="p">:</span> <span class="s2">&quot;great&quot;</span><span class="p">})}</span>
 </pre></div>
 </div>
 </div>
 <div class="section" id="fifth-step-putting-it-all-together">
-<h2>Fifth Step: Putting it all together<a class="headerlink" href="#fifth-step-putting-it-all-together" title="Permalink to this headline">¶</a></h2>
+<h2>Fifth Step: Putting it all together<a class="headerlink" href="#fifth-step-putting-it-all-together" title="Permalink to this headline"></a></h2>
 <p>Now it is time to fire up the engine. We create a new Engine object and register the input kernels, inference system and rules:</p>
 <div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">fuzzy_machines.engine</span> <span class="kn">import</span> <span class="n">Engine</span>
 
@@ -527,22 +159,19 @@ In our example, the tip will be low if food quality is rancid. Average if food q
 </div>
 </div>
 <div class="section" id="running-the-machine">
-<h2>Running the machine<a class="headerlink" href="#running-the-machine" title="Permalink to this headline">¶</a></h2>
-<p>With all in place, all you now need to do is fire up the engine. Call eng.fuzzyfy() with the raw data for food and service quality, and you should get the corresponding fuzzy result for the tips amount.</p>
+<h2>Running the machine<a class="headerlink" href="#running-the-machine" title="Permalink to this headline"></a></h2>
+<p>With all in place, all you now need to do is fire up the engine. Call eng.run_fuzz() or eng.run_defuzz() with the raw data for food and service quality, and you should get the corresponding fuzzy result and defuzzy output (respectively) for the tips amount.</p>
 <div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="n">raw_data_example</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;food&#39;</span><span class="p">:</span> <span class="mi">9</span><span class="p">},</span> <span class="p">{</span><span class="s1">&#39;service&#39;</span><span class="p">:</span> <span class="mi">3</span><span class="p">}</span>
-<span class="n">fuzzy_results</span> <span class="o">=</span> <span class="n">eng</span><span class="o">.</span><span class="n">fuzzyfy</span><span class="p">(</span><span class="n">raw_data_example</span><span class="p">)</span>
+<span class="n">fuzzy_results</span> <span class="o">=</span> <span class="n">eng</span><span class="o">.</span><span class="n">run_fuzz</span><span class="p">(</span><span class="n">raw_data_example</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">fuzzy_results</span><span class="p">)</span>
+<span class="c1">## OR ##</span>
+<span class="n">defuzzy_results</span> <span class="o">=</span> <span class="n">eng</span><span class="o">.</span><span class="n">run_defuzz</span><span class="p">(</span><span class="n">raw_data_example</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">defuzzy_results</span><span class="p">)</span>
 </pre></div>
-</div>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>A big part of an inferencing system is converting the fuzzy result to a single numeric result, in a process commonly called ‘defuzzyfication’.
-This has not been implemented yet and is up to the user to come up with an aggregator function. Defuzzyfication is an important process so it should
-be added as an Engine method in the next version of the code.</p>
 </div>
 </div>
 <div class="section" id="tl-dr">
-<h2>TL;DR<a class="headerlink" href="#tl-dr" title="Permalink to this headline">¶</a></h2>
+<h2>TL;DR<a class="headerlink" href="#tl-dr" title="Permalink to this headline"></a></h2>
 <p>Here’s what we we need to do for any fuzzy machine:</p>
 <ol class="arabic simple">
 <li><p>Define the problem: what is the raw data input, the variables, states and inference system and rules.</p></li>
@@ -550,34 +179,33 @@ be added as an Engine method in the next version of the code.</p>
 <li><p>Build the Kernel for the inference system</p></li>
 <li><p>Declare the rules, mapping the kernel input to the inference system</p></li>
 <li><p>Register everything at the Engine level (register Kernels, Inf. System and rules)</p></li>
-<li><p>Fire up the engine with the raw data you have at hands</p></li>
-<li><p>Defuzzyfy the results (not implemented yet).</p></li>
+<li><p>Fire up the engine with the raw data you have at hands. Get the fuzzy or defuzzy output</p></li>
 </ol>
 <p>Here’s the full sample code:</p>
 <div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">fuzzy_machines.engine</span> <span class="kn">import</span> <span class="n">Engine</span>
-<span class="kn">from</span> <span class="nn">fuzzy_machines.kernel</span> <span class="kn">import</span> <span class="n">Kernel</span><span class="p">,</span> <span class="n">KernelFuncMember</span><span class="p">,</span>
+<span class="kn">from</span> <span class="nn">fuzzy_machines.kernel</span> <span class="kn">import</span> <span class="n">Kernel</span>
 <span class="kn">from</span> <span class="nn">fuzzy_machines.memb_funcs</span> <span class="kn">import</span> <span class="n">Constant</span><span class="p">,</span> <span class="n">Linear</span>
 <span class="kn">from</span> <span class="nn">fuzzy_machines.rules</span> <span class="kn">import</span> <span class="n">AND</span><span class="p">,</span> <span class="n">OR</span><span class="p">,</span> <span class="n">NOT</span>
 
 <span class="c1"># Input Kernels:</span>
 <span class="c1"># a. Food Kernel</span>
 <span class="n">food</span> <span class="o">=</span> <span class="n">Kernel</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span> <span class="c1"># instatiate the &quot;Food Quality Kernel&quot; and register that raw data ranges from 0 to 10 (inclusive)</span>
-<span class="n">food</span><span class="o">.</span><span class="n">add_memb_func</span><span class="p">(</span><span class="s2">&quot;good&quot;</span><span class="p">,</span> <span class="n">KernelFuncMember</span><span class="p">(</span><span class="n">Linear</span><span class="p">(</span><span class="mf">0.1</span><span class="p">,</span> <span class="mi">0</span><span class="p">)))</span> <span class="c1"># register a KernelFuncMember for what is a &#39;good&#39; food quality</span>
-<span class="n">food</span><span class="o">.</span><span class="n">add_memb_func</span><span class="p">(</span><span class="s2">&quot;rancid&quot;</span><span class="p">,</span> <span class="n">KernelFuncMember</span><span class="p">(</span><span class="n">Linear</span><span class="p">(</span><span class="o">-</span><span class="mf">0.1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)))</span> <span class="c1"># register a KernelFuncMember for what is a &#39;rancid&#39; food quality</span>
+<span class="n">food</span><span class="o">.</span><span class="n">add_memb_func</span><span class="p">(</span><span class="s2">&quot;good&quot;</span><span class="p">,</span> <span class="n">Linear</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">))</span> <span class="c1"># register a MembershipFunction for what is a &#39;good&#39; food quality</span>
+<span class="n">food</span><span class="o">.</span><span class="n">add_memb_func</span><span class="p">(</span><span class="s2">&quot;rancid&quot;</span><span class="p">,</span> <span class="n">Linear</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span> <span class="c1"># register a MembershipFunction for what is a &#39;rancid&#39; food quality</span>
 
 <span class="c1"># b. Service Kernel</span>
 <span class="n">service</span> <span class="o">=</span> <span class="n">Kernel</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
-<span class="n">service</span><span class="o">.</span><span class="n">add_memb_func</span><span class="p">(</span><span class="s2">&quot;great&quot;</span><span class="p">,</span> <span class="n">KernelFuncMember</span><span class="p">(</span><span class="n">Linear</span><span class="p">(</span><span class="mf">0.1</span><span class="p">,</span> <span class="mi">0</span><span class="p">)))</span>
-<span class="n">service</span><span class="o">.</span><span class="n">add_memb_func</span><span class="p">(</span><span class="s2">&quot;poor&quot;</span><span class="p">,</span> <span class="n">KernelFuncMember</span><span class="p">(</span><span class="n">Linear</span><span class="p">(</span><span class="o">-</span><span class="mf">0.1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)))</span>
+<span class="n">service</span><span class="o">.</span><span class="n">add_memb_func</span><span class="p">(</span><span class="s2">&quot;great&quot;</span><span class="p">,</span> <span class="n">Linear</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">))</span>
+<span class="n">service</span><span class="o">.</span><span class="n">add_memb_func</span><span class="p">(</span><span class="s2">&quot;poor&quot;</span><span class="p">,</span> <span class="n">Linear</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span>
 
 <span class="c1"># Inference System:</span>
 <span class="n">tips</span> <span class="o">=</span> <span class="n">Kernel</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">30</span><span class="p">)</span> <span class="c1"># tips will range between 10% and 30%</span>
-<span class="n">tips</span><span class="o">.</span><span class="n">add_memb_func</span><span class="p">(</span><span class="s2">&quot;low&quot;</span><span class="p">,</span> <span class="n">KernelFuncMember</span><span class="p">(</span><span class="n">Constant</span><span class="p">(</span><span class="mi">10</span><span class="p">)))</span> <span class="c1"># if low we give 10% tip to the restaurant</span>
-<span class="n">tips</span><span class="o">.</span><span class="n">add_memb_func</span><span class="p">(</span><span class="s2">&quot;average&quot;</span><span class="p">,</span> <span class="n">KernelFuncMember</span><span class="p">(</span><span class="n">Constant</span><span class="p">(</span><span class="mi">20</span><span class="p">)))</span>
-<span class="n">tips</span><span class="o">.</span><span class="n">add_memb_func</span><span class="p">(</span><span class="s2">&quot;high&quot;</span><span class="p">,</span> <span class="n">KernelFuncMember</span><span class="p">(</span><span class="n">Constant</span><span class="p">(</span><span class="mi">30</span><span class="p">)))</span>
+<span class="n">tips</span><span class="o">.</span><span class="n">add_memb_func</span><span class="p">(</span><span class="s2">&quot;low&quot;</span><span class="p">,</span> <span class="n">Constant</span><span class="p">(</span><span class="mi">10</span><span class="p">))</span> <span class="c1"># if low we give 10% tip to the restaurant</span>
+<span class="n">tips</span><span class="o">.</span><span class="n">add_memb_func</span><span class="p">(</span><span class="s2">&quot;average&quot;</span><span class="p">,</span> <span class="n">Constant</span><span class="p">(</span><span class="mi">20</span><span class="p">))</span>
+<span class="n">tips</span><span class="o">.</span><span class="n">add_memb_func</span><span class="p">(</span><span class="s2">&quot;high&quot;</span><span class="p">,</span> <span class="n">Constant</span><span class="p">(</span><span class="mi">30</span><span class="p">))</span>
 
 <span class="c1"># Rules:</span>
-<span class="n">low</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;low&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;food&quot;</span><span class="p">:</span> <span class="s1">&#39;rancid&#39;</span><span class="p">}}</span>
+<span class="n">low</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;low&quot;</span><span class="p">:</span> <span class="n">IS</span><span class="p">({</span><span class="s2">&quot;food&quot;</span><span class="p">:</span> <span class="s1">&#39;rancid&#39;</span><span class="p">})}</span>
 <span class="n">average</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;average&quot;</span><span class="p">:</span> <span class="n">AND</span><span class="p">({</span><span class="s2">&quot;food&quot;</span><span class="p">:</span> <span class="s2">&quot;good&quot;</span><span class="p">},</span> <span class="p">{</span><span class="s2">&quot;service&quot;</span><span class="p">:</span> <span class="s2">&quot;poor&quot;</span><span class="p">})}</span>
 <span class="n">high</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;high&quot;</span><span class="p">:</span> <span class="n">AND</span><span class="p">({</span><span class="s2">&quot;food&quot;</span><span class="p">:</span> <span class="s2">&quot;good&quot;</span><span class="p">},</span> <span class="p">{</span><span class="s2">&quot;service&quot;</span><span class="p">:</span> <span class="s2">&quot;great&quot;</span><span class="p">})}</span>
 
@@ -593,53 +221,46 @@ be added as an Engine method in the next version of the code.</p>
 <span class="p">)</span>
 
 <span class="c1"># Fire the engine</span>
-<span class="n">raw_data_example</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">({</span><span class="s2">&quot;food&quot;</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span> <span class="s2">&quot;service&quot;</span><span class="p">:</span> <span class="mi">9</span><span class="p">})</span>
-<span class="n">fuzzy_results</span> <span class="o">=</span> <span class="n">eng</span><span class="o">.</span><span class="n">fuzzyfy</span><span class="p">(</span><span class="n">raw_data_example</span><span class="p">)</span>
+<span class="n">raw_data_example</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;food&#39;</span><span class="p">:</span> <span class="mi">9</span><span class="p">},</span> <span class="p">{</span><span class="s1">&#39;service&#39;</span><span class="p">:</span> <span class="mi">3</span><span class="p">}</span>
+<span class="n">fuzzy_results</span> <span class="o">=</span> <span class="n">eng</span><span class="o">.</span><span class="n">run_fuzz</span><span class="p">(</span><span class="n">raw_data_example</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">fuzzy_results</span><span class="p">)</span>
+<span class="c1">## OR ##</span>
+<span class="n">defuzzy_results</span> <span class="o">=</span> <span class="n">eng</span><span class="o">.</span><span class="n">run_defuzz</span><span class="p">(</span><span class="n">raw_data_example</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">defuzzy_results</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 </div>
 
 
-              </div>
-              
-            
-                <!-- Previous / next buttons -->
-<div class='prev-next-area'> 
-    <a class='left-prev' id="prev-link" href="index.html" title="previous page">
-        <i class="fas fa-angle-left"></i>
-        <div class="prev-next-info">
-            <p class="prev-next-subtitle">previous</p>
-            <p class="prev-next-title">Fuzzy Machines’s documentation</p>
-        </div>
-    </a>
-    <a class='right-next' id="next-link" href="api.html" title="next page">
-    <div class="prev-next-info">
-        <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">Fuzzy Machines API</p>
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="index.html" class="btn btn-neutral float-left" title="Fuzzy Machines’s documentation" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="api.html" class="btn btn-neutral float-right" title="Fuzzy Machines API" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
-    <i class="fas fa-angle-right"></i>
-    </a>
-</div>
-            
-        </div>
-    </div>
-    <footer class="footer">
-  <p>
-    
-      By Caio Castro<br/>
-    
-        &copy; Copyright 2022, Caio Castro.<br/>
-  </p>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Caio Castro.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
 </footer>
-</main>
-
-
+        </div>
       </div>
-    </div>
-  
-  <script src="_static/js/index.be7d3bbb2ef33a8344ce.js"></script>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
 
-  </body>
+</body>
 </html>

@@ -17,6 +17,11 @@ memb\_funcs.Linear
    .. autosummary::
    
       ~Linear.__init__
+      ~Linear.area
+      ~Linear.describe
+      ~Linear.naive_describe
+      ~Linear.naive_integration
+      ~Linear.optimal_integration
    
    
 

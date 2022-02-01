@@ -7,7 +7,7 @@ requirements = ["ipython>=6", "nbformat>=4", "nbconvert>=5", "requests>=2"]
 
 setup(
     name="fuzzy-machines",
-    version="0.0.1",
+    version="0.1.0",
     author="Caio Castro",
     author_email="caio.castro@daocapital.com",
     description="A generic approach to Fuzzy Logic mathematics",

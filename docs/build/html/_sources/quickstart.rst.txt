@@ -23,57 +23,57 @@ Second Step: building the Input Kernels
 The Kernel is one of the building blocks of the Engine we will create following this tutorial. Each Kernel is responsible for mapping raw data about a particular variable of interest to various inner functions. 
 In our case, we need one Kernel to describe food quality and a second one to describe food service.
 
-Each Kernel is comprised of inner membership functions of type KernelFuncMember. If a Kernel describe a particular variable of interest, each KernelFuncMember describe a particular state of such variable.
+Each Kernel is comprised of inner membership functions of type MembershipFunction. If a Kernel describe a particular variable of interest, each MembershipFunction describe a particular state of such variable.
 For instance: (i) the 'food' variable could be 'excelent' or 'rancid'; and (ii) the 'service' variable could be 'great' or 'poor'.
 
-For each state ('good', 'rancid', 'great' and 'poor') we will instatiate the KernelFuncMember that maps the raw data (remember, 0-10 for both variables, but it will vary from case to case) to a particular function.
-For consistency at the API level, instead of passing a generic function directly, we will instantiate the KernelFuncMembers with membership functions (any class that inherits from FunctionBase).
+For each state ('good', 'rancid', 'great' and 'poor') we will instatiate the MembershipFunction that maps the raw data (remember, 0-10 for both variables, but it will vary from case to case) to a particular function.
+For consistency at the API level, instead of passing a generic function directly, we will instantiate with MembershipFunction (any class that inherits from MembershipFunction).
 
 Putting it all together we have:
 
 .. code-block:: python3
 
-    from fuzzy_machines.kernel import Kernel, KernelFuncMember,
+    from fuzzy_machines.kernel import Kernel
     from fuzzy_machines.memb_funcs import Constant, Linear
 
     food = Kernel(0, 10) # instatiate the "Food Quality Kernel" and register that raw data ranges from 0 to 10 (inclusive)
-    food.add_memb_func("good", KernelFuncMember(Linear(0.1, 0))) # register a KernelFuncMember for what is a 'good' food quality
-    food.add_memb_func("rancid", KernelFuncMember(Linear(-0.1, 1))) # register a KernelFuncMember for what is a 'rancid' food quality
+    food.add_memb_func("good", Linear(0, 10)) # register a linear membership function defining what is a 'good' food quality
+    food.add_memb_func("rancid", Linear(10, 0)) # register a linear membership function defining what is a 'rancid' food quality
 
     # now we do the same for the service quality kernel:
     service = Kernel(0, 10)
-    service.add_memb_func("great", KernelFuncMember(Linear(0.1, 0)))
-    service.add_memb_func("poor", KernelFuncMember(Linear(-0.1, 1)))
+    service.add_memb_func("great", Linear(0, 10))
+    service.add_memb_func("poor", Linear(10, 0))
 
 .. warning::
     By definition, membership functions maps how much the raw data "fits" each the state definition. The same way probability ranges only between 0-1 (0-100%),
-    the Kernel clamps all function results to be between 0 and 1. If the user register a KernelFuncMember that returns values greater than 1 or less than 0, all
-    such results will be transformed to 1 and 0 respectively. A quick way to check if the KernelFuncMember are properly set is calling the kernel.describe method and ploting
+    the Kernel clamps all function results to be between 0 and 1. If the user register a MembershipFunction that returns values greater than 1 or less than 0, all
+    such results will be transformed to 1 and 0 respectively. A quick way to check if the MembershipFunction are properly set is calling the kernel.describe method and ploting
     the results with your preferred plotting library.
 
 Third Step: Inference System
 ----------------------------
-The inference system is also a Kernel, which is formed by KernelFuncMembers and FunctionBases, so the building process is the same as above. The inference system maps the fuzzy states of the output we're interest.
+The inference system is also a Kernel, which is formed by MembershipFunctions, so the building process is the same as above. The inference system maps the fuzzy states of the output we're interest.
 In our case, we can give the restaurant a 'low', 'average' or 'high' tip, depending on food and service quality. Thus:
 
 .. code-block:: python3
 
     tips = Kernel(10, 30) # tips will range between 10% and 30%
-    tips.add_memb_func("low", KernelFuncMember(Constant(10))) # if low we give 10% tip to the restaurant
-    tips.add_memb_func("average", KernelFuncMember(Constant(20)))
-    tips.add_memb_func("high", KernelFuncMember(Constant(30)))
+    tips.add_memb_func("low", Constant(10)) # if low we give 10% tip to the restaurant
+    tips.add_memb_func("average", Constant(20))
+    tips.add_memb_func("high", Constant(30))
 
 
 Fourth Step: Rules
 ------------------
-This is pretty self explanatory. We want to add declarations on how to map food and service quality to the amount of tip we pay the restaurant. This is done by adding rules to the engine, which can be simple dictionaries or a Rule object.
+This is pretty self explanatory. We want to add declarations on how to map food and service quality to the amount of tip we pay the restaurant. This is done by adding rules to the engine, which are of type RuleBase.
 In our example, the tip will be low if food quality is rancid. Average if food quality is good but service is poor. And high if food is good and service is great:
 
 .. code-block:: python3
 
-    from fuzzy_machines.rules import AND, OR, NOT
+    from fuzzy_machines.rules import AND, OR, IS, NOT
 
-    low = {"low": {"food": 'rancid'}}
+    low = {"low": IS({"food": 'rancid'})}
     average = {"average": AND({"food": "good"}, {"service": "poor"})}
     high = {"high": AND({"food": "good"}, {"service": "great"})}
 
@@ -98,18 +98,16 @@ Now it is time to fire up the engine. We create a new Engine object and register
 
 Running the machine
 -------------------
-With all in place, all you now need to do is fire up the engine. Call eng.fuzzyfy() with the raw data for food and service quality, and you should get the corresponding fuzzy result for the tips amount.
+With all in place, all you now need to do is fire up the engine. Call eng.run_fuzz() or eng.run_defuzz() with the raw data for food and service quality, and you should get the corresponding fuzzy result and defuzzy output (respectively) for the tips amount.
 
 .. code-block:: python3
 
     raw_data_example = {'food': 9}, {'service': 3}
-    fuzzy_results = eng.fuzzyfy(raw_data_example)
+    fuzzy_results = eng.run_fuzz(raw_data_example)
     print(fuzzy_results)
-
-.. note::
-   A big part of an inferencing system is converting the fuzzy result to a single numeric result, in a process commonly called 'defuzzyfication'.
-   This has not been implemented yet and is up to the user to come up with an aggregator function. Defuzzyfication is an important process so it should
-   be added as an Engine method in the next version of the code.
+    ## OR ##
+    defuzzy_results = eng.run_defuzz(raw_data_example)
+    print(defuzzy_results)
 
 TL;DR
 ---------------------------------
@@ -120,37 +118,37 @@ Here's what we we need to do for any fuzzy machine:
 3. Build the Kernel for the inference system
 4. Declare the rules, mapping the kernel input to the inference system
 5. Register everything at the Engine level (register Kernels, Inf. System and rules)
-6. Fire up the engine with the raw data you have at hands
-7. Defuzzyfy the results (not implemented yet).
+6. Fire up the engine with the raw data you have at hands. Get the fuzzy or defuzzy output
+
 
 Here's the full sample code: 
 
 .. code-block:: python3
 
     from fuzzy_machines.engine import Engine
-    from fuzzy_machines.kernel import Kernel, KernelFuncMember,
+    from fuzzy_machines.kernel import Kernel
     from fuzzy_machines.memb_funcs import Constant, Linear
     from fuzzy_machines.rules import AND, OR, NOT
 
     # Input Kernels:
     # a. Food Kernel
     food = Kernel(0, 10) # instatiate the "Food Quality Kernel" and register that raw data ranges from 0 to 10 (inclusive)
-    food.add_memb_func("good", KernelFuncMember(Linear(0.1, 0))) # register a KernelFuncMember for what is a 'good' food quality
-    food.add_memb_func("rancid", KernelFuncMember(Linear(-0.1, 1))) # register a KernelFuncMember for what is a 'rancid' food quality
+    food.add_memb_func("good", Linear(0, 10)) # register a MembershipFunction for what is a 'good' food quality
+    food.add_memb_func("rancid", Linear(10, 0)) # register a MembershipFunction for what is a 'rancid' food quality
 
     # b. Service Kernel
     service = Kernel(0, 10)
-    service.add_memb_func("great", KernelFuncMember(Linear(0.1, 0)))
-    service.add_memb_func("poor", KernelFuncMember(Linear(-0.1, 1)))
+    service.add_memb_func("great", Linear(0, 10))
+    service.add_memb_func("poor", Linear(10, 0))
 
     # Inference System:
     tips = Kernel(10, 30) # tips will range between 10% and 30%
-    tips.add_memb_func("low", KernelFuncMember(Constant(10))) # if low we give 10% tip to the restaurant
-    tips.add_memb_func("average", KernelFuncMember(Constant(20)))
-    tips.add_memb_func("high", KernelFuncMember(Constant(30)))
+    tips.add_memb_func("low", Constant(10)) # if low we give 10% tip to the restaurant
+    tips.add_memb_func("average", Constant(20))
+    tips.add_memb_func("high", Constant(30))
 
     # Rules:
-    low = {"low": {"food": 'rancid'}}
+    low = {"low": IS({"food": 'rancid'})}
     average = {"average": AND({"food": "good"}, {"service": "poor"})}
     high = {"high": AND({"food": "good"}, {"service": "great"})}
 
@@ -166,6 +164,9 @@ Here's the full sample code:
     )
 
     # Fire the engine
-    raw_data_example = dict({"food": 3, "service": 9})
-    fuzzy_results = eng.fuzzyfy(raw_data_example)
+    raw_data_example = {'food': 9}, {'service': 3}
+    fuzzy_results = eng.run_fuzz(raw_data_example)
     print(fuzzy_results)
+    ## OR ##
+    defuzzy_results = eng.run_defuzz(raw_data_example)
+    print(defuzzy_results)

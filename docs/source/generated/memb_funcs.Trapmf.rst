@@ -17,6 +17,11 @@ memb\_funcs.Trapmf
    .. autosummary::
    
       ~Trapmf.__init__
+      ~Trapmf.area
+      ~Trapmf.describe
+      ~Trapmf.naive_describe
+      ~Trapmf.naive_integration
+      ~Trapmf.optimal_integration
    
    
 
