@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>src.fuzz.engine.Engine &mdash; Fuzzy Machines 0.1.1 documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="src.fuzz.kernel" href="src.fuzz.kernel.html" />
+    <link rel="prev" title="src.fuzz.engine" href="src.fuzz.engine.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../index.html" class="icon icon-home"> Fuzzy Machines
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../quickstart.html">Quick Start</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../api.html">Fuzzy Machines API</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="src.fuzz.engine.html">src.fuzz.engine</a><ul class="current">
+<li class="toctree-l3 current"><a class="current reference internal" href="#">src.fuzz.engine.Engine</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="src.fuzz.kernel.html">src.fuzz.kernel</a></li>
+<li class="toctree-l2"><a class="reference internal" href="src.fuzz.memb_funcs.html">src.fuzz.memb_funcs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="src.fuzz.operators.html">src.fuzz.operators</a></li>
+<li class="toctree-l2"><a class="reference internal" href="src.fuzz.rules.html">src.fuzz.rules</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../HISTORY.html">History</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../CONTRIBUTING.html">Contributing</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Fuzzy Machines</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="../api.html">Fuzzy Machines API</a> &raquo;</li>
+          <li><a href="src.fuzz.engine.html">src.fuzz.engine</a> &raquo;</li>
+      <li>src.fuzz.engine.Engine</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/generated/src.fuzz.engine.Engine.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <div class="section" id="src-fuzz-engine-engine">
+<h1>src.fuzz.engine.Engine<a class="headerlink" href="#src-fuzz-engine-engine" title="Permalink to this headline"></a></h1>
+<dl class="py class">
+<dt class="sig sig-object py" id="src.fuzz.engine.Engine">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">src.fuzz.engine.</span></span><span class="sig-name descname"><span class="pre">Engine</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">operands</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="src.fuzz.operators.OperatorEnum.html#src.fuzz.operators.OperatorEnum" title="src.fuzz.operators.OperatorEnum"><span class="pre">src.fuzz.operators.OperatorEnum</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">OperatorEnum.DEFAULT</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rule_agg</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="src.fuzz.operators.RuleAggregationEnum.html#src.fuzz.operators.RuleAggregationEnum" title="src.fuzz.operators.RuleAggregationEnum"><span class="pre">src.fuzz.operators.RuleAggregationEnum</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">RuleAggregationEnum.MAX</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">defuzz_method</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="src.fuzz.operators.DefuzzEnum.html#src.fuzz.operators.DefuzzEnum" title="src.fuzz.operators.DefuzzEnum"><span class="pre">src.fuzz.operators.DefuzzEnum</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">DefuzzEnum.LINGUISTIC</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/src/fuzz/engine.html#Engine"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.fuzz.engine.Engine" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>The Fuzzy Engine wraps the input kernels, rules and inference system to provide the
+fuzzyfy, defuzzyfy and generate surface methods.</p>
+<p>Usage steps:
+1: create engine</p>
+<p>2: add input kernels (see Kernel for further reference)</p>
+<p>3: add inference system (Kernel or Takagi-Sugeno based)</p>
+<p>4: add rules to map the input kernels to the inference system</p>
+<p>5: call engine.fuzzyfy() to run the system</p>
+<p>6: call engine.defuzzyfy() to reduce the fuzzy result to a single float number</p>
+<p>7: call engine.gen_surface() to build a iterable cache-like map to greatly reduce time compute</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="src.fuzz.engine.Engine.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">operands</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="src.fuzz.operators.OperatorEnum.html#src.fuzz.operators.OperatorEnum" title="src.fuzz.operators.OperatorEnum"><span class="pre">src.fuzz.operators.OperatorEnum</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">OperatorEnum.DEFAULT</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rule_agg</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="src.fuzz.operators.RuleAggregationEnum.html#src.fuzz.operators.RuleAggregationEnum" title="src.fuzz.operators.RuleAggregationEnum"><span class="pre">src.fuzz.operators.RuleAggregationEnum</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">RuleAggregationEnum.MAX</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">defuzz_method</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="src.fuzz.operators.DefuzzEnum.html#src.fuzz.operators.DefuzzEnum" title="src.fuzz.operators.DefuzzEnum"><span class="pre">src.fuzz.operators.DefuzzEnum</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">DefuzzEnum.LINGUISTIC</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="../_modules/src/fuzz/engine.html#Engine.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.fuzz.engine.Engine.__init__" title="Permalink to this definition"></a></dt>
+<dd><p>Initializes a new engine object</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>operands</strong> (<em>OperandEnum</em><em>, </em><em>optional</em>) – Operation definitions for AND, OR and NOT methods.         Defaults to OperandEnum.DEFAULT.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<p class="rubric">Methods</p>
+<table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#src.fuzz.engine.Engine.__init__" title="src.fuzz.engine.Engine.__init__"><code class="xref py py-obj docutils literal notranslate"><span class="pre">__init__</span></code></a>([operands, rule_agg, defuzz_method])</p></td>
+<td><p>Initializes a new engine object</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#src.fuzz.engine.Engine.add_inference_kernel" title="src.fuzz.engine.Engine.add_inference_kernel"><code class="xref py py-obj docutils literal notranslate"><span class="pre">add_inference_kernel</span></code></a>(kernel)</p></td>
+<td><p>Adds a Kernel to map the inference system to its membership functions fuzzy output</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#src.fuzz.engine.Engine.add_kernel" title="src.fuzz.engine.Engine.add_kernel"><code class="xref py py-obj docutils literal notranslate"><span class="pre">add_kernel</span></code></a>(name, kernel)</p></td>
+<td><p>Adds a Kernel object, to map a particular variable of interest to its membership functions</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#src.fuzz.engine.Engine.add_rule" title="src.fuzz.engine.Engine.add_rule"><code class="xref py py-obj docutils literal notranslate"><span class="pre">add_rule</span></code></a>(name, rule)</p></td>
+<td><p>Add a declarative rule, mapping each input kernel membership values to the inference system membership functions.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#src.fuzz.engine.Engine.del_inference_kernel" title="src.fuzz.engine.Engine.del_inference_kernel"><code class="xref py py-obj docutils literal notranslate"><span class="pre">del_inference_kernel</span></code></a>()</p></td>
+<td><p>Deletes the registered inference kernel, if there is one</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#src.fuzz.engine.Engine.del_kernel" title="src.fuzz.engine.Engine.del_kernel"><code class="xref py py-obj docutils literal notranslate"><span class="pre">del_kernel</span></code></a>(name)</p></td>
+<td><p>Deletes a registered input kernel</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#src.fuzz.engine.Engine.delete_rule" title="src.fuzz.engine.Engine.delete_rule"><code class="xref py py-obj docutils literal notranslate"><span class="pre">delete_rule</span></code></a>(name)</p></td>
+<td><p>Deletes a registered rule at self.ruleset</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#src.fuzz.engine.Engine.gen_surface" title="src.fuzz.engine.Engine.gen_surface"><code class="xref py py-obj docutils literal notranslate"><span class="pre">gen_surface</span></code></a>(granularity)</p></td>
+<td><p>Very expensive operation, if used with Linguistic Fuzzy Systems.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#src.fuzz.engine.Engine.run_defuzz" title="src.fuzz.engine.Engine.run_defuzz"><code class="xref py py-obj docutils literal notranslate"><span class="pre">run_defuzz</span></code></a>(measurements[, granularity])</p></td>
+<td><p>Passing a dictionary of data and granularity (mandatory for Linguistic Defuzz)             returns a crisp result of the inference system.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#src.fuzz.engine.Engine.run_fuzz" title="src.fuzz.engine.Engine.run_fuzz"><code class="xref py py-obj docutils literal notranslate"><span class="pre">run_fuzz</span></code></a>(measurements)</p></td>
+<td><p>Passing a dictionary of data, runs the Engine and return a fuzzy output mapped to the             inference system</p></td>
+</tr>
+</tbody>
+</table>
+<dl class="py method">
+<dt class="sig sig-object py" id="src.fuzz.engine.Engine.add_inference_kernel">
+<span class="sig-name descname"><span class="pre">add_inference_kernel</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">kernel</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="src.fuzz.kernel.Kernel.html#src.fuzz.kernel.Kernel" title="src.fuzz.kernel.Kernel"><span class="pre">src.fuzz.kernel.Kernel</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/src/fuzz/engine.html#Engine.add_inference_kernel"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.fuzz.engine.Engine.add_inference_kernel" title="Permalink to this definition"></a></dt>
+<dd><p>Adds a Kernel to map the inference system to its membership functions fuzzy output</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>kernel</strong> (<a class="reference internal" href="src.fuzz.kernel.Kernel.html#src.fuzz.kernel.Kernel" title="src.fuzz.kernel.Kernel"><em>Kernel</em></a>) – the kernel object mapping the inference system to membership functions</p>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><p><strong>TypeError</strong> – if object type != type(Kernel)</p>
+</dd>
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>self</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference internal" href="#src.fuzz.engine.Engine" title="src.fuzz.engine.Engine">Engine</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="src.fuzz.engine.Engine.add_kernel">
+<span class="sig-name descname"><span class="pre">add_kernel</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">kernel</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="src.fuzz.kernel.Kernel.html#src.fuzz.kernel.Kernel" title="src.fuzz.kernel.Kernel"><span class="pre">src.fuzz.kernel.Kernel</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/src/fuzz/engine.html#Engine.add_kernel"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.fuzz.engine.Engine.add_kernel" title="Permalink to this definition"></a></dt>
+<dd><p>Adds a Kernel object, to map a particular variable of interest to its membership
+functions</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>name</strong> (<em>str</em>) – The name of the kernel. Various methods will call the kernel using this         name as the key to a dict of type {name: kernel}</p></li>
+<li><p><strong>kernel</strong> (<a class="reference internal" href="src.fuzz.kernel.Kernel.html#src.fuzz.kernel.Kernel" title="src.fuzz.kernel.Kernel"><em>Kernel</em></a>) – Kernel object, mapping the variable to its many membership functions</p></li>
+</ul>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><p><strong>TypeError</strong> – if the internal dictionary self.input_kernel_set gets corrupted by direct         user manipulation</p>
+</dd>
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>self</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference internal" href="#src.fuzz.engine.Engine" title="src.fuzz.engine.Engine">Engine</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="src.fuzz.engine.Engine.add_rule">
+<span class="sig-name descname"><span class="pre">add_rule</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rule</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="src.fuzz.rules.RuleBase.html#src.fuzz.rules.RuleBase" title="src.fuzz.rules.RuleBase"><span class="pre">src.fuzz.rules.RuleBase</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/src/fuzz/engine.html#Engine.add_rule"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.fuzz.engine.Engine.add_rule" title="Permalink to this definition"></a></dt>
+<dd><p>Add a declarative rule, mapping each input kernel membership values to the inference
+system membership functions.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>name</strong> (<em>str</em>) – must match the name of a KernelFuncMember registered at the Inference         Kernel System.</p></li>
+<li><p><strong>rule</strong> (<em>Union</em><em>[</em><a class="reference internal" href="src.fuzz.rules.RuleBase.html#src.fuzz.rules.RuleBase" title="src.fuzz.rules.RuleBase"><em>RuleBase</em></a><em>, </em><em>Dict</em><em>[</em><em>str</em><em>, </em><em>str</em><em>]</em><em>]</em>) – a rule object (AND, OR, NOT), or a dictionary         to get the direct value of a specific membership function.</p></li>
+</ul>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<ul class="simple">
+<li><ol class="lowerroman simple">
+<li><p>If FOOD is GOOD then tip is High (direct access):         fm.add_rule(‘High’, {‘food’: ‘good’})</p></li>
+</ol>
+</li>
+<li><ol class="lowerroman simple" start="2">
+<li><p>if SERVICE is BAD AND FOOD is RANCID then tip is Low (rule base access):         fm.add_rule(‘Low’, AND({‘service’: ‘bad’}, {‘food’: ‘rancid’}))</p></li>
+</ol>
+</li>
+</ul>
+<dl class="simple">
+<dt>See More:</dt><dd><ul class="simple">
+<li><p>RuleBase documentation</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>self</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference internal" href="#src.fuzz.engine.Engine" title="src.fuzz.engine.Engine">Engine</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="src.fuzz.engine.Engine.del_inference_kernel">
+<span class="sig-name descname"><span class="pre">del_inference_kernel</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/src/fuzz/engine.html#Engine.del_inference_kernel"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.fuzz.engine.Engine.del_inference_kernel" title="Permalink to this definition"></a></dt>
+<dd><p>Deletes the registered inference kernel, if there is one</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="src.fuzz.engine.Engine.del_kernel">
+<span class="sig-name descname"><span class="pre">del_kernel</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="../_modules/src/fuzz/engine.html#Engine.del_kernel"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.fuzz.engine.Engine.del_kernel" title="Permalink to this definition"></a></dt>
+<dd><p>Deletes a registered input kernel</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>name</strong> (<em>str</em>) – the name of the registered kernel</p>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><p><strong>KeyError</strong> – if name is not found in self.input_kernel_set.keys()</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="src.fuzz.engine.Engine.delete_rule">
+<span class="sig-name descname"><span class="pre">delete_rule</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/src/fuzz/engine.html#Engine.delete_rule"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.fuzz.engine.Engine.delete_rule" title="Permalink to this definition"></a></dt>
+<dd><p>Deletes a registered rule at self.ruleset</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>name</strong> (<em>str</em>) – the rule name</p>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><p><strong>KeyError</strong> – if name is not in self.ruleset.keys()</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="src.fuzz.engine.Engine.gen_surface">
+<span class="sig-name descname"><span class="pre">gen_surface</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">granularity</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/src/fuzz/engine.html#Engine.gen_surface"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.fuzz.engine.Engine.gen_surface" title="Permalink to this definition"></a></dt>
+<dd><p>Very expensive operation, if used with Linguistic Fuzzy Systems.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>granularity</strong> (<em>Union</em><em>[</em><em>float</em><em>, </em><em>Dict</em><em>[</em><em>str</em><em>, </em><em>float</em><em>]</em><em>]</em>) – [description]</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>[description]</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>[type]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="src.fuzz.engine.Engine.run_defuzz">
+<span class="sig-name descname"><span class="pre">run_defuzz</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">measurements</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">granularity</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">numpy.ndarray</span></span></span><a class="reference internal" href="../_modules/src/fuzz/engine.html#Engine.run_defuzz"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.fuzz.engine.Engine.run_defuzz" title="Permalink to this definition"></a></dt>
+<dd><p>Passing a dictionary of data and granularity (mandatory for Linguistic Defuzz)             returns a crisp result of the inference system.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>measurements</strong> (<em>Dict</em><em>[</em><em>str</em><em>, </em><em>Any</em><em>]</em>) – Dictionary mapping each input kernel to its data</p></li>
+<li><p><strong>granularity</strong> (<em>float</em>) – iteration granularity. Required for Linguistic Defuzz only.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><p><strong>NotImplementedError</strong> – If Defuzz method is not implemented.</p>
+</dd>
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>crisp values of the inference system.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>np.ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="src.fuzz.engine.Engine.run_fuzz">
+<span class="sig-name descname"><span class="pre">run_fuzz</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">measurements</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">numpy.ndarray</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/src/fuzz/engine.html#Engine.run_fuzz"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.fuzz.engine.Engine.run_fuzz" title="Permalink to this definition"></a></dt>
+<dd><p>Passing a dictionary of data, runs the Engine and return a fuzzy output mapped to the             inference system</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>measurements</strong> (<em>Dict</em><em>[</em><em>str</em><em>, </em><em>Any</em><em>]</em>) – Dictionary mapping each input kernel to its data</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>the fuzzy output of the inference system.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>Dict[str, np.ndarray]</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="src.fuzz.engine.html" class="btn btn-neutral float-left" title="src.fuzz.engine" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="src.fuzz.kernel.html" class="btn btn-neutral float-right" title="src.fuzz.kernel" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Caio Castro.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

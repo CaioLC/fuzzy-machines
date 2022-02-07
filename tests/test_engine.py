@@ -4,11 +4,11 @@ from typing import cast
 import numpy as np
 import pytest
 
-from fuzzy_machines.engine import Engine
-from fuzzy_machines.kernel import Kernel
-from fuzzy_machines.memb_funcs import Constant, MembershipFunction, Linear
-from fuzzy_machines.operators import DefuzzEnum, OperatorEnum, RuleAggregationEnum
-from fuzzy_machines.rules import AND, NOT, OR, IS, RuleBase
+from src.fuzz.engine import Engine
+from src.fuzz.kernel import Kernel
+from src.fuzz.memb_funcs import Constant, MembershipFunction, Linear
+from src.fuzz.operators import DefuzzEnum, OperatorEnum, RuleAggregationEnum
+from src.fuzz.rules import AND, NOT, OR, IS, RuleBase
 
 food_quality = (
     Kernel(0, 10).add_memb_func("rancid", Linear(10, 0)).add_memb_func("good", Linear(0, 10))

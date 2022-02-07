@@ -2,8 +2,8 @@
 # pylint: disable=missing-function-docstring, invalid-name
 import numpy as np
 import pytest
-from fuzzy_machines.kernel import Kernel
-from fuzzy_machines.memb_funcs import MembershipFunction, Linear
+from src.fuzz.kernel import Kernel
+from src.fuzz.memb_funcs import MembershipFunction, Linear
 
 
 def test_kernel_init():

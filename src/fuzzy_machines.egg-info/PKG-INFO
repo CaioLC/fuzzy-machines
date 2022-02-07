@@ -1,0 +1,26 @@
+Metadata-Version: 2.1
+Name: fuzzy-machines
+Version: 0.1.0
+Summary: A generic approach to Fuzzy Logic and Inference Systems
+Home-page: https://github.com/CTred/fuzzy-machines
+Author: Caio Castro
+Author-email: caio.castro@daocapital.com.br
+License: UNKNOWN
+Project-URL: Bug Tracker, https://github.com/CTred/fuzzy-machines/issues
+Project-URL: Documentation, https://fuzzy-machines.readthedocs.io/en/master/index.html
+Project-URL: Fuzzy Logic Tutorial, https://www.youtube.com/watch?v=__0nZuG4sTw&t=3s
+Platform: UNKNOWN
+Classifier: Programming Language :: Python :: 3
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Requires-Python: >=3.8
+Description-Content-Type: text/markdown
+License-File: LICENSE
+
+# fuzzy-machines
+A generic approach to fuzzy logic inference systems in python.
+
+# Documentation:
+https://fuzzy-machines.readthedocs.io/en/master/
+
+

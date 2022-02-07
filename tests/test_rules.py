@@ -2,10 +2,10 @@
 # pylint: disable=missing-function-docstring, invalid-name
 import numpy as np
 import pytest
-from fuzzy_machines.operators import OperatorEnum
-from fuzzy_machines.memb_funcs import Linear
-from fuzzy_machines.kernel import Kernel
-from fuzzy_machines.rules import AND, OR, NOT, IS, RuleBase
+from src.fuzz.operators import OperatorEnum
+from src.fuzz.memb_funcs import Linear
+from src.fuzz.kernel import Kernel
+from src.fuzz.rules import AND, OR, NOT, IS, RuleBase
 
 OP_LIST = [OperatorEnum.DEFAULT, OperatorEnum.PRODUCT, OperatorEnum.BOUNDED]
 food = Kernel(0, 10).add_memb_func("good", Linear(0, 10)).add_memb_func("rancid", Linear(10, 0))

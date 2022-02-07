@@ -6,8 +6,8 @@ Fuzzy Machines API
     :template: custom-module-template.rst
     :recursive:
 
-    engine
-    kernel
-    memb_funcs
-    operators
-    rules
+    src.fuzz.engine
+    src.fuzz.kernel
+    src.fuzz.memb_funcs
+    src.fuzz.operators
+    src.fuzz.rules

@@ -2,7 +2,7 @@
 # pylint: disable=missing-function-docstring, invalid-name
 import numpy as np
 import pytest
-from fuzzy_machines.memb_funcs import Constant, Linear
+from src.fuzz.memb_funcs import Constant, Linear
 
 # Singleton
 def test_singleton():

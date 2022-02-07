@@ -13,7 +13,9 @@
 import os
 import sys
 
-sys.path.insert(0, os.path.abspath("../../fuzzy_machines"))
+# sys.path.insert(0, os.path.abspath("../../fuzzy_machines/src/fuzz"))
+sys.path.insert(0, os.path.abspath("../../fuzzy_machines/src"))
+# print(sys.path)
 
 # -- Project information -----------------------------------------------------
 
@@ -22,7 +24,7 @@ copyright = "2022, Caio Castro"
 author = "Caio Castro"
 
 # The full version, including alpha/beta/rc tags
-release = "0.1.0"
+release = "0.1.1"
 
 
 # -- General configuration ---------------------------------------------------

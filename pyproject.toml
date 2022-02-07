@@ -1,0 +1,11 @@
+[build-system]
+requires = [
+    "setuptools>=42",
+    "wheel",
+    "ipython>=6",
+    "nbformat>=4",
+    "nbconvert>=5",
+    "requests>=2",
+    "numpy>1"
+]
+build-backend = "setuptools.build_meta"
