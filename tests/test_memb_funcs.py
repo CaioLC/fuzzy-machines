@@ -1,12 +1,89 @@
 """Tests for memb_func.py"""
 # pylint: disable=missing-function-docstring, invalid-name
+from re import A
 import numpy as np
+import py
 import pytest
-from src.fuzz.memb_funcs import Constant, Linear
+from src.fuzz.memb_funcs import Constant, Linear, MembershipFunction, Singleton, Trapmf, Trimf
+
+# BaseClass
+def test_baseclass_init():
+    mf = MembershipFunction(0, 1)
+    assert mf.min_v == 0
+    assert mf.max_v == 1
+
+
+def test_baseclass_call():
+    mf = MembershipFunction(0, 1)
+    assert isinstance(mf(0, 1), np.ndarray)
+    assert isinstance(mf([0, 1, 2], 1), np.ndarray)
+    assert mf(0, 1) == 0
+    assert mf(1, 1) == 1
+    assert np.isnan(mf(2, 1))
+    assert np.isnan(mf(-1, 1))
+
+
+def test_baseclass_describe():
+    mf = MembershipFunction(0, 1)
+    with pytest.raises(NotImplementedError):
+        mf.describe()
+
+
+def test_baseclass_opt_integration():
+    mf = MembershipFunction(0, 1)
+    with pytest.raises(NotImplementedError):
+        mf.optimal_integration(1)
+
+
+def test_baseclass_naive_describe():
+    mf = MembershipFunction(0, 1)
+    x, y = mf.naive_describe(1, 0.1)
+    assert x.all() == np.array([0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1]).all()
+    assert y.all() == np.array([0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1]).all()
+
+    x, y = mf.naive_describe(0.5, 0.1)
+    assert x.all() == np.array([0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1]).all()
+    assert y.all() == np.array([0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5]).all()
+
+
+def test_baseclass_naive_integration():
+    mf = MembershipFunction(0, 1)
+    minv, maxv, yarr = mf.naive_integration(1, 0.1)[0]
+    assert minv == 0
+    assert maxv == 1
+    assert yarr.all() == np.array([0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1]).all()
+
+
+def test_baseclass_area():
+    mf = MembershipFunction(0, 1)
+    assert mf.area() == 0.5
+
 
 # Singleton
-def test_singleton():
-    pass
+def test_singleton_init():
+    s = Singleton(2)
+    assert s.min_v == float("-inf")
+    assert s.max_v == float("+inf")
+
+
+def test_singleton_call():
+    s = Singleton(2)
+    assert s(1) == 0
+    assert s(2) == 1
+    assert s(2.000001) == 0
+
+
+def test_singleton_describe():
+    s = Singleton(2)
+    x, y = s.describe()
+    assert x == 2
+    assert y == 1
+
+
+def test_singleton_area():
+    s = Singleton(2)
+    with pytest.raises(TypeError):
+        s.area()
 
 
 # Constant
@@ -165,5 +242,89 @@ def test_linear_area():
 
 
 # Triangular
+def test_triang_init():
+    tri = Trimf(0, 1, 2)
+    assert tri.max_v == 2
+    assert tri.min_v == 0
+    assert tri.up.min_v == 0
+    assert tri.up.max_v == 1
+    assert tri.down.min_v == 1
+    assert tri.down.max_v == 2
+
+    with pytest.raises(ValueError):
+        Trimf("a", "b", "c")
+
+
+def test_triang_call():
+    tri = Trimf(0, 1, 2)
+    assert tri(0) == 0
+    assert tri(1) == 1
+    assert tri(2) == 0
+    assert tri([0, 1, 2]).all() == np.array([0, 1, 0]).all()
+    assert (
+        tri([-1, -0.5, 0, 0.5, 1, 1.5, 2, 2.5, 3]).all()
+        == np.array([0, 0, 0, 0.5, 1, 0.5, 0, 0, 0]).all()
+    )
+    assert (
+        tri([-1, 0, 0.5, 0.8, 1, 1.2, 1.5, 2, 2.5, 3], 0.6).all()
+        == np.array([0, 0, 0.5, 0.6, 0.6, 0.6, 0.5, 0, 0, 0]).all()
+    )
+
+
+def test_triang_describe():
+    tri = Trimf(0, 1, 2)
+    x, y = tri.describe()
+    assert x.all() == np.array([0, 1, 2]).all()
+    assert y.all() == np.array([0, 1, 0]).all()
+
+
+def test_triang_area():
+    tri = Trimf(0, 1, 2)
+    assert tri.area() == 1
+    tri = Trimf(0, 2, 4)
+    assert tri.area() == 2
+
 
 # Trapezoidal
+def test_trap_init():
+    trap = Trapmf(0, 1, 2, 3)
+    assert trap.min_v == 0
+    assert trap.max_v == 3
+    assert trap.up.min_v == 0
+    assert trap.up.max_v == 1
+    assert trap.cons.min_v == 1
+    assert trap.cons.max_v == 2
+    assert trap.down.min_v == 2
+    assert trap.down.max_v == 3
+
+    with pytest.raises(ValueError):
+        Trapmf("a", 2, 3, 4)
+
+
+def test_trap_call():
+    trap = Trapmf(0, 1, 2, 3)
+    assert trap(0) == 0
+    assert trap(1) == 1
+    assert trap(2) == 1
+    assert trap(3) == 0
+    assert trap([0, 1, 2, 3]).all() == np.array([0, 1, 1, 0]).all()
+    assert (
+        trap([-1, -0.5, 0, 0.5, 1, 1.5, 2, 2.5, 3]).all()
+        == np.array([0, 0, 0, 0.5, 1, 1, 1, 0.5, 0]).all()
+    )
+    assert (
+        trap([-1, 0, 0.5, 0.8, 1, 1.2, 1.5, 2, 2.5, 3], 0.6).all()
+        == np.array([0, 0, 0.5, 0.6, 0.6, 0.6, 0.6, 0.6, 0.5, 0]).all()
+    )
+
+
+def test_trap_describe():
+    trap = Trapmf(0, 1, 2, 3)
+    x, y = trap.describe()
+    assert x.all() == np.array([0, 1, 2, 3]).all()
+    assert y.all() == np.array([0, 1, 1, 0]).all()
+
+
+def test_trap_area():
+    trap = Trapmf(0, 1, 2, 3)
+    assert trap.area() == 2

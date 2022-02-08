@@ -103,8 +103,8 @@ class MembershipFunction:
 class Singleton(MembershipFunction):
     """Boolean function. Return 1 when x == value and 0 otherwise"""
 
-    def __init__(self, v_min: float, v_max: float, value: float) -> None:
-        super().__init__(v_min, v_max)
+    def __init__(self, value: float) -> None:
+        super().__init__(float("-inf"), float("+inf"))
         self.value = value
 
     def __call__(self, data: np.ndarray, activation=1.0) -> np.ndarray:
@@ -113,9 +113,7 @@ class Singleton(MembershipFunction):
         return _call_end(np.where(data == self.value, res_val, 0))
 
     def describe(self):
-        x_array = np.sort(
-            np.array([self.min_v, self.max_v, self.value, self.value - 0.01, self.value + 0.01])
-        )
+        x_array = np.array([self.value])
         y_array = self.__call__(x_array)
         return x_array, y_array
 
@@ -208,7 +206,7 @@ class Trimf(MembershipFunction):
     def __call__(self, data: np.ndarray, activation=1.0) -> np.ndarray:
         data = super().__call__(data, activation)
         index = np.arange(data.size)
-        indexed_data = np.append(index, data).reshape(2, len(data))
+        indexed_data = np.append(index, data).reshape(2, data.size)
         mask = indexed_data[1] <= self.up.max_v
         dt_up = indexed_data[:, mask]
         res_up = np.array([dt_up[0], self.up(dt_up[1], activation)])
@@ -240,10 +238,12 @@ class Trapmf(MembershipFunction):
     def __call__(self, data: np.ndarray, activation=1.0) -> np.ndarray:
         data = super().__call__(data, activation)
         index = np.arange(data.size)
-        indexed_data = np.append(index, data).reshape(2, len(data))
+        indexed_data = np.append(index, data).reshape(2, data.size)
         mask1 = indexed_data[1] <= self.up.max_v
-        mask2 = self.up.max_v < indexed_data[1] <= self.down.min_v
-        mask3 = self.down.min_v < indexed_data[1] <= self.down.max_v
+        mask2 = np.logical_and(self.up.max_v < indexed_data[1], indexed_data[1] <= self.down.min_v)
+        mask3 = np.logical_and(
+            self.down.min_v < indexed_data[1], indexed_data[1] <= self.down.max_v
+        )
         dt_up = indexed_data[:, mask1]
         res_up = np.array([dt_up[0], self.up(dt_up[1], activation)])
         dt_cons = indexed_data[:, mask2]
@@ -257,7 +257,9 @@ class Trapmf(MembershipFunction):
         x_up, y_up = self.up.describe()
         x_cons, y_cons = self.cons.describe()
         x_down, y_down = self.down.describe()
-        return np.concatenate(x_up, x_cons, x_down), np.concatenate(y_up, y_cons, y_down)
+        xs = np.concatenate((x_up, x_cons, x_down))
+        ys = np.concatenate((y_up, y_cons, y_down))
+        return xs, ys
 
     def optimal_integration(self, activation: float) -> List[Tuple[float, float, np.ndarray]]:
         up_opt = self.up.optimal_integration(activation)
