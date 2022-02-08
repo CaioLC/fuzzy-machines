@@ -20,7 +20,7 @@ jobs:
         pip install pylint
     - name: Analysing source code with pylint
       run: |
-        pylint fuzzy_machines
+        pylint src
     # - name: Analysing test code with pylint
     #   run: |
     #     pylint tests
