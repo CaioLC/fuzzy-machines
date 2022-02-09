@@ -10,3 +10,9 @@ Defining Custom Membership Functions
 ------------------------------------
 
 TODO:
+
+
+Plotting Graphs
+---------------
+
+TODO:
