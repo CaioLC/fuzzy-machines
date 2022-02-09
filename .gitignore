@@ -1,4 +1,6 @@
 *.pyc
 *.bat
+/dist
 /htmlcov
+/src/fuzzy_machines.egg-info/PKG-INFO
 help_cmd.txt
