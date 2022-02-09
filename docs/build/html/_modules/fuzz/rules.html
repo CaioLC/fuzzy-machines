@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>fuzz.rules &mdash; Fuzzy Machines 0.1.2 documentation</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../index.html" class="icon icon-home"> Fuzzy Machines
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../quickstart.html">Quick Start</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api.html">Fuzzy Machines API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../HISTORY.html">History</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../CONTRIBUTING.html">Contributing</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">Fuzzy Machines</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="../index.html">Module code</a> &raquo;</li>
+      <li>fuzz.rules</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for fuzz.rules</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot; AND, NOT and OR operators for fuzzy logic inference systems &quot;&quot;&quot;</span>
+<span class="c1"># pylint: disable=invalid-name, R0903</span>
+
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Union</span><span class="p">,</span> <span class="n">Dict</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="kn">from</span> <span class="nn">.kernel</span> <span class="kn">import</span> <span class="n">Kernel</span>
+<span class="kn">from</span> <span class="nn">.operators</span> <span class="kn">import</span> <span class="n">OperatorEnum</span>
+
+
+<div class="viewcode-block" id="Rules"><a class="viewcode-back" href="../../generated/fuzz.rules.Rules.html#fuzz.rules.Rules">[docs]</a><span class="k">class</span> <span class="nc">Rules</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Rules MetaClass&quot;&quot;&quot;</span></div>
+
+
+<div class="viewcode-block" id="RuleBase"><a class="viewcode-back" href="../../generated/fuzz.rules.RuleBase.html#fuzz.rules.RuleBase">[docs]</a><span class="k">class</span> <span class="nc">RuleBase</span><span class="p">(</span><span class="n">Rules</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Base class for all declarative rules&quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="RuleBase.__init__"><a class="viewcode-back" href="../../generated/fuzz.rules.RuleBase.html#fuzz.rules.RuleBase.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">operand_set</span><span class="p">:</span> <span class="n">OperatorEnum</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">operand_set</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">operand_set</span><span class="p">,</span> <span class="n">OperatorEnum</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Expected type OperatorEnum for &#39;operand&#39;. Got </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">operand_set</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">operand_set</span> <span class="o">=</span> <span class="n">operand_set</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">a</span> <span class="o">=</span> <span class="n">a</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">b</span> <span class="o">=</span> <span class="n">b</span></div>
+
+    <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">input_kernel_membership</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+        <span class="k">pass</span></div>
+
+
+<span class="k">def</span> <span class="nf">_resolve</span><span class="p">(</span><span class="n">x</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Rules</span><span class="p">,</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]],</span> <span class="n">input_kernel_set</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Kernel</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">RuleBase</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">x</span><span class="p">(</span><span class="n">input_kernel_set</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span>
+    <span class="n">variable</span><span class="p">,</span> <span class="n">membership_val</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">popitem</span><span class="p">()</span>
+    <span class="k">if</span> <span class="n">variable</span> <span class="ow">in</span> <span class="n">input_kernel_set</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+        <span class="k">return</span> <span class="n">input_kernel_set</span><span class="p">[</span><span class="n">variable</span><span class="p">]</span><span class="o">.</span><span class="n">membership_degree</span><span class="p">[</span><span class="n">membership_val</span><span class="p">]</span>
+    <span class="k">raise</span> <span class="ne">KeyError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Cannot find kernel named &#39;</span><span class="si">{</span><span class="n">variable</span><span class="si">}</span><span class="s2">&#39; in the kernel set&quot;</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="AND"><a class="viewcode-back" href="../../generated/fuzz.rules.AND.html#fuzz.rules.AND">[docs]</a><span class="k">class</span> <span class="nc">AND</span><span class="p">(</span><span class="n">RuleBase</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;AND Operator. Performs the AND function as defined by the OperatorEnum of choice&quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="AND.__init__"><a class="viewcode-back" href="../../generated/fuzz.rules.AND.html#fuzz.rules.AND.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">a</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">RuleBase</span><span class="p">,</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]],</span>
+        <span class="n">b</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">RuleBase</span><span class="p">,</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]],</span>
+        <span class="n">operand_set</span><span class="p">:</span> <span class="n">OperatorEnum</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">operand_set</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span></div>
+
+    <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">input_kernel_membership</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+        <span class="n">a</span> <span class="o">=</span> <span class="n">_resolve</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">a</span><span class="p">,</span> <span class="n">input_kernel_membership</span><span class="p">)</span>
+        <span class="n">b</span> <span class="o">=</span> <span class="n">_resolve</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">b</span><span class="p">,</span> <span class="n">input_kernel_membership</span><span class="p">)</span>
+        <span class="n">func</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">operand_set</span><span class="o">.</span><span class="n">value</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="c1"># print(&quot;AND:&quot;, a, b, &quot;-&gt;&quot;, func(a, b))</span>
+        <span class="k">return</span> <span class="n">func</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="OR"><a class="viewcode-back" href="../../generated/fuzz.rules.OR.html#fuzz.rules.OR">[docs]</a><span class="k">class</span> <span class="nc">OR</span><span class="p">(</span><span class="n">RuleBase</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;OR Operator. Performs the OR function as defined by the OperatorEnum of choice&quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="OR.__init__"><a class="viewcode-back" href="../../generated/fuzz.rules.OR.html#fuzz.rules.OR.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">a</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">RuleBase</span><span class="p">,</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]],</span>
+        <span class="n">b</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">RuleBase</span><span class="p">,</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]],</span>
+        <span class="n">operand_set</span><span class="p">:</span> <span class="n">OperatorEnum</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">operand_set</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span></div>
+
+    <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">input_kernel_membership</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+        <span class="n">a</span> <span class="o">=</span> <span class="n">_resolve</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">a</span><span class="p">,</span> <span class="n">input_kernel_membership</span><span class="p">)</span>
+        <span class="n">b</span> <span class="o">=</span> <span class="n">_resolve</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">b</span><span class="p">,</span> <span class="n">input_kernel_membership</span><span class="p">)</span>
+        <span class="n">func</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">operand_set</span><span class="o">.</span><span class="n">value</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+        <span class="c1"># print(&quot;OR:&quot;, a, b, &quot;-&gt;&quot;, func(a, b))</span>
+        <span class="k">return</span> <span class="n">func</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="NOT"><a class="viewcode-back" href="../../generated/fuzz.rules.NOT.html#fuzz.rules.NOT">[docs]</a><span class="k">class</span> <span class="nc">NOT</span><span class="p">(</span><span class="n">RuleBase</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;NOT Operator. Performs the NOT function as defined by the OperatorEnum of choice&quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="NOT.__init__"><a class="viewcode-back" href="../../generated/fuzz.rules.NOT.html#fuzz.rules.NOT.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">a</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">RuleBase</span><span class="p">,</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]],</span> <span class="n">operand_set</span><span class="p">:</span> <span class="n">OperatorEnum</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">operand_set</span><span class="p">,</span> <span class="n">a</span><span class="p">)</span></div>
+
+    <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">input_kernel_set</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+        <span class="n">a</span> <span class="o">=</span> <span class="n">_resolve</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">a</span><span class="p">,</span> <span class="n">input_kernel_set</span><span class="p">)</span>
+        <span class="n">func</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">operand_set</span><span class="o">.</span><span class="n">value</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+        <span class="c1"># print(&quot;NOT:&quot;, a, &quot;-&gt;&quot;, func(a))</span>
+        <span class="k">return</span> <span class="n">func</span><span class="p">(</span><span class="n">a</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="IS"><a class="viewcode-back" href="../../generated/fuzz.rules.IS.html#fuzz.rules.IS">[docs]</a><span class="k">class</span> <span class="nc">IS</span><span class="p">(</span><span class="n">RuleBase</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;IS Operator. Performs the IS function as defined by the OperatorEnum of choice&quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="IS.__init__"><a class="viewcode-back" href="../../generated/fuzz.rules.IS.html#fuzz.rules.IS.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">a</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">RuleBase</span><span class="p">,</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]],</span> <span class="n">operand_set</span><span class="p">:</span> <span class="n">OperatorEnum</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">operand_set</span><span class="p">,</span> <span class="n">a</span><span class="p">)</span></div>
+
+    <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">input_kernel_set</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+        <span class="n">a</span> <span class="o">=</span> <span class="n">_resolve</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">a</span><span class="p">,</span> <span class="n">input_kernel_set</span><span class="p">)</span>
+        <span class="n">func</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">operand_set</span><span class="o">.</span><span class="n">value</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span>
+        <span class="c1"># print(&quot;IS:&quot;, a, &quot;-&gt;&quot;, func(a))</span>
+        <span class="k">return</span> <span class="n">func</span><span class="p">(</span><span class="n">a</span><span class="p">)</span></div>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Caio Castro.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

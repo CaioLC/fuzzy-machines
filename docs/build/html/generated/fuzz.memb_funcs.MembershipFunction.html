@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>fuzz.memb_funcs.MembershipFunction &mdash; Fuzzy Machines 0.1.2 documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="fuzz.memb_funcs.Singleton" href="fuzz.memb_funcs.Singleton.html" />
+    <link rel="prev" title="fuzz.memb_funcs.Linear" href="fuzz.memb_funcs.Linear.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../index.html" class="icon icon-home"> Fuzzy Machines
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../quickstart.html">Quick Start</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../api.html">Fuzzy Machines API</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="fuzz.engine.html">fuzz.engine</a></li>
+<li class="toctree-l2"><a class="reference internal" href="fuzz.kernel.html">fuzz.kernel</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="fuzz.memb_funcs.html">fuzz.memb_funcs</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="fuzz.memb_funcs.Constant.html">fuzz.memb_funcs.Constant</a></li>
+<li class="toctree-l3"><a class="reference internal" href="fuzz.memb_funcs.Linear.html">fuzz.memb_funcs.Linear</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">fuzz.memb_funcs.MembershipFunction</a></li>
+<li class="toctree-l3"><a class="reference internal" href="fuzz.memb_funcs.Singleton.html">fuzz.memb_funcs.Singleton</a></li>
+<li class="toctree-l3"><a class="reference internal" href="fuzz.memb_funcs.Trapmf.html">fuzz.memb_funcs.Trapmf</a></li>
+<li class="toctree-l3"><a class="reference internal" href="fuzz.memb_funcs.Trimf.html">fuzz.memb_funcs.Trimf</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="fuzz.operators.html">fuzz.operators</a></li>
+<li class="toctree-l2"><a class="reference internal" href="fuzz.rules.html">fuzz.rules</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../HISTORY.html">History</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../CONTRIBUTING.html">Contributing</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Fuzzy Machines</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="../api.html">Fuzzy Machines API</a> &raquo;</li>
+          <li><a href="fuzz.memb_funcs.html">fuzz.memb_funcs</a> &raquo;</li>
+      <li>fuzz.memb_funcs.MembershipFunction</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/generated/fuzz.memb_funcs.MembershipFunction.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <div class="section" id="fuzz-memb-funcs-membershipfunction">
+<h1>fuzz.memb_funcs.MembershipFunction<a class="headerlink" href="#fuzz-memb-funcs-membershipfunction" title="Permalink to this headline"></a></h1>
+<dl class="py class">
+<dt class="sig sig-object py" id="fuzz.memb_funcs.MembershipFunction">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">fuzz.memb_funcs.</span></span><span class="sig-name descname"><span class="pre">MembershipFunction</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">min_v</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_v</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/fuzz/memb_funcs.html#MembershipFunction"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#fuzz.memb_funcs.MembershipFunction" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Function Meta</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="fuzz.memb_funcs.MembershipFunction.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">min_v</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_v</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="../_modules/fuzz/memb_funcs.html#MembershipFunction.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#fuzz.memb_funcs.MembershipFunction.__init__" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<p class="rubric">Methods</p>
+<table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#fuzz.memb_funcs.MembershipFunction.__init__" title="fuzz.memb_funcs.MembershipFunction.__init__"><code class="xref py py-obj docutils literal notranslate"><span class="pre">__init__</span></code></a>(min_v, max_v)</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#fuzz.memb_funcs.MembershipFunction.area" title="fuzz.memb_funcs.MembershipFunction.area"><code class="xref py py-obj docutils literal notranslate"><span class="pre">area</span></code></a>([activation, granularity])</p></td>
+<td><p>Numerical integration to calculate area</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#fuzz.memb_funcs.MembershipFunction.describe" title="fuzz.memb_funcs.MembershipFunction.describe"><code class="xref py py-obj docutils literal notranslate"><span class="pre">describe</span></code></a>()</p></td>
+<td><p>describe is an function-optimized iterator, from min_v to max_v returning a tuple of             ndarrays as X and Y values.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#fuzz.memb_funcs.MembershipFunction.naive_describe" title="fuzz.memb_funcs.MembershipFunction.naive_describe"><code class="xref py py-obj docutils literal notranslate"><span class="pre">naive_describe</span></code></a>(activation, granularity)</p></td>
+<td><p>same as describe, but not optmize.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#fuzz.memb_funcs.MembershipFunction.naive_integration" title="fuzz.memb_funcs.MembershipFunction.naive_integration"><code class="xref py py-obj docutils literal notranslate"><span class="pre">naive_integration</span></code></a>(activation, granularity)</p></td>
+<td><p>naive linear integration traversing the entire function.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#fuzz.memb_funcs.MembershipFunction.optimal_integration" title="fuzz.memb_funcs.MembershipFunction.optimal_integration"><code class="xref py py-obj docutils literal notranslate"><span class="pre">optimal_integration</span></code></a>(activation)</p></td>
+<td><p>Optimal integration strategy.</p></td>
+</tr>
+</tbody>
+</table>
+<dl class="py method">
+<dt class="sig sig-object py" id="fuzz.memb_funcs.MembershipFunction.area">
+<span class="sig-name descname"><span class="pre">area</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">activation</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">granularity</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.01</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/fuzz/memb_funcs.html#MembershipFunction.area"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#fuzz.memb_funcs.MembershipFunction.area" title="Permalink to this definition"></a></dt>
+<dd><p>Numerical integration to calculate area</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>granularity</strong> (<em>[</em><em>type</em><em>]</em>) – [description]</p>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><p><strong>NotImplementedError</strong> – [description]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="fuzz.memb_funcs.MembershipFunction.describe">
+<span class="sig-name descname"><span class="pre">describe</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">numpy.ndarray</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">numpy.ndarray</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/fuzz/memb_funcs.html#MembershipFunction.describe"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#fuzz.memb_funcs.MembershipFunction.describe" title="Permalink to this definition"></a></dt>
+<dd><p>describe is an function-optimized iterator, from min_v to max_v returning a tuple of             ndarrays as X and Y values. Useful for plotting a line graph and visualizing             the membership function shape</p>
+<dl class="field-list simple">
+<dt class="field-odd">Raises</dt>
+<dd class="field-odd"><p><strong>NotImplementedError</strong> – means the membership function is missing the describe method</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>a tuple of X-Y value arrays</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>Tuple[np.ndarray, np.ndarray]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="fuzz.memb_funcs.MembershipFunction.naive_describe">
+<span class="sig-name descname"><span class="pre">naive_describe</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">activation</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">granularity</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">numpy.ndarray</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">numpy.ndarray</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/fuzz/memb_funcs.html#MembershipFunction.naive_describe"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#fuzz.memb_funcs.MembershipFunction.naive_describe" title="Permalink to this definition"></a></dt>
+<dd><p>same as describe, but not optmize. Draws an iterator with linear values between             min_v and max_v and a certain granularity.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>activation</strong> (<em>float</em>) – max y-value for any x-value</p></li>
+<li><p><strong>granularity</strong> (<em>float</em>) – defines the linear iteration sample size</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>a tuple of X-Y value arrays.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>Tuple[np.ndarray, np.ndarray]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="fuzz.memb_funcs.MembershipFunction.naive_integration">
+<span class="sig-name descname"><span class="pre">naive_integration</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">activation</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">granularity</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">numpy.ndarray</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/fuzz/memb_funcs.html#MembershipFunction.naive_integration"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#fuzz.memb_funcs.MembershipFunction.naive_integration" title="Permalink to this definition"></a></dt>
+<dd><p>naive linear integration traversing the entire function.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>granularity</strong> (<em>float</em>) – sample size to numerical integration approximation</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>List of Tuple object containing (a, b, f(x))                 for numerical integration</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>List[Tuple[float, float, np.ndarray]]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="fuzz.memb_funcs.MembershipFunction.optimal_integration">
+<span class="sig-name descname"><span class="pre">optimal_integration</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">activation</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">numpy.ndarray</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/fuzz/memb_funcs.html#MembershipFunction.optimal_integration"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#fuzz.memb_funcs.MembershipFunction.optimal_integration" title="Permalink to this definition"></a></dt>
+<dd><p>Optimal integration strategy. Defined at subclass</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="fuzz.memb_funcs.Linear.html" class="btn btn-neutral float-left" title="fuzz.memb_funcs.Linear" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="fuzz.memb_funcs.Singleton.html" class="btn btn-neutral float-right" title="fuzz.memb_funcs.Singleton" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Caio Castro.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
