@@ -1,7 +1,7 @@
 """ AND, NOT and OR operators for fuzzy logic inference systems """
 # pylint: disable=invalid-name, R0903
 
-from typing import Union, Dict
+from typing import Union, Dict, cast
 import numpy as np
 
 from .kernel import Kernel
@@ -30,7 +30,9 @@ def _resolve(x: Union[Rules, Dict[str, str]], input_kernel_set: Dict[str, Kernel
     if isinstance(x, RuleBase):
         return x(input_kernel_set)
     assert len(x) == 1
-    variable, membership_val = x.popitem()
+    x = cast(dict, x)
+    variable = list(x.keys())[0]
+    membership_val = x.get(variable)
     if variable in input_kernel_set.keys():
         return input_kernel_set[variable].membership_degree[membership_val]
     raise KeyError(f"Cannot find kernel named '{variable}' in the kernel set")

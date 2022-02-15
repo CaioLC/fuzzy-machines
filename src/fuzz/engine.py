@@ -244,12 +244,12 @@ class Engine:
         x_range = np.linspace(self.inference_kernel.min_v, self.inference_kernel.max_v, sample_size)
         y_range = np.zeros(sample_size)
         for rule, func in self.inference_kernel.input_functions.items():
-            acc = np.asfarray(self.actuation_signal[rule])
+            acc = np.asfarray(self.actuation_signal[rule]) #BUG: ACTUATION SIGNAL WITH DIFERENT LENGHTS AT GEN_SURFACE
             if acc.size > 1:
                 for val in acc:
                     y_proponent = func(x_range, val)
                     y_mapped = np.maximum(np.zeros(sample_size), y_proponent)
-                    y_range = np.append(y_range, y_mapped, axis=0)
+                    y_range = np.vstack((y_range, y_mapped))
                 y_range = y_range[1:]
             else:
                 y_proponent = func(x_range, acc)
@@ -305,7 +305,7 @@ class Engine:
 
         return self.defuzzy_res
 
-    def gen_surface(self, granularity: Union[float, Dict[str, float]]):
+    def gen_surface(self, map_size: int, granularity: float):
         """Very expensive operation, if used with Linguistic Fuzzy Systems.
 
         Args:
@@ -316,17 +316,10 @@ class Engine:
         """
         x_data = {}
         for variable, func in self.input_kernel_set.items():
-            res = granularity if isinstance(granularity, float) else granularity[variable]
-            sample_size = round((func.max_v - func.min_v) / res)
-            x_data[variable] = np.linspace(func.min_v, func.max_v, sample_size)
-
-        # x_len = len(list(x_data.values())[0])
-        # for i in range(x_len):
-        #     mini_data = dict(zip(x_data.keys(), [x[i] for x in list(x_data.values())]))
-        #     print(mini_data)
-        #     mini_y = self.run_defuzz(mini_data, granularity)
-        #     y_arr = np.append(y_arr,mini_y)
-
+            x_data[variable] = np.linspace(func.min_v, func.max_v, map_size)
+        # sample_size = round(
+        #     (self.inference_kernel.max_v - self.inference_kernel.min_v) / granularity
+        # )
         y_arr = self.run_defuzz(x_data, granularity)
         return x_data, y_arr
 
@@ -345,8 +338,9 @@ def _typecheck(variable: str, kernel: Kernel):
         raise TypeError(f"Expected type Kernel for 'kernel'. Got {type(kernel)}")
 
 
-def _centroid(x_range, y_range):
+def _centroid(x_range, y_range: np.ndarray):
     """Transform the fuzzy result to a numerical float value."""
     if y_range.size > 1:
-        return np.asfarray([np.sum(x_range * y_row) / np.sum(y_row) for y_row in y_range])
+        print(y_range.shape)
+        return np.asfarray([np.sum(x_range * y_range) / np.sum(y_range)])
     return np.sum(x_range * y_range) / np.sum(y_range)  # center of gravity
