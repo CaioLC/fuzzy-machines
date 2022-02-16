@@ -200,6 +200,7 @@ class Trimf(MembershipFunction):
 
     def __init__(self, bottom1: float, peak: float, bottom2: float) -> None:
         super().__init__(bottom1, bottom2)
+        assert bottom1 < peak < bottom2, "Cannot draw triangule from initialization parameters"
         self.up = Linear(bottom1, peak)
         self.down = Linear(bottom2, peak)
 
@@ -231,6 +232,9 @@ class Trapmf(MembershipFunction):
 
     def __init__(self, bottom1: float, top1: float, top2: float, bottom2: float) -> None:
         super().__init__(bottom1, bottom2)
+        assert (
+            bottom1 < top1 < top2 < bottom2
+        ), "Cannot draw trapezoid from initialization parameters"
         self.up = Linear(bottom1, top1)
         self.cons = Constant(top1, top2)
         self.down = Linear(bottom2, top2)
