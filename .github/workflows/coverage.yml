@@ -27,5 +27,4 @@ jobs:
         directory: ./
         env_vars: OS,PYTHON
         files: ./coverage.xml
-        path_to_write_report: ./codecov_report.txt
         verbose: true
