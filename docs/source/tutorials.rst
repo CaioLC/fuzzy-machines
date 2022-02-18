@@ -12,6 +12,12 @@ Defining Custom Membership Functions
 TODO:
 
 
+Using Fuzzy Machines with Pandas
+--------------------------------
+
+TODO:
+
+
 Plotting Graphs
 ---------------
 
