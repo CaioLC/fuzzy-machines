@@ -1,4 +1,4 @@
-name: Pylint and Pytest
+name: Pytest
 on: [push]
 jobs:
   pytest:

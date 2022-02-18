@@ -1,4 +1,4 @@
-name: Pylint and Pytest
+name: Pylint
 on: [push]
 jobs:
 
