@@ -1,4 +1,4 @@
-name: GitHub Actions Demo
+name: Pylint and Pytest
 on: [push]
 jobs:
 
@@ -41,4 +41,4 @@ jobs:
         python -m pip install --upgrade pip
         pip install -r requirements_dev.txt
     - name: Run automated tests
-      run: pytest --cov=fuzzy_machines
+      run: pytest --cov=src
