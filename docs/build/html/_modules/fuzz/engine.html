@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>fuzz.engine &mdash; Fuzzy Machines 0.1.3 documentation</title>
+  <title>fuzz.engine &mdash; Fuzzy Machines 0.1.4 documentation</title>
       <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
   <!--[if lt IE 9]>
@@ -70,6 +70,7 @@
 <span></span><span class="sd">&quot;&quot;&quot; The machine to run the fuzzy logic &quot;&quot;&quot;</span>
 <span class="c1"># pylint: disable=invalid-name, fixme</span>
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Tuple</span>
+<span class="kn">from</span> <span class="nn">warnings</span> <span class="kn">import</span> <span class="n">warn</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 
 <span class="kn">from</span> <span class="nn">.operators</span> <span class="kn">import</span> <span class="n">DefuzzEnum</span><span class="p">,</span> <span class="n">OperatorEnum</span><span class="p">,</span> <span class="n">RuleAggregationEnum</span>
@@ -345,6 +346,7 @@
 <span class="sd">        Returns:</span>
 <span class="sd">            Dict[str, np.ndarray]: the fuzzy output of the inference system.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_check_coverage</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_fuzzyfy</span><span class="p">(</span><span class="n">measurements</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_aggregate</span><span class="p">()</span></div>
 
@@ -362,9 +364,9 @@
 <span class="sd">        Returns:</span>
 <span class="sd">            np.ndarray: crisp values of the inference system.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_fuzzyfy</span><span class="p">(</span><span class="n">measurements</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_aggregate</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">run_fuzz</span><span class="p">(</span><span class="n">measurements</span><span class="p">)</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">defuzz_method</span> <span class="o">==</span> <span class="n">DefuzzEnum</span><span class="o">.</span><span class="n">LINGUISTIC</span><span class="p">:</span>
+            <span class="k">assert</span> <span class="n">granularity</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;Linguistic Defuzz requires a granularity param&quot;</span>
             <span class="n">x_range</span><span class="p">,</span> <span class="n">y_range</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_accumulate</span><span class="p">(</span><span class="n">granularity</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">defuzzy_res</span> <span class="o">=</span> <span class="n">_centroid</span><span class="p">(</span><span class="n">x_range</span><span class="p">,</span> <span class="n">y_range</span><span class="p">)</span>
 
@@ -399,9 +401,12 @@
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">rule</span><span class="o">.</span><span class="n">b</span><span class="p">,</span> <span class="n">RuleBase</span><span class="p">):</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_inject_operands</span><span class="p">(</span><span class="n">rule</span><span class="o">.</span><span class="n">b</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">_check_coverage</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="c1"># TODO: input kernel must encompass 100% of the space</span>
-        <span class="k">raise</span> <span class="ne">NotImplementedError</span></div>
+    <span class="k">def</span> <span class="nf">_check_coverage</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">coverage</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">f</span><span class="o">.</span><span class="n">check_coverage</span><span class="p">()</span> <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">input_kernel_set</span><span class="o">.</span><span class="n">values</span><span class="p">()])</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">coverage</span><span class="o">.</span><span class="n">all</span><span class="p">():</span>
+            <span class="n">warn</span><span class="p">(</span>
+                <span class="ne">UserWarning</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Variable description is incomplete. Coverage check: </span><span class="si">{</span><span class="nb">list</span><span class="p">(</span><span class="n">coverage</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="p">)</span></div>
 
 
 <span class="k">def</span> <span class="nf">_typecheck</span><span class="p">(</span><span class="n">variable</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">kernel</span><span class="p">:</span> <span class="n">Kernel</span><span class="p">):</span>

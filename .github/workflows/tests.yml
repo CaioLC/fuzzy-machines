@@ -1,7 +1,6 @@
-name: Pylint
+name: Tests
 on: [push]
 jobs:
-
   pylint:
     runs-on: ubuntu-latest
     strategy:

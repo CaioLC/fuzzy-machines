@@ -1,6 +1,4 @@
-![Linter](https://github.com/CTred/fuzzy-machines/workflows/pylint/badge.svg)
-![Tests](https://github.com/CTred/fuzzy-machines/workflows/pytest/badge.svg)
-![Codecov](https://img.shields.io/codecov/c/github/CTred/fuzzy-machines)
+[![codecov](https://codecov.io/gh/CTred/fuzzy-machines/branch/master/graph/badge.svg?token=A583P3OUYB)](https://codecov.io/gh/CTred/fuzzy-machines)
 ![Read the Docs](https://img.shields.io/readthedocs/fuzzy-machines)
 ![License](https://img.shields.io/github/license/CTred/fuzzy-machines)
 

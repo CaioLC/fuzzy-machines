@@ -1,9 +1,10 @@
 """ tests for kernel.py """
 # pylint: disable=missing-function-docstring, invalid-name
+from warnings import WarningMessage
 import numpy as np
 import pytest
 from src.fuzz.kernel import Kernel
-from src.fuzz.memb_funcs import MembershipFunction, Linear
+from src.fuzz.memb_funcs import MembershipFunction, Linear, Trimf
 
 
 def test_kernel_init():
@@ -96,3 +97,44 @@ def test_kernel_describe():
     x_arr, y_arr = res["bad"]
     assert x_arr.all() == np.array([10, 0]).all()
     assert y_arr.all() == np.array([0, 1]).all()
+
+
+def test_kernel_check_coverage():
+    food = Kernel(0, 10)
+    food.add_memb_func("bad", Trimf(-1, 0, 6))
+    food.add_memb_func("average", Trimf(4, 6, 8))
+    food.add_memb_func("good", Trimf(8, 10, 11))
+    assert food.check_coverage() == True
+
+    food.add_memb_func("bad", Trimf(-1, 0, 3))
+    food.add_memb_func("average", Trimf(4, 6, 8))
+    food.add_memb_func("good", Trimf(8, 10, 11))
+    with pytest.warns(
+        UserWarning,
+        match=(
+            "MembershipFunction 'bad' has no intersections. Variable space may not be fully defined"
+        ),
+    ):
+        assert food.check_coverage() == False
+
+    food.add_memb_func("bad", Trimf(-1, 0, 4))
+    food.add_memb_func("average", Trimf(4, 6, 7.9))
+    food.add_memb_func("good", Trimf(8, 10, 11))
+    with pytest.warns(
+        UserWarning,
+        match=(
+            "MembershipFunction 'good' has no intersections. Variable space may not be fully"
+            " defined"
+        ),
+    ):
+        assert food.check_coverage() == False
+
+    food = Kernel(0, 10)
+    food.add_memb_func("everything", Trimf(-1, 0, 10))
+    assert food.check_coverage() == True
+
+    food.add_memb_func("everything", Trimf(-1, 0, 9))
+    assert food.check_coverage() == False
+
+    food.add_memb_func("everything", Trimf(0.01, 1, 10))
+    assert food.check_coverage() == False
