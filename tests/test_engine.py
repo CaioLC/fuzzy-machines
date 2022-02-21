@@ -6,7 +6,7 @@ import pytest
 
 from src.fuzz.engine import Engine
 from src.fuzz.kernel import Kernel
-from src.fuzz.memb_funcs import Constant, MembershipFunction, Linear
+from src.fuzz.memb_funcs import Constant, MembershipFunction, Linear, Trimf
 from src.fuzz.operators import DefuzzEnum, OperatorEnum, RuleAggregationEnum
 from src.fuzz.rules import AND, NOT, OR, IS, RuleBase
 
@@ -380,3 +380,47 @@ def test_gen_surface():
         )
         with pytest.raises(NotImplementedError):
             eng.gen_surface(20, 0.1)  # TODO: this should work.
+
+
+def test_check_coverage():
+    eng = (
+        Engine()
+        .add_kernel("food", food_quality)
+        .add_kernel("service", food_service)
+        .add_rule("low", IS({"food": "rancid"}))
+        .add_rule(
+            "average",
+            OR(
+                AND({"food": "rancid"}, {"service": "good"}),
+                AND({"food": "good"}, {"service": "bad"}),
+            ),
+        )
+        .add_rule("high", AND({"food": "good"}, {"service": "good"}))
+        .add_inference_kernel(tips)
+    )
+
+    measurement_data = dict({"food": 3, "service": 9})
+    eng.run_fuzz(measurement_data)
+    eng.run_defuzz(measurement_data, 0.5)
+
+    # will warn user
+    food_incomplete = (
+        Kernel(0, 10)
+        .add_memb_func("rancid", Trimf(-1, 2, 5))
+        .add_memb_func("average", Trimf(3, 5, 7))
+        .add_memb_func("good", Linear(7.5, 10))
+    )
+    eng.add_kernel("food", food_incomplete)
+    # eng.run_defuzz(measurement_data, .5)
+    with pytest.warns(UserWarning):
+        eng.run_fuzz(measurement_data)
+
+    service_incomplete = (
+        Kernel(0, 10)
+        .add_memb_func("bad", Trimf(-1, 2, 5))
+        .add_memb_func("average", Trimf(3, 5, 7))
+        .add_memb_func("good", Linear(7.5, 10))
+    )
+    eng.add_kernel("service", service_incomplete)
+    with pytest.warns(UserWarning):
+        eng.run_fuzz(measurement_data)

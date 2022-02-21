@@ -1,6 +1,7 @@
 """ The machine to run the fuzzy logic """
 # pylint: disable=invalid-name, fixme
 from typing import Any, Dict, List, Tuple
+from warnings import warn
 import numpy as np
 
 from .operators import DefuzzEnum, OperatorEnum, RuleAggregationEnum
@@ -276,6 +277,7 @@ class Engine:
         Returns:
             Dict[str, np.ndarray]: the fuzzy output of the inference system.
         """
+        self._check_coverage()
         self._fuzzyfy(measurements)
         return self._aggregate()
 
@@ -293,9 +295,9 @@ class Engine:
         Returns:
             np.ndarray: crisp values of the inference system.
         """
-        self._fuzzyfy(measurements)
-        self._aggregate()
+        self.run_fuzz(measurements)
         if self.defuzz_method == DefuzzEnum.LINGUISTIC:
+            assert granularity is not None, "Linguistic Defuzz requires a granularity param"
             x_range, y_range = self._accumulate(granularity)
             self.defuzzy_res = _centroid(x_range, y_range)
 
@@ -330,9 +332,12 @@ class Engine:
         if isinstance(rule.b, RuleBase):
             self._inject_operands(rule.b)
 
-    def _check_coverage(self):
-        # TODO: input kernel must encompass 100% of the space
-        raise NotImplementedError
+    def _check_coverage(self) -> None:
+        coverage = np.array([f.check_coverage() for f in self.input_kernel_set.values()])
+        if not coverage.all():
+            warn(
+                UserWarning(f"Variable description is incomplete. Coverage check: {list(coverage)}")
+            )
 
 
 def _typecheck(variable: str, kernel: Kernel):

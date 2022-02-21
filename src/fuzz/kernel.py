@@ -2,6 +2,7 @@
 
 from numbers import Number
 from typing import Dict, Any, Tuple
+from warnings import warn
 import numpy as np
 
 from .memb_funcs import MembershipFunction
@@ -86,13 +87,28 @@ class Kernel:
         """Checks if registered MFS cover the entire universe data range"""
         min_k_value = min(v.min_v for v in self.input_functions.values())
         max_k_value = max(v.max_v for v in self.input_functions.values())
-        return self.min_v >= min_k_value and self.max_v <= max_k_value
-
-    # def check_normalized(self) -> bool:
-    #     """
-    #     Checks with granularity == .01 whether all Membership Functions sums 1 for all x values. \
-    #     This property is often employed because it makes interpretation easier.
-    #     """
-    #     res = self.iterate(0.01)
-    #     sum_res = sum(v[1] for v in res.values())
-    #     return set(np.round(sum_res, 2)) == {1}
+        outer_bounds = self.min_v >= min_k_value and self.max_v <= max_k_value
+        inners = []
+        if len(self.input_functions) > 1:
+            for key, func in self.input_functions.items():
+                intersect_count = len(
+                    [
+                        f
+                        for k, f in self.input_functions.items()
+                        if func.max_v >= f.min_v and func.min_v <= f.max_v and k != key
+                    ]
+                )
+                if intersect_count == 0:
+                    warn(
+                        UserWarning(
+                            f"MembershipFunction '{key}' has no intersections. Variable space may"
+                            " not be fully defined"
+                        )
+                    )
+                inners.append(intersect_count)
+            inners = np.array(inners)
+        else:
+            # if there's only one MF, then there's no sense in checking intersections
+            # inners defaults to true.
+            inners = np.array([True])
+        return outer_bounds and inners.all()
