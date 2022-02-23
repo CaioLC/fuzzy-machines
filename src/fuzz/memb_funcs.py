@@ -205,16 +205,17 @@ class Trimf(MembershipFunction):
         self.down = Linear(bottom2, peak)
 
     def __call__(self, data: np.ndarray, activation=1.0) -> np.ndarray:
-        data = super().__call__(data, activation)
+        data = np.asfarray(data)
         index = np.arange(data.size)
-        indexed_data = np.append(index, data).reshape(2, data.size)
-        mask = indexed_data[1] <= self.up.max_v
-        dt_up = indexed_data[:, mask]
-        res_up = np.array([dt_up[0], self.up(dt_up[1], activation)])
-        dt_down = indexed_data[:, ~mask]
-        res_down = np.array([dt_down[0], self.down(dt_down[1], activation)])
-        all_res = np.sort(np.append(res_up, res_down, axis=1))
-        return _call_end(all_res[1])
+        indexed_data = np.column_stack((index, data))
+        mask = indexed_data[:, 1] <= self.up.max_v
+        dt_up = indexed_data[mask, :]
+        res_up = np.column_stack((dt_up[:, 0], self.up(dt_up[:, 1], activation)))
+        dt_down = indexed_data[~mask, :]
+        res_down = np.column_stack((dt_down[:, 0], self.down(dt_down[:, 1], activation)))
+        all_res = np.append(res_up, res_down, axis=0)
+        all_res_sorted = all_res[all_res[:, 0].argsort()]
+        return _call_end(all_res_sorted[:, 1])
 
     def describe(self):
         x_up, y_up = self.up.describe()
@@ -240,22 +241,21 @@ class Trapmf(MembershipFunction):
         self.down = Linear(bottom2, top2)
 
     def __call__(self, data: np.ndarray, activation=1.0) -> np.ndarray:
-        data = super().__call__(data, activation)
+        data = np.asfarray(data)
         index = np.arange(data.size)
-        indexed_data = np.append(index, data).reshape(2, data.size)
-        mask1 = indexed_data[1] <= self.up.max_v
-        mask2 = np.logical_and(self.up.max_v < indexed_data[1], indexed_data[1] <= self.down.min_v)
-        mask3 = np.logical_and(
-            self.down.min_v < indexed_data[1], indexed_data[1] <= self.down.max_v
-        )
-        dt_up = indexed_data[:, mask1]
-        res_up = np.array([dt_up[0], self.up(dt_up[1], activation)])
-        dt_cons = indexed_data[:, mask2]
-        res_cons = np.array([dt_cons[0], self.cons(dt_cons[1], activation)])
-        dt_down = indexed_data[:, mask3]
-        res_down = np.array([dt_down[0], self.down(dt_down[1], activation)])
-        all_res = np.sort(np.concatenate((res_up, res_cons, res_down), axis=1))
-        return _call_end(all_res[1])
+        indexed_data = np.column_stack((index, data))
+        mask1 = indexed_data[:,1] <= self.up.max_v
+        mask2 = np.logical_and(self.up.max_v < indexed_data[:,1], indexed_data[:,1] <= self.down.min_v)
+        mask3 = indexed_data[:,1] > self.down.min_v
+        dt_up = indexed_data[mask1, :]
+        res_up = np.column_stack((dt_up[:,0], self.up(dt_up[:,1], activation)))
+        dt_cons = indexed_data[mask2, :]
+        res_cons = np.column_stack((dt_cons[:,0], self.cons(dt_cons[:,1], activation)))
+        dt_down = indexed_data[mask3, :]
+        res_down = np.column_stack((dt_down[:,0], self.down(dt_down[:,1], activation)))
+        all_res = np.concatenate((res_up, res_cons, res_down), axis=0)
+        all_res_sorted = all_res[all_res[:, 0].argsort()]
+        return _call_end(all_res_sorted[:,1])
 
     def describe(self):
         x_up, y_up = self.up.describe()

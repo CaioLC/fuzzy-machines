@@ -244,21 +244,22 @@ class Engine:
         )
         x_range = np.linspace(self.inference_kernel.min_v, self.inference_kernel.max_v, sample_size)
         y_range = np.zeros(sample_size)
-        for rule, func in self.inference_kernel.input_functions.items():
-            acc = np.asfarray(
-                self.actuation_signal[rule]
-            )  # BUG: ACTUATION SIGNAL WITH DIFERENT LENGHTS AT GEN_SURFACE
-            if acc.size > 1:
-                for val in acc:
-                    y_proponent = func(x_range, val)
-                    y_mapped = np.maximum(np.zeros(sample_size), y_proponent)
-                    y_range = np.vstack((y_range, y_mapped))
-                y_range = y_range[1:]
-            else:
+        y_stack = None
+        acc_array = np.array(list(self.actuation_signal.values()))
+        keys = list(self.actuation_signal.keys())
+
+        for acc_point in acc_array.T:
+            point = dict(zip(keys, acc_point))
+            for rule, func in self.inference_kernel.input_functions.items():
+                acc = point[rule]
                 y_proponent = func(x_range, acc)
                 y_range = np.maximum(y_range, y_proponent)
-
-        return x_range, y_range
+            if y_stack is not None:
+                y_stack = np.vstack((y_stack, y_range))
+            else:
+                y_stack = y_range
+        print(y_stack)
+        return x_range, y_stack
 
     def _takagi_sugeno(self, data: Any):
         """Transform the fuzzy result to a numerical float value."""
@@ -319,11 +320,6 @@ class Engine:
             [type]: [description]
         """
         raise NotImplementedError  # TODO: gen_surface needs to be redone
-        # x_data = {}
-        # for variable, func in self.input_kernel_set.items():
-        #     x_data[variable] = np.linspace(func.min_v, func.max_v, map_size)
-        # y_arr = self.run_defuzz(x_data, granularity)
-        # return x_data, y_arr
 
     def _inject_operands(self, rule: RuleBase):
         rule.operand_set = self.operands
@@ -339,7 +335,6 @@ class Engine:
                 UserWarning(f"Variable description is incomplete. Coverage check: {list(coverage)}")
             )
 
-
 def _typecheck(variable: str, kernel: Kernel):
     if not isinstance(variable, str):
         raise TypeError(f"Expected type str for 'variable'. Got {type(variable)}")
@@ -349,14 +344,11 @@ def _typecheck(variable: str, kernel: Kernel):
 
 def _centroid(x_range, y_range: np.ndarray):
     """Transform the fuzzy result to a numerical float value."""
-    if y_range.size > 1:
-        if len(y_range.shape) == 1:  # 1d-array
-            return _func1d(y_range, x_range)
-        if len(y_range.shape) == 2:  # 2d-array
-            return np.apply_along_axis(_func1d, 1, y_range, x_values=x_range)
-        raise NotADirectoryError("_centroid is not defined for arrays with 3 or more dimensions")
-    return np.sum(x_range * y_range) / np.sum(y_range)  # center of gravity
-
+    if y_range.ndim == 1:
+        return _func1d(y_range, x_range)
+    if y_range.ndim == 2:
+        return np.array([_func1d(y_row, x_range) for y_row in y_range])
+    raise NotImplementedError("_centroid is not defined for arrays with 3 or more dimensions")
 
 def _func1d(y_row, x_values):
     return np.asfarray(np.sum(x_values * y_row) / np.sum(y_row))
