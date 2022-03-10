@@ -346,7 +346,6 @@ class Engine:
                 UserWarning(f"Variable description is incomplete. Coverage check: {list(coverage)}")
             )
 
-
 def _typecheck(variable: str, kernel: Kernel):
     if not isinstance(variable, str):
         raise TypeError(f"Expected type str for 'variable'. Got {type(variable)}")
@@ -361,7 +360,6 @@ def _centroid(x_range, y_range: np.ndarray):
     if y_range.ndim == 2:
         return np.array([_func1d(y_row, x_range) for y_row in y_range])
     raise NotImplementedError("_centroid is not defined for arrays with 3 or more dimensions")
-
 
 def _func1d(y_row, x_values):
     return np.asfarray(np.sum(x_values * y_row) / np.sum(y_row))
