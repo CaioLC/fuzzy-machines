@@ -1,6 +1,6 @@
 Metadata-Version: 2.1
 Name: fuzzy-machines
-Version: 0.1.3
+Version: 0.1.4
 Summary: A generic approach to Fuzzy Logic and Inference Systems
 Home-page: https://github.com/CTred/fuzzy-machines
 Author: Caio Castro
@@ -17,10 +17,19 @@ Requires-Python: >=3.8
 Description-Content-Type: text/markdown
 License-File: LICENSE
 
+[![codecov](https://codecov.io/gh/CTred/fuzzy-machines/branch/master/graph/badge.svg?token=A583P3OUYB)](https://codecov.io/gh/CTred/fuzzy-machines)
+![Read the Docs](https://img.shields.io/readthedocs/fuzzy-machines)
+![License](https://img.shields.io/github/license/CTred/fuzzy-machines)
+
 # fuzzy-machines
 A generic approach to fuzzy logic inference systems in python.
 
-# Documentation:
-https://fuzzy-machines.readthedocs.io/en/master/
+# Instalation:
+Make sure you have `numpy` installed (any recent version should work, as dependency is minimal) and then run `pip install fuzzy-machines`.
 
+# Documentation:
+https://fuzzy-machines.readthedocs.io/en/latest/
+
+# About the author:
+![Your Repository’s Stats](https://github-readme-stats.vercel.app/api?username=CTred&show_icons=true)
 
