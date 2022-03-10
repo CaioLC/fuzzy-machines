@@ -285,10 +285,21 @@ def test_accumulation():
     assert (y_r <= 1).all()
     assert (y_r >= 0).all()
     mask_low = x_r <= 20
-    assert (y_r[mask_low] <= 0.6).all()
+    assert (y_r[mask_low] <= 0.5).all()
     mask_high = x_r >= 15
     assert (y_r[mask_high] <= 0.9).all()
 
+    measurement_data = dict({"food": [9, 8], "service": [8, 5], "price": [5, 4]})
+    eng._fuzzyfy(measurement_data)
+    eng._aggregate()
+    x_r, y_r = eng._accumulate(0.1)
+    print(y_r)
+
+    assert (y_r[0, mask_low] <= 0.6).all()
+    assert (y_r[0, mask_high] <= 0.9).all()
+    assert (y_r[1, mask_low] <= 0.4).all()
+    assert (y_r[1, mask_high] <= 0.8).all()
+    # assert False
     # with wrong defuzz method.
     eng = (
         Engine(rule_agg=RuleAggregationEnum.MAX, defuzz_method=DefuzzEnum.TAKAGI_SUGENO)

@@ -286,7 +286,7 @@
 
     <span class="k">def</span> <span class="nf">_accumulate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">granularity</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        In the accumulation phase, all inference rules are joined using to form a single shape. \</span>
+<span class="sd">        In the accumulation phase, all inference rules are joined to form a single shape. \</span>
 <span class="sd">        The method traverses the inference system with granularity A and run each of its KMF with \</span>
 <span class="sd">        max activation set to aggregated rule value for each KMF. \</span>
 
@@ -312,22 +312,34 @@
             <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">inference_kernel</span><span class="o">.</span><span class="n">max_v</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">inference_kernel</span><span class="o">.</span><span class="n">min_v</span><span class="p">)</span> <span class="o">/</span> <span class="n">granularity</span>
         <span class="p">)</span>
         <span class="n">x_range</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">inference_kernel</span><span class="o">.</span><span class="n">min_v</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">inference_kernel</span><span class="o">.</span><span class="n">max_v</span><span class="p">,</span> <span class="n">sample_size</span><span class="p">)</span>
-        <span class="n">y_range</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">sample_size</span><span class="p">)</span>
-        <span class="k">for</span> <span class="n">rule</span><span class="p">,</span> <span class="n">func</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">inference_kernel</span><span class="o">.</span><span class="n">input_functions</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-            <span class="n">acc</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asfarray</span><span class="p">(</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">actuation_signal</span><span class="p">[</span><span class="n">rule</span><span class="p">]</span>
-            <span class="p">)</span>  <span class="c1"># BUG: ACTUATION SIGNAL WITH DIFERENT LENGHTS AT GEN_SURFACE</span>
-            <span class="k">if</span> <span class="n">acc</span><span class="o">.</span><span class="n">size</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
-                <span class="k">for</span> <span class="n">val</span> <span class="ow">in</span> <span class="n">acc</span><span class="p">:</span>
-                    <span class="n">y_proponent</span> <span class="o">=</span> <span class="n">func</span><span class="p">(</span><span class="n">x_range</span><span class="p">,</span> <span class="n">val</span><span class="p">)</span>
-                    <span class="n">y_mapped</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">maximum</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">sample_size</span><span class="p">),</span> <span class="n">y_proponent</span><span class="p">)</span>
-                    <span class="n">y_range</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">vstack</span><span class="p">((</span><span class="n">y_range</span><span class="p">,</span> <span class="n">y_mapped</span><span class="p">))</span>
-                <span class="n">y_range</span> <span class="o">=</span> <span class="n">y_range</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span>
-            <span class="k">else</span><span class="p">:</span>
+        <span class="n">y_stack</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="n">acc_array</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">actuation_signal</span><span class="o">.</span><span class="n">values</span><span class="p">()))</span>
+        <span class="k">if</span> <span class="n">acc_array</span><span class="o">.</span><span class="n">ndim</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="n">y_range</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">sample_size</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">rule</span><span class="p">,</span> <span class="n">func</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">inference_kernel</span><span class="o">.</span><span class="n">input_functions</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                <span class="n">acc</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">actuation_signal</span><span class="p">[</span><span class="n">rule</span><span class="p">]</span>
                 <span class="n">y_proponent</span> <span class="o">=</span> <span class="n">func</span><span class="p">(</span><span class="n">x_range</span><span class="p">,</span> <span class="n">acc</span><span class="p">)</span>
                 <span class="n">y_range</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">maximum</span><span class="p">(</span><span class="n">y_range</span><span class="p">,</span> <span class="n">y_proponent</span><span class="p">)</span>
-
-        <span class="k">return</span> <span class="n">x_range</span><span class="p">,</span> <span class="n">y_range</span>
+            <span class="k">if</span> <span class="n">y_stack</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">y_stack</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">vstack</span><span class="p">((</span><span class="n">y_stack</span><span class="p">,</span> <span class="n">y_range</span><span class="p">))</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">y_stack</span> <span class="o">=</span> <span class="n">y_range</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">keys</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">actuation_signal</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+            <span class="k">for</span> <span class="n">acc_point</span> <span class="ow">in</span> <span class="n">acc_array</span><span class="o">.</span><span class="n">T</span><span class="p">:</span>
+                <span class="n">y_range</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">sample_size</span><span class="p">)</span>
+                <span class="n">point</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">keys</span><span class="p">,</span> <span class="n">acc_point</span><span class="p">))</span>
+                <span class="nb">print</span><span class="p">(</span><span class="n">point</span><span class="p">)</span>
+                <span class="k">for</span> <span class="n">rule</span><span class="p">,</span> <span class="n">func</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">inference_kernel</span><span class="o">.</span><span class="n">input_functions</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                    <span class="n">acc</span> <span class="o">=</span> <span class="n">point</span><span class="p">[</span><span class="n">rule</span><span class="p">]</span>
+                    <span class="n">y_proponent</span> <span class="o">=</span> <span class="n">func</span><span class="p">(</span><span class="n">x_range</span><span class="p">,</span> <span class="n">acc</span><span class="p">)</span>
+                    <span class="n">y_range</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">maximum</span><span class="p">(</span><span class="n">y_range</span><span class="p">,</span> <span class="n">y_proponent</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">y_stack</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="n">y_stack</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">vstack</span><span class="p">((</span><span class="n">y_stack</span><span class="p">,</span> <span class="n">y_range</span><span class="p">))</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">y_stack</span> <span class="o">=</span> <span class="n">y_range</span>
+        <span class="c1"># print(y_stack)</span>
+        <span class="k">return</span> <span class="n">x_range</span><span class="p">,</span> <span class="n">y_stack</span>
 
     <span class="k">def</span> <span class="nf">_takagi_sugeno</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="n">Any</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Transform the fuzzy result to a numerical float value.&quot;&quot;&quot;</span>
@@ -388,11 +400,6 @@
 <span class="sd">            [type]: [description]</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">raise</span> <span class="ne">NotImplementedError</span>  <span class="c1"># TODO: gen_surface needs to be redone</span></div>
-        <span class="c1"># x_data = {}</span>
-        <span class="c1"># for variable, func in self.input_kernel_set.items():</span>
-        <span class="c1">#     x_data[variable] = np.linspace(func.min_v, func.max_v, map_size)</span>
-        <span class="c1"># y_arr = self.run_defuzz(x_data, granularity)</span>
-        <span class="c1"># return x_data, y_arr</span>
 
     <span class="k">def</span> <span class="nf">_inject_operands</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">rule</span><span class="p">:</span> <span class="n">RuleBase</span><span class="p">):</span>
         <span class="n">rule</span><span class="o">.</span><span class="n">operand_set</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">operands</span>
@@ -418,13 +425,11 @@
 
 <span class="k">def</span> <span class="nf">_centroid</span><span class="p">(</span><span class="n">x_range</span><span class="p">,</span> <span class="n">y_range</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Transform the fuzzy result to a numerical float value.&quot;&quot;&quot;</span>
-    <span class="k">if</span> <span class="n">y_range</span><span class="o">.</span><span class="n">size</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
-        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">y_range</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>  <span class="c1"># 1d-array</span>
-            <span class="k">return</span> <span class="n">_func1d</span><span class="p">(</span><span class="n">y_range</span><span class="p">,</span> <span class="n">x_range</span><span class="p">)</span>
-        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">y_range</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>  <span class="c1"># 2d-array</span>
-            <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">apply_along_axis</span><span class="p">(</span><span class="n">_func1d</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">y_range</span><span class="p">,</span> <span class="n">x_values</span><span class="o">=</span><span class="n">x_range</span><span class="p">)</span>
-        <span class="k">raise</span> <span class="ne">NotADirectoryError</span><span class="p">(</span><span class="s2">&quot;_centroid is not defined for arrays with 3 or more dimensions&quot;</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">x_range</span> <span class="o">*</span> <span class="n">y_range</span><span class="p">)</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">y_range</span><span class="p">)</span>  <span class="c1"># center of gravity</span>
+    <span class="k">if</span> <span class="n">y_range</span><span class="o">.</span><span class="n">ndim</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">_func1d</span><span class="p">(</span><span class="n">y_range</span><span class="p">,</span> <span class="n">x_range</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">y_range</span><span class="o">.</span><span class="n">ndim</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">_func1d</span><span class="p">(</span><span class="n">y_row</span><span class="p">,</span> <span class="n">x_range</span><span class="p">)</span> <span class="k">for</span> <span class="n">y_row</span> <span class="ow">in</span> <span class="n">y_range</span><span class="p">])</span>
+    <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s2">&quot;_centroid is not defined for arrays with 3 or more dimensions&quot;</span><span class="p">)</span>
 
 
 <span class="k">def</span> <span class="nf">_func1d</span><span class="p">(</span><span class="n">y_row</span><span class="p">,</span> <span class="n">x_values</span><span class="p">):</span>
