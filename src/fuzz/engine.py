@@ -217,7 +217,7 @@ class Engine:
 
     def _accumulate(self, granularity: float) -> Tuple[np.ndarray, np.ndarray]:
         """
-        In the accumulation phase, all inference rules are joined using to form a single shape. \
+        In the accumulation phase, all inference rules are joined to form a single shape. \
         The method traverses the inference system with granularity A and run each of its KMF with \
         max activation set to aggregated rule value for each KMF. \
 
@@ -243,22 +243,33 @@ class Engine:
             (self.inference_kernel.max_v - self.inference_kernel.min_v) / granularity
         )
         x_range = np.linspace(self.inference_kernel.min_v, self.inference_kernel.max_v, sample_size)
-        y_range = np.zeros(sample_size)
         y_stack = None
         acc_array = np.array(list(self.actuation_signal.values()))
-        keys = list(self.actuation_signal.keys())
-
-        for acc_point in acc_array.T:
-            point = dict(zip(keys, acc_point))
+        if acc_array.ndim == 1:
+            y_range = np.zeros(sample_size)
             for rule, func in self.inference_kernel.input_functions.items():
-                acc = point[rule]
+                acc = self.actuation_signal[rule]
                 y_proponent = func(x_range, acc)
                 y_range = np.maximum(y_range, y_proponent)
             if y_stack is not None:
                 y_stack = np.vstack((y_stack, y_range))
             else:
                 y_stack = y_range
-        print(y_stack)
+        else:
+            keys = list(self.actuation_signal.keys())
+            for acc_point in acc_array.T:
+                y_range = np.zeros(sample_size)
+                point = dict(zip(keys, acc_point))
+                print(point)
+                for rule, func in self.inference_kernel.input_functions.items():
+                    acc = point[rule]
+                    y_proponent = func(x_range, acc)
+                    y_range = np.maximum(y_range, y_proponent)
+                if y_stack is not None:
+                    y_stack = np.vstack((y_stack, y_range))
+                else:
+                    y_stack = y_range
+        # print(y_stack)
         return x_range, y_stack
 
     def _takagi_sugeno(self, data: Any):
@@ -335,6 +346,7 @@ class Engine:
                 UserWarning(f"Variable description is incomplete. Coverage check: {list(coverage)}")
             )
 
+
 def _typecheck(variable: str, kernel: Kernel):
     if not isinstance(variable, str):
         raise TypeError(f"Expected type str for 'variable'. Got {type(variable)}")
@@ -349,6 +361,7 @@ def _centroid(x_range, y_range: np.ndarray):
     if y_range.ndim == 2:
         return np.array([_func1d(y_row, x_range) for y_row in y_range])
     raise NotImplementedError("_centroid is not defined for arrays with 3 or more dimensions")
+
 
 def _func1d(y_row, x_values):
     return np.asfarray(np.sum(x_values * y_row) / np.sum(y_row))
